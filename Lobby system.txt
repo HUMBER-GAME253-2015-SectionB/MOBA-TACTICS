@@ -1,0 +1,11 @@
+There will be one (1) server that all clients will connect to.
+
+There will be a limit to the number of clients that can connect to the server. (Example: 32)
+
+When clients run the program they must login to the server with a Username and password, or create a new account.
+
+The server can have any number of lobbies. (Max Lobbies = Max Players)
+
+Clients will be able to either join an existing lobby or create a new one.
+
+Once in a lobby, clients can become "Ready". When all clients are "Ready" the game (associated with the map) will start, and the lobby will close.
