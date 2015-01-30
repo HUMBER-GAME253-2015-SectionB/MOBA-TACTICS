@@ -1,5 +1,5 @@
 //Author:	Mathieu Violette
-//Date:		3/22/2014
+//Date:		3/22/2014(MV)
 
 #include "Game.h"
 #include "SDL_thread.h"

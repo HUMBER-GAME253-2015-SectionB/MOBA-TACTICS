@@ -1,5 +1,5 @@
 //Author:	Mathieu Violette
-//Date:		3/22/2014
+//Date:		3/22/2014(MV)
 
 #include "GameManager.h"
 
@@ -32,7 +32,7 @@ void GameManager::StartProgram()
 
 			if( SDL_PollEvent(&evt) )
 			{
-				if(evt.type == SDL_QUIT || evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+				if(evt.type == SDL_QUIT /*|| evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE*/)
 				{
 					newGame->Exit();
 				}

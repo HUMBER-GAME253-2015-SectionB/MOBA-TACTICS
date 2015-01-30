@@ -1,5 +1,5 @@
 //Author:	Mathieu Violette
-//Date:		3/22/2014
+//Date:		3/22/2014(MV)
 
 #ifndef __GAMEMANAGER_H_INCLUDED__
 #define __GAMEMANAGER_H_INCLUDED__

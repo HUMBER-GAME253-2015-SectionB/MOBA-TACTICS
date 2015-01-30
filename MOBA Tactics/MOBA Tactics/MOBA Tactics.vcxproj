@@ -80,6 +80,9 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Content\Images\humber_logo.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

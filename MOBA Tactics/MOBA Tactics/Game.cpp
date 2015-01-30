@@ -1,5 +1,5 @@
 //Author:	Mathieu Violette
-//Date:		3/22/2014
+//Date:		3/22/2014(MV), 1/30/2015(MV)
 
 #include "Game.h"
 #include "SDL_thread.h"
@@ -9,8 +9,11 @@ int MouseX, MouseY;
 Uint32 MouseState;
 int PreviousMouseX, PreviousMouseY;
 Uint32 PreviousMouseState;
-
 int renWidth, renHeight;
+
+//Lab_02
+SDL_Texture *Image;
+SDL_Surface *Surface;
 
 int StringToInt(const std::string &Text );
 
@@ -56,12 +59,16 @@ void Game::Init()
 
 void Game::LoadContent()
 {	
-	
+	//Lab_02
+	Surface = IMG_Load("..\\Content\\Images\\humber_logo.jpg");
+	Image = SDL_CreateTextureFromSurface(Renderer, Surface);
 }
 
 void Game::UnloadContent()
 {
-
+	//Lab_02
+	SDL_FreeSurface(Surface);
+	SDL_DestroyTexture(Image);
 }
 
 void Game::Update()
@@ -75,7 +82,11 @@ void Game::Draw()
 	SDL_RenderClear(Renderer);
 	/* DRAW CODE START */
 	{
-
+		//LAB_02
+		SDL_Rect *rect = new SDL_Rect();
+		rect->w = 435; rect->h = 390; rect->x = 294; rect->y = 189; 
+		SDL_RenderCopy(Renderer, Image, NULL, rect);
+		delete rect;
 	}
 	/* DRAW CODE END */
 	SDL_SetRenderDrawColor(Renderer,0xFF,0xFF,0xFF,0xFF);

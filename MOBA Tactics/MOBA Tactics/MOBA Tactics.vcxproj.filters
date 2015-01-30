@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{f56eb61b-708e-4de8-bfbb-6943aa074aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Images">
+      <UniqueIdentifier>{b1623a5e-8aef-409b-b2f7-01bdbab0f3bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -38,5 +44,10 @@
     <ClInclude Include="tinyxml2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Content\Images\humber_logo.jpg">
+      <Filter>Content\Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>
