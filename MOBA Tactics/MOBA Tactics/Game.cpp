@@ -12,8 +12,10 @@ Uint32 PreviousMouseState;
 int renWidth, renHeight;
 
 //Lab_02
-SDL_Texture *Image;
-SDL_Surface *Surface;
+SDL_Texture *Image, *textTexture;
+SDL_Surface *Surface, *textSurface;
+TTF_Font *font;
+
 
 int StringToInt(const std::string &Text );
 
@@ -62,6 +64,14 @@ void Game::LoadContent()
 	//Lab_02
 	Surface = IMG_Load("..\\Content\\Images\\humber_logo.jpg");
 	Image = SDL_CreateTextureFromSurface(Renderer, Surface);
+
+
+	SDL_Color fontColor = {0,0,0}; //Black
+	std::stringstream textStream;
+	textStream <<"Hello!";
+	font = TTF_OpenFont("..\\Content\\arial.ttf",72);
+	textSurface = TTF_RenderText_Solid(font,textStream.str().c_str(),fontColor);
+	textTexture = SDL_CreateTextureFromSurface(Renderer,textSurface);
 }
 
 void Game::UnloadContent()
@@ -69,12 +79,20 @@ void Game::UnloadContent()
 	//Lab_02
 	SDL_FreeSurface(Surface);
 	SDL_DestroyTexture(Image);
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(textTexture);
+	TTF_CloseFont(font);
 }
 
 void Game::Update()
 {
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
 	//KeyState = SDL_GetKeyboardState(NULL);	
+
+
+	PreviousMouseState = MouseState;
+	PreviousMouseX = MouseX;
+	PreviousMouseY = MouseY;
 }	
 
 void Game::Draw()
@@ -83,10 +101,31 @@ void Game::Draw()
 	/* DRAW CODE START */
 	{
 		//LAB_02
-		SDL_Rect *rect = new SDL_Rect();
-		rect->w = 435; rect->h = 390; rect->x = 294; rect->y = 189; 
-		SDL_RenderCopy(Renderer, Image, NULL, rect);
-		delete rect;
+		//SDL_SetRenderDrawColor(Renderer, 0, 0, 0, SDL_ALPHA_TRANSPARENT);
+		SDL_Rect rect = {294, 25, 435, 390};
+		SDL_RenderCopy(Renderer, Image, NULL, &rect);
+
+		SDL_Rect renderQuad = {425, 500,textSurface->w,textSurface->h};
+		SDL_RenderCopy(Renderer, textTexture, NULL, &renderQuad);
+		
+		//Drawing lines with rectancles for some reason...
+		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+		SDL_Rect rect1 = {385, 490, 260, 3};
+		SDL_RenderDrawRect(Renderer, &rect1);
+		SDL_Rect rect2 = {400, 475, 3, 130};
+		SDL_RenderDrawRect(Renderer, &rect2);
+		SDL_Rect rect3 = {385, 590, 260, 3};
+		SDL_RenderDrawRect(Renderer, &rect3);
+		SDL_Rect rect4 = {630, 475, 3, 130};
+		SDL_RenderDrawRect(Renderer, &rect4);
+		
+		//More efficient
+		SDL_SetRenderDrawColor(Renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
+		SDL_RenderDrawLine(Renderer, 385, 491, 645, 491);
+		SDL_RenderDrawLine(Renderer, 401, 475, 401, 605);
+		SDL_RenderDrawLine(Renderer, 385, 591, 645, 591);
+		SDL_RenderDrawLine(Renderer, 631, 475, 631, 605);
+
 	}
 	/* DRAW CODE END */
 	SDL_SetRenderDrawColor(Renderer,0xFF,0xFF,0xFF,0xFF);
@@ -95,6 +134,8 @@ void Game::Draw()
 
 void Game::Exit()
 {
+
+
 	GameIsRunning = false;
 }
 

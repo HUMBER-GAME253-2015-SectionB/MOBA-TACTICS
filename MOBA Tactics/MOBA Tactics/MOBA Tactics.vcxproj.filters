@@ -50,4 +50,9 @@
       <Filter>Content\Images</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\Content\arial.ttf">
+      <Filter>Content</Filter>
+    </Font>
+  </ItemGroup>
 </Project>

@@ -68,6 +68,11 @@ void Game::Update()
 {
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
 	//KeyState = SDL_GetKeyboardState(NULL);	
+
+
+	PreviousMouseState = MouseState;
+	PreviousMouseX = MouseX;
+	PreviousMouseY = MouseY;	
 }	
 
 void Game::Draw()

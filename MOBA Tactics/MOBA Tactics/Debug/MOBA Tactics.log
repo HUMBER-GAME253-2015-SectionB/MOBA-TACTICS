@@ -1,14 +1,15 @@
-﻿Build started 1/30/2015 2:18:01 PM.
+﻿Build started 1/31/2015 1:31:35 PM.
      1>Project "C:\Users\Mat\Documents\GitHub\MOBA-TACTICS\MOBA Tactics\MOBA Tactics\MOBA Tactics.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         S:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt GameManager.cpp
-         GameManager.cpp
+         S:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp
+         Game.cpp
      1>c:\program files (x86)\windows kits\8.0\include\um\winsock.h(296): warning C4005: 'INADDR_ANY' : macro redefinition
                  c:\users\mat\documents\github\moba-tactics\moba tactics\sdl2_net-2.0.0\include\sdl_net.h(102) : see previous definition of 'INADDR_ANY'
      1>c:\program files (x86)\windows kits\8.0\include\um\winsock.h(298): warning C4005: 'INADDR_BROADCAST' : macro redefinition
                  c:\users\mat\documents\github\moba-tactics\moba tactics\sdl2_net-2.0.0\include\sdl_net.h(111) : see previous definition of 'INADDR_BROADCAST'
      1>c:\program files (x86)\windows kits\8.0\include\um\winsock.h(299): warning C4005: 'INADDR_NONE' : macro redefinition
                  c:\users\mat\documents\github\moba-tactics\moba tactics\sdl2_net-2.0.0\include\sdl_net.h(105) : see previous definition of 'INADDR_NONE'
+     1>c:\users\mat\documents\github\moba-tactics\moba tactics\moba tactics\game.cpp(59): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
        Link:
          S:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Mat\Documents\GitHub\MOBA-TACTICS\MOBA Tactics\Debug\MOBA Tactics.exe" /INCREMENTAL /NOLOGO /LIBPATH:"..\SDL2-2.0.3\lib\x86" /LIBPATH:"..\SDL2_image-2.0.0\lib\x86" /LIBPATH:"..\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\SDL2_net-2.0.0\lib\x86" SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib SDL2_mixer.lib SDL2_net.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Mat\Documents\GitHub\MOBA-TACTICS\MOBA Tactics\Debug\MOBA Tactics.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Mat\Documents\GitHub\MOBA-TACTICS\MOBA Tactics\Debug\MOBA Tactics.lib" /MACHINE:X86 Debug\Game.obj
          Debug\GameManager.obj
@@ -19,4 +20,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.81
+Time Elapsed 00:00:02.66
