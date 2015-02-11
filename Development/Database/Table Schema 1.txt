@@ -1,0 +1,44 @@
+TABLE User:
+	- UserID		INT	(P)
+	- Username		VARCHAR(20)
+	- PasswordHash	VARCHAR(20)
+	- Shop Currency	INT
+	- RosterListID	INT (F) [-> TABLE:RosterList RosterListID(P)]
+	
+TABLE RosterList:
+	- RosterListID	INT (P)
+	- Roster1ID		INT (F) [-> TABLE:Roster RosterID(P)]
+	- Roster2ID		INT (F) [-> TABLE:Roster RosterID(P)]
+	- Roster3ID		INT (F) [-> TABLE:Roster RosterID(P)]
+	
+TABLE Roster:
+	- RosterID		INT (P)
+	- LastEditted	smalldatetime
+	- Unit1ID		INT (F) [-> TABLE:Unit UnitID(P)]
+	- Unit2ID		INT (F) [-> TABLE:Unit UnitID(P)]
+	- Unit3ID		INT (F) [-> TABLE:Unit UnitID(P)]
+
+TABLE Unit
+	- UnitID		INT (P)
+	- UnitType		INT (F) [-> TABLE:UnitType UnitTypeID(P)]
+	
+Table UnitType:
+	- UnitTypeID	INT (P)
+	- Health		INT
+	- Power			INT
+	- Defence		INT
+	- ActionPnt		INT
+	- Range			INT
+	
+
+TABLE Game:
+	- GameID 		INT (P)
+	- MapID 		INT (F) [-> TABLE:Map MapID(P)]
+	- UserID1		INT (F) [-> TABLE:User UserID(P)]
+	- UserID2		INT (F) [-> TABLE:User UserID(P)]
+	- UserID3		INT (F) [-> TABLE:User UserID(P)]
+	- UserID4		INT (F) [-> TABLE:User UserID(P)]
+	
+TABLE Map:
+	- MapID			INT (P)
+	- MapData 		XML		[Terrain data, unit meta-data (location, faction), etc.)
