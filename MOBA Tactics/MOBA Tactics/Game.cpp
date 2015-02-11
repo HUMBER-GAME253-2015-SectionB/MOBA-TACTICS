@@ -2,7 +2,6 @@
 //Date:		3/22/2014(MV), 1/30/2015(MV)
 
 #include "Game.h"
-#include "SDL_thread.h"
 
 const Uint8 *KeyState = SDL_GetKeyboardState(NULL);
 int MouseX, MouseY;
