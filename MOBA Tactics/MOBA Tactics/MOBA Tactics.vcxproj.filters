@@ -55,4 +55,7 @@
       <Filter>Content</Filter>
     </Font>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
 </Project>
