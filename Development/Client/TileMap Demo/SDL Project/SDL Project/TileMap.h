@@ -1,65 +1,60 @@
-#ifndef __TILE__MAP__H__
-#define __TILE__MAP__H__
+#pragma once
 
-#include "Texture.h"
-#include "tinyxml2.h"
 #include <vector>
+#include "Tile.h"
+#include "TileSet.h"
 
 using namespace std;
-using namespace tinyxml2;
 
-struct Tile
+struct HighlightTexture
 {
-public:
-	int tileNumber;
-	int worldX;
-	int worldY;
-	unsigned tileWidth;
-	unsigned tileHeight;
-};
-
-struct TileSet
-{
-public:
-	Texture *tileSetTexture;
-	unsigned numWidth;
-	unsigned numHeight;
-	unsigned tileWidth;
-	unsigned tileHeight;
+	Texture *texture;
+	Uint8 minAlpha;
+	Uint8 maxAlpha;
+	Uint8 alpha;
+	Uint8 fadePerFrame;
+	bool isFadingOut;
 };
 
 class TileMap
 {
 public:
 	TileMap(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren);
+	TileMap(char *xmlFilePath, int _worldX, int _worldY, string highlightTexturePath, SDL_Renderer *ren);
 	bool LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren);
 	void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight);
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
-	void RenderTile(int layer, int row, int col, SDL_Renderer *ren);
-	void RenderMap(SDL_Renderer *ren);
+	void InitHightlightTexture(string highlightTexturePath, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
+	void DrawTile(int layer, int row, int col, SDL_Renderer *ren);
+	void DrawMap(SDL_Renderer *ren);
+	void Update(float time);
 
 	void MoveMap(int x, int y); //Should not use in final project, works but not efficient.
 
-	unsigned GetNumWidth() const;
+	unsigned GetNumWidth() const;	
 	unsigned GetNumHeight() const;
 	unsigned GetNumLayers() const;
 	unsigned GetTileWidth() const;
 	unsigned GetTileHeight() const;
+	TileSet GetTileSet() const;
+	vector<vector<vector<Tile>>>* GetTileMap();
+
 	void SetNumWidth(unsigned num);
 	void SetNumHeight(unsigned num);
 	void SetNumLayers(unsigned num);
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
+	void SetTileSet(TileSet _tileSet);
+	void SetTileMap(vector<vector<vector<Tile>>> _tileMap);
 	~TileMap();
 
 private:
 	vector<vector<vector<Tile>>> tileMap;
 	TileSet tileSet;
+	HighlightTexture hlTexture;
 	unsigned numWidth;
 	unsigned numHeight;
 	unsigned numLayers;
 	unsigned tileWidth;
 	unsigned tileHeight;
 };
-
-#endif

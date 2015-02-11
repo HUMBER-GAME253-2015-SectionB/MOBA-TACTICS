@@ -1,5 +1,4 @@
-#ifndef _TEXTURE_H
-#define _TEXTURE_H
+#pragma once
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -17,6 +16,9 @@ public:
 
 	//Loads image at specified path
 	bool LoadFromFile(std::string path, SDL_Renderer *ren);
+
+	void SetBlendMode(SDL_BlendMode blending);
+	void SetAlpha(Uint8 alpha);
 
 	//Deallocates texture
 	void Free();
@@ -36,5 +38,3 @@ private:
 	int width;
 	int height;
 };
-
-#endif

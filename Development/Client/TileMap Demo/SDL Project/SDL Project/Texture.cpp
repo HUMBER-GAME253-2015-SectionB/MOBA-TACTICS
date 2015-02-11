@@ -55,6 +55,18 @@ bool Texture::LoadFromFile(std::string path, SDL_Renderer *ren)
 	return texture != NULL;
 }
 
+void Texture::SetBlendMode(SDL_BlendMode blending)
+{
+	//Set blending function
+	SDL_SetTextureBlendMode(texture, blending);
+}
+
+void Texture::SetAlpha(Uint8 alpha)
+{
+	//Modulate texture alpha
+	SDL_SetTextureAlphaMod(texture, alpha);
+}
+
 void Texture::Free()
 {
 	//Free texture if it exists
