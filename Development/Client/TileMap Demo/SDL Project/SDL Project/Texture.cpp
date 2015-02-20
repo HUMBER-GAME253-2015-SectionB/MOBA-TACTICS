@@ -61,6 +61,11 @@ void Texture::SetBlendMode(SDL_BlendMode blending)
 	SDL_SetTextureBlendMode(texture, blending);
 }
 
+void Texture::SetColor(Uint8 r, Uint8 g, Uint8 b)
+{
+	SDL_SetTextureColorMod(texture, r, g, b);
+}
+
 void Texture::SetAlpha(Uint8 alpha)
 {
 	//Modulate texture alpha

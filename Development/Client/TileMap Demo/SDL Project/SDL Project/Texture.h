@@ -18,6 +18,7 @@ public:
 	bool LoadFromFile(std::string path, SDL_Renderer *ren);
 
 	void SetBlendMode(SDL_BlendMode blending);
+	void SetColor(Uint8 r, Uint8 g, Uint8 b);
 	void SetAlpha(Uint8 alpha);
 
 	//Deallocates texture

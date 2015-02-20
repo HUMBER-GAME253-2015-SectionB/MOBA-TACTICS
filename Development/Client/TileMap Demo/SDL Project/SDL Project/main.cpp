@@ -114,6 +114,7 @@ bool OnInit()
 	tiles->GetTileMap()->at(0).at(0).at(1).SetIsHighlighted(true);
 	tiles->GetTileMap()->at(3).at(2).at(2).SetIsHighlighted(true);
 	tiles->GetTileMap()->at(3).at(3).at(3).SetIsHighlighted(true);
+	tiles->SetHighlightColor(100, 155, 255);
 	return true;
 }
 
