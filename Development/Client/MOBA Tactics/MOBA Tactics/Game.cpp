@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "SDL_thread.h"
 #include "TileMap.h"
+#include "Character.h"
 
 const Uint8 *KeyState = SDL_GetKeyboardState(NULL);
 int MouseX, MouseY;
@@ -15,6 +16,7 @@ int renWidth, renHeight;
 
 Texture *texture;
 TileMap *tiles;
+Character *character;
 
 int StringToInt(const std::string &Text );
 
@@ -63,6 +65,8 @@ void Game::Init()
 	tiles->GetTileMap()->at(3).at(2).at(2).SetIsHighlighted(true);
 	tiles->GetTileMap()->at(3).at(3).at(3).SetIsHighlighted(true);
 	tiles->SetHighlightColor(100, 155, 255);
+
+	character = new Character("../Assets/Images/Character.png", Renderer);
 }
 
 void Game::LoadContent()
@@ -93,6 +97,7 @@ void Game::Draw()
 	/* DRAW CODE START */
 	{
 		tiles->DrawMap(Renderer);
+		character->Draw(Renderer);
 	}
 	/* DRAW CODE END */
 	SDL_SetRenderDrawColor(Renderer,0xFF,0xFF,0xFF,0xFF);
