@@ -3,6 +3,7 @@
 
 #include "Game.h"
 #include "SDL_thread.h"
+#include "TileMap.h"
 
 const Uint8 *KeyState = SDL_GetKeyboardState(NULL);
 int MouseX, MouseY;
@@ -11,6 +12,9 @@ int PreviousMouseX, PreviousMouseY;
 Uint32 PreviousMouseState;
 
 int renWidth, renHeight;
+
+Texture *texture;
+TileMap *tiles;
 
 int StringToInt(const std::string &Text );
 
@@ -52,6 +56,13 @@ void Game::Init()
 
 	//Initialize random
 	srand(time(NULL));
+
+	texture = new Texture();
+	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", 250, 50, "../Assets/Images/test.png", Renderer);
+	tiles->GetTileMap()->at(0).at(0).at(1).SetIsHighlighted(true);
+	tiles->GetTileMap()->at(3).at(2).at(2).SetIsHighlighted(true);
+	tiles->GetTileMap()->at(3).at(3).at(3).SetIsHighlighted(true);
+	tiles->SetHighlightColor(100, 155, 255);
 }
 
 void Game::LoadContent()
@@ -69,10 +80,11 @@ void Game::Update()
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
 	//KeyState = SDL_GetKeyboardState(NULL);	
 
-
 	PreviousMouseState = MouseState;
 	PreviousMouseX = MouseX;
 	PreviousMouseY = MouseY;
+
+	tiles->Update();
 }	
 
 void Game::Draw()
@@ -80,7 +92,7 @@ void Game::Draw()
 	SDL_RenderClear(Renderer);
 	/* DRAW CODE START */
 	{
-
+		tiles->DrawMap(Renderer);
 	}
 	/* DRAW CODE END */
 	SDL_SetRenderDrawColor(Renderer,0xFF,0xFF,0xFF,0xFF);
