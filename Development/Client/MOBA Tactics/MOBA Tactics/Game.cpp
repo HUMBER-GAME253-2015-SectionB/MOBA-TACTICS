@@ -1,6 +1,7 @@
 //Author:	Mathieu Violette
 //Date:		3/22/2014(MV)
 
+#include "ClientAPI.h"
 #include "Game.h"
 #include "SDL_thread.h"
 
