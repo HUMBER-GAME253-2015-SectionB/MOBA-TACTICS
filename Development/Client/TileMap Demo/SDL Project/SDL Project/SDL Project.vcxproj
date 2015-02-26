@@ -10,22 +10,6 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="TileSet.cpp" />
-    <ClCompile Include="tinyxml2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="HelperFunctions.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Tile.h" />
-    <ClInclude Include="TileMap.h" />
-    <ClInclude Include="TileSet.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CC75BE62-FD78-47EE-A0E6-284FC0FF35EF}</ProjectGuid>
     <RootNamespace>SDLProject</RootNamespace>
@@ -65,7 +49,6 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -87,6 +70,18 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="HelperFunctions.h" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="tinyxml2.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
