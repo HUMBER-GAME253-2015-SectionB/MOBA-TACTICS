@@ -8,8 +8,9 @@ TileMap::TileMap(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren)
 TileMap::TileMap(char *xmlFilePath, int _worldX, int _worldY, string highlightTexturePath, SDL_Renderer *ren)
 {
 	LoadFromFile(xmlFilePath, _worldX, _worldY, ren);
-	InitHightlightTexture(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
+	InitHightlightTexture(highlightTexturePath, 10, 200, 3, ren);
 }
+
 
 bool TileMap::LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren)
 {
@@ -114,7 +115,7 @@ void TileMap::InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tile
 	tileSet.Initialize(texturePath, _tileWidth, _tileHeight, ren);
 }
 
-void TileMap::InitHightlightTexture(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren)
+void TileMap::InitHightlightTexture(string highlightTexturePath, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren)
 {
 	hlTexture.texture = new Texture();
 	hlTexture.texture->LoadFromFile(highlightTexturePath, ren);
@@ -125,16 +126,8 @@ void TileMap::InitHightlightTexture(string highlightTexturePath, Uint8 r, Uint8 
 	hlTexture.maxAlpha = maxAlpha;
 	hlTexture.fadePerFrame = fadePerFrame;
 	hlTexture.isFadingOut = false;
-	SetHighlightColor(r, g, b);
 }
 
-void TileMap::SetHighlightColor(Uint8 r, Uint8 g, Uint8 b)
-{
-	hlTexture.texture->SetColor(r, g, b);
-	hlTexture.r = r;
-	hlTexture.g = g;
-	hlTexture.b = b;
-}
 
 //Should be noted tiles numbered 0 are empty tiles.
 void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
