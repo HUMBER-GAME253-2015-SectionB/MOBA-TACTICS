@@ -5,13 +5,6 @@ TileMap::TileMap(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren)
 	LoadFromFile(xmlFilePath, _worldX, _worldY, ren);
 }
 
-TileMap::TileMap(char *xmlFilePath, int _worldX, int _worldY, string highlightTexturePath, SDL_Renderer *ren)
-{
-	LoadFromFile(xmlFilePath, _worldX, _worldY, ren);
-	InitHightlightTexture(highlightTexturePath, 10, 200, 3, ren);
-}
-
-
 bool TileMap::LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren)
 {
 	XMLDocument doc;
@@ -62,21 +55,11 @@ bool TileMap::LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Rend
 				for (unsigned j = 0; j < GetNumWidth(); j++)
 				{
 					Tile temp;
-					int tileNum, tileWidth, tileHeight, worldX, worldY;
-					element->QueryIntAttribute("gid", &tileNum);//i * GetNumWidth() + j;
-					tileWidth = GetTileWidth();
-					tileHeight = GetTileHeight();
-					worldX = _worldX + j * (GetTileWidth() / 2) - ((i + 1) * GetTileWidth() / 2);
-					worldY = _worldY + j * (GetTileHeight() / 2) + (i * GetTileHeight() / 2);
-
-					temp.SetTileNumber(tileNum);
-					temp.SetTileWidth(tileWidth);
-					temp.SetTileHeight(tileHeight);
-					temp.SetWorldX(worldX);
-					temp.SetWorldY(worldY);
-					temp.SetIsOccupied(false);
-					temp.SetIsHighlighted(false);
-
+					element->QueryIntAttribute("gid", &temp.tileNumber);//i * GetNumWidth() + j;
+					temp.tileWidth = GetTileWidth();
+					temp.tileHeight = GetTileHeight();
+					temp.worldX = _worldX + j * (GetTileWidth() / 2) - ((i + 1) * GetTileWidth() / 2);
+					temp.worldY = _worldY + j * (GetTileHeight() / 2) + (i * GetTileHeight() / 2);
 					tileRow.push_back(temp);
 
 					if (element->NextSiblingElement("tile") != NULL)
@@ -112,60 +95,33 @@ void TileMap::InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _num
 
 void TileMap::InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren)
 {
-	tileSet.Initialize(texturePath, _tileWidth, _tileHeight, ren);
+	tileSet.tileSetTexture = new Texture();
+	tileSet.tileSetTexture->LoadFromFile(string(texturePath), ren);
+	tileSet.tileWidth = _tileWidth;
+	tileSet.tileHeight = _tileHeight;
+	tileSet.numWidth = tileSet.tileSetTexture->GetWidth() / _tileWidth;
+	tileSet.numHeight = tileSet.tileSetTexture->GetHeight() / _tileHeight;
 }
-
-void TileMap::InitHightlightTexture(string highlightTexturePath, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren)
-{
-	hlTexture.texture = new Texture();
-	hlTexture.texture->LoadFromFile(highlightTexturePath, ren);
-	hlTexture.texture->SetBlendMode(SDL_BLENDMODE_BLEND);
-	hlTexture.texture->SetAlpha((minAlpha + maxAlpha) / 2);
-	hlTexture.alpha = (minAlpha + maxAlpha) / 2;
-	hlTexture.minAlpha = minAlpha;
-	hlTexture.maxAlpha = maxAlpha;
-	hlTexture.fadePerFrame = fadePerFrame;
-	hlTexture.isFadingOut = false;
-}
-
 
 //Should be noted tiles numbered 0 are empty tiles.
-void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
+void TileMap::RenderTile(int layer, int row, int col, SDL_Renderer *ren)
 {
 	SDL_Rect rec;
 	int tileSetRowCol;
 
-	tileSetRowCol = (tileMap[layer][row][col].GetTileNumber() % tileSet.GetNumWidth());
+	tileSetRowCol = (tileMap[layer][row][col].tileNumber % tileSet.numWidth);
 	if (tileSetRowCol == 0)
-		tileSetRowCol = tileSet.GetNumWidth();
+		tileSetRowCol = tileSet.numWidth;
+	rec.x = tileSetRowCol * tileSet.tileWidth - tileSet.tileWidth;
 
-	rec.x = tileSetRowCol * tileSet.GetTileWidth() - tileSet.GetTileWidth();
-	rec.y = ((tileMap[layer][row][col].GetTileNumber() - tileSetRowCol) / tileSet.GetNumWidth()) * tileSet.GetTileHeight();
-	rec.w = tileSet.GetTileWidth();
-	rec.h = tileSet.GetTileHeight();
+	rec.y = ((tileMap[layer][row][col].tileNumber - tileSetRowCol) / tileSet.numWidth) * tileSet.tileHeight;
+	rec.w = tileSet.tileWidth;
+	rec.h = tileSet.tileHeight;
 
-	tileSet.GetTileSetTexture()->Render(tileMap[layer][row][col].GetWorldX(), tileMap[layer][row][col].GetWorldY(), &rec, ren);
-
-	if (tileMap[layer][row][col].GetIsHighlighted())
-		hlTexture.texture->Render(tileMap[layer][row][col].GetWorldX(), tileMap[layer][row][col].GetWorldY(), NULL, ren);
+	tileSet.tileSetTexture->Render(tileMap[layer][row][col].worldX, tileMap[layer][row][col].worldY, &rec, ren);
 }
 
-void TileMap::Update(float time)
-{
-	if (hlTexture.isFadingOut)
-		hlTexture.alpha -= hlTexture.fadePerFrame;
-	else
-		hlTexture.alpha += hlTexture.fadePerFrame;
-
-	if (hlTexture.alpha < hlTexture.minAlpha)
-		hlTexture.isFadingOut = false;
-	else if (hlTexture.alpha > hlTexture.maxAlpha)
-		hlTexture.isFadingOut = true;
-
-	hlTexture.texture->SetAlpha(hlTexture.alpha);
-}
-
-void TileMap::DrawMap(SDL_Renderer *ren)
+void TileMap::RenderMap(SDL_Renderer *ren)
 {
 	for (unsigned a = 0; a < GetNumLayers(); a++)
 	{
@@ -173,7 +129,7 @@ void TileMap::DrawMap(SDL_Renderer *ren)
 		{
 			for (unsigned c = 0; c < GetNumWidth(); c++)
 			{
-				DrawTile(a, b, c, ren);
+				RenderTile(a, b, c, ren);
 			}
 		}
 	}
@@ -204,16 +160,6 @@ unsigned TileMap::GetTileHeight() const
 	return tileHeight;
 }
 
-TileSet TileMap::GetTileSet() const
-{
-	return tileSet;
-}
-
-vector<vector<vector<Tile>>>* TileMap::GetTileMap()
-{
-	return &tileMap;
-}
-
 void TileMap::SetNumWidth(unsigned num)
 {
 	numWidth = num;
@@ -239,19 +185,9 @@ void TileMap::SetTileHeight(unsigned num)
 	tileHeight = num;
 }
 
-void TileMap::SetTileSet(TileSet _tileSet)
-{
-	tileSet = _tileSet;
-}
-
-void TileMap::SetTileMap(vector<vector<vector<Tile>>> _tileMap)
-{
-	tileMap = _tileMap;
-}
-
 TileMap::~TileMap()
 {
-	delete hlTexture.texture;
+
 }
 
 //Don't think this is an efficient method since it has to update every single tile's position.
@@ -264,8 +200,8 @@ void TileMap::MoveMap(int x, int y)
 		{
 			for (unsigned c = 0; c < GetNumWidth(); c++)
 			{
-				tileMap[a][b][c].SetWorldX(tileMap[a][b][c].GetWorldX() + x);
-				tileMap[a][b][c].SetWorldY(tileMap[a][b][c].GetWorldY() + y);
+				tileMap[a][b][c].worldX += x;
+				tileMap[a][b][c].worldY += y;
 			}
 		}
 	}

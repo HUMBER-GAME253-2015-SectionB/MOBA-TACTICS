@@ -100,20 +100,22 @@ bool OnInit()
 	{
 		LogSDLError(std::cout, "CreateWindow");
 		return 1;
-	} 
+	}
 
 	ren = SDL_CreateRenderer(win, -1,
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (ren == nullptr)
+	{
+		LogSDLError(std::cout, "CreateRenderer");
+		return 1;
+	}
 
 	texture = new Texture();
 	//texture->LoadFromFile("./Assets/Images/IsoTiles.png", ren);
 
 	//tiles = new TileMap("./Assets/Images/Tiles.png", 50, 50, 16, 12, 32, 32, ren);
-	tiles = new TileMap("./Assets/XML_Files/IsoMap.tmx", 250, 50, "./Assets/Images/test.png", ren);
-	//tiles->GetTileMap()[0][0][0]->Get
-	tiles->GetTileMap()->at(0).at(0).at(1).SetIsHighlighted(true);
-	tiles->GetTileMap()->at(3).at(2).at(2).SetIsHighlighted(true);
-	tiles->GetTileMap()->at(3).at(3).at(3).SetIsHighlighted(true);
+	tiles = new TileMap("./Assets/XML_Files/IsoMap.tmx", 250, 50, ren);
+
 	return true;
 }
 
@@ -134,7 +136,6 @@ void OnLoop()
 		timeElapsed = currentTime - previousTime;
 
 		//timeSinceLastSecond += timeElapsed / 1000.0f;
-		tiles->Update(timeElapsed);
 	}
 }
 
@@ -252,7 +253,7 @@ void OnRender()
 		rec.w = 32;
 
 		//texture->Render(20, 20, &rec, ren);
-		tiles->DrawMap(ren);
+		tiles->RenderMap(ren);
 	}
 	else
 	{
