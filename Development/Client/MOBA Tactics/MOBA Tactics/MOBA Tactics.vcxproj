@@ -83,8 +83,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="ClientAPI.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameLobby.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="LoginScreen.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />

@@ -68,13 +68,14 @@ bool TileMap::LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Rend
 					worldX = _worldX + j * (GetTileWidth() / 2) - ((i + 1) * GetTileWidth() / 2);
 					worldY = _worldY + j * (GetTileHeight() / 2) + (i * GetTileHeight() / 2);
 
-					temp.SetTileNumber(tileNum);
+					/*temp.SetTileNumber(tileNum);
 					temp.SetTileWidth(tileWidth);
 					temp.SetTileHeight(tileHeight);
 					temp.SetWorldX(worldX);
 					temp.SetWorldY(worldY);
-					temp.SetIsOccupied(false);
-					temp.SetIsHighlighted(false);
+					temp.SetIsHighlighted(false);*/
+
+					temp.InitializeTile(tileNum, worldX, worldY, tileWidth, tileHeight);
 
 					tileRow.push_back(temp);
 

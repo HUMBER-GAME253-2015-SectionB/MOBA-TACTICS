@@ -2,23 +2,28 @@
 
 Tile::Tile()
 {
-	InitializeTile(0, 0, 0, 0, 0, false);
+	InitializeTile(0, 0, 0, 0, 0);
 }
 
-Tile::Tile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight, bool _isOccupied)
+Tile::Tile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight)
 {
-	InitializeTile(_tileNumber, _worldX, _worldY, _tileWidth, _tileHeight, _isOccupied);
+	InitializeTile(_tileNumber, _worldX, _worldY, _tileWidth, _tileHeight);
 }
 
-void Tile::InitializeTile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight, bool _isOccupied)
+void Tile::InitializeTile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight)
 {
 	SetTileNumber(_tileNumber);
 	SetWorldX(_worldX);
 	SetWorldY(_worldY);
 	SetTileWidth(_tileWidth);
 	SetTileHeight(_tileHeight);
-	SetIsOccupied(_isOccupied);
 	SetIsHighlighted(false); //Test boolean
+	SetCharacter(NULL);
+}
+
+void Tile::RemoveCharacter()
+{
+	SetCharacter(NULL);
 }
 
 Tile::~Tile()
@@ -51,9 +56,14 @@ unsigned Tile::GetTileHeight() const
 	return tileHeight;
 }
 
+Character* Tile::GetCharacter() const
+{
+	return character;
+}
+
 bool Tile::GetIsOccupied() const
 {
-	return isOccupied;
+	return GetCharacter() == NULL;
 }
 
 bool Tile::GetIsHighlighted() const
@@ -86,12 +96,12 @@ void Tile::SetTileHeight(unsigned num)
 	tileHeight = num;
 }
 
-void Tile::SetIsOccupied(bool value)
-{
-	isOccupied = value;
-}
-
 void Tile::SetIsHighlighted(bool value)
 {
 	isHighlighted = value;
+}
+
+void Tile::SetCharacter(Character* _character)
+{
+	character = _character;
 }
