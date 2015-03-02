@@ -60,7 +60,7 @@ void Game::Init()
 	srand(time(NULL));
 
 	texture = new Texture();
-	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", 250, 50, "../Assets/Images/test.png", Renderer);
+	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/test.png", Renderer);
 	tiles->GetTileMap()->at(0).at(0).at(1).SetIsHighlighted(true);
 	tiles->GetTileMap()->at(3).at(2).at(2).SetIsHighlighted(true);
 	tiles->GetTileMap()->at(3).at(3).at(3).SetIsHighlighted(true);

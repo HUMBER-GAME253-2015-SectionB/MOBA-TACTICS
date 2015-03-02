@@ -3,22 +3,23 @@
 #include "tinyxml2.h"
 #include "Texture.h"
 #include "Character.h"
+#include "glm/glm.hpp"
 
 using namespace std;
 using namespace tinyxml2;
+using namespace glm;
 
 class Tile
 {
 public:
 	Tile();
-	Tile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight);
-	void InitializeTile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight);
+	Tile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
+	void InitializeTile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
 	void RemoveCharacter();
 	~Tile();
 
 	int GetTileNumber() const;
-	int GetWorldX() const;
-	int GetWorldY() const;
+	vec2 GetPosition() const;
 	unsigned GetTileWidth() const;
 	unsigned GetTileHeight() const;
 	bool GetIsOccupied() const;
@@ -26,8 +27,7 @@ public:
 	Character* GetCharacter() const;
 
 	void SetTileNumber(int num);
-	void SetWorldX(int num);
-	void SetWorldY(int num);
+	void SetPosition(vec2 _pos);
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
 	void SetIsHighlighted(bool value);
@@ -35,8 +35,7 @@ public:
 
 private:
 	int tileNumber;
-	int worldX;
-	int worldY;
+	vec2 position;
 	unsigned tileWidth;
 	unsigned tileHeight;
 	Character* character;

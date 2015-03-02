@@ -1,17 +1,17 @@
 #include "TileMap.h"
 
-TileMap::TileMap(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren)
+TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)
 {
-	LoadFromFile(xmlFilePath, _worldX, _worldY, ren);
+	LoadFromFile(xmlFilePath, _worldPosition, ren);
 }
 
-TileMap::TileMap(char *xmlFilePath, int _worldX, int _worldY, string highlightTexturePath, SDL_Renderer *ren)
+TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, string highlightTexturePath, SDL_Renderer *ren)
 {
-	LoadFromFile(xmlFilePath, _worldX, _worldY, ren);
+	LoadFromFile(xmlFilePath, _worldPosition, ren);
 	InitHightlightTexture(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
 }
 
-bool TileMap::LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren)
+bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)
 {
 	XMLDocument doc;
 	const char *texturePath;
@@ -61,12 +61,13 @@ bool TileMap::LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Rend
 				for (unsigned j = 0; j < GetNumWidth(); j++)
 				{
 					Tile temp;
+					vec2 worldPos;
 					int tileNum, tileWidth, tileHeight, worldX, worldY;
 					element->QueryIntAttribute("gid", &tileNum);//i * GetNumWidth() + j;
 					tileWidth = GetTileWidth();
 					tileHeight = GetTileHeight();
-					worldX = _worldX + j * (GetTileWidth() / 2) - ((i + 1) * GetTileWidth() / 2);
-					worldY = _worldY + j * (GetTileHeight() / 2) + (i * GetTileHeight() / 2);
+					worldPos.x = _worldPosition.x + j * (GetTileWidth() / 2) - ((i + 1) * GetTileWidth() / 2);
+					worldPos.y = _worldPosition.y + j * (GetTileHeight() / 2) + (i * GetTileHeight() / 2);
 
 					/*temp.SetTileNumber(tileNum);
 					temp.SetTileWidth(tileWidth);
@@ -75,7 +76,7 @@ bool TileMap::LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Rend
 					temp.SetWorldY(worldY);
 					temp.SetIsHighlighted(false);*/
 
-					temp.InitializeTile(tileNum, worldX, worldY, tileWidth, tileHeight);
+					temp.InitializeTile(tileNum, worldPos, tileWidth, tileHeight);
 
 					tileRow.push_back(temp);
 
@@ -152,10 +153,10 @@ void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 	rec.w = tileSet.GetTileWidth();
 	rec.h = tileSet.GetTileHeight();
 
-	tileSet.GetTileSetTexture()->Render(tileMap[layer][row][col].GetWorldX(), tileMap[layer][row][col].GetWorldY(), &rec, ren);
+	tileSet.GetTileSetTexture()->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, &rec, ren);
 
 	if (tileMap[layer][row][col].GetIsHighlighted())
-		hlTexture.texture->Render(tileMap[layer][row][col].GetWorldX(), tileMap[layer][row][col].GetWorldY(), NULL, ren);
+		hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
 }
 
 void TileMap::Update()
@@ -227,7 +228,7 @@ void TileMap::SetNumWidth(unsigned num)
 	numWidth = num;
 }
 
-void  TileMap::SetNumHeight(unsigned num)
+void TileMap::SetNumHeight(unsigned num)
 {
 	numHeight = num;
 }
@@ -272,8 +273,10 @@ void TileMap::MoveMap(int x, int y)
 		{
 			for (unsigned c = 0; c < GetNumWidth(); c++)
 			{
-				tileMap[a][b][c].SetWorldX(tileMap[a][b][c].GetWorldX() + x);
-				tileMap[a][b][c].SetWorldY(tileMap[a][b][c].GetWorldY() + y);
+				vec2 pos;
+				pos.x = tileMap[a][b][c].GetPosition().x + x;
+				pos.y = tileMap[a][b][c].GetPosition().y + y;
+				tileMap[a][b][c].SetPosition(pos);
 			}
 		}
 	}

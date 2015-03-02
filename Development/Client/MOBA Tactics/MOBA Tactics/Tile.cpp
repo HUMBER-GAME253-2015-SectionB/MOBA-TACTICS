@@ -2,19 +2,18 @@
 
 Tile::Tile()
 {
-	InitializeTile(0, 0, 0, 0, 0);
+	InitializeTile(0, vec2(0, 0), 0, 0);
 }
 
-Tile::Tile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight)
+Tile::Tile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
 {
-	InitializeTile(_tileNumber, _worldX, _worldY, _tileWidth, _tileHeight);
+	InitializeTile(_tileNumber, _pos, _tileWidth, _tileHeight);
 }
 
-void Tile::InitializeTile(int _tileNumber, int _worldX, int _worldY, unsigned _tileWidth, unsigned _tileHeight)
+void Tile::InitializeTile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
 {
 	SetTileNumber(_tileNumber);
-	SetWorldX(_worldX);
-	SetWorldY(_worldY);
+	SetPosition(_pos);
 	SetTileWidth(_tileWidth);
 	SetTileHeight(_tileHeight);
 	SetIsHighlighted(false); //Test boolean
@@ -36,14 +35,9 @@ int Tile::GetTileNumber() const
 	return tileNumber;
 }
 
-int Tile::GetWorldX() const
+vec2 Tile::GetPosition() const
 {
-	return worldX;
-}
-
-int Tile::GetWorldY() const
-{
-	return worldY;
+	return position;
 }
 
 unsigned Tile::GetTileWidth() const
@@ -76,14 +70,9 @@ void Tile::SetTileNumber(int num)
 	tileNumber = num;
 }
 
-void Tile::SetWorldX(int num)
+void Tile::SetPosition(vec2 _pos)
 {
-	worldX = num;
-}
-
-void Tile::SetWorldY(int num)
-{
-	worldY = num;
+	position = _pos;
 }
 
 void Tile::SetTileWidth(unsigned num)

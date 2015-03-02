@@ -3,8 +3,10 @@
 #include <vector>
 #include "Tile.h"
 #include "TileSet.h"
+#include "glm/glm.hpp"
 
 using namespace std;
+using namespace glm;
 
 struct HighlightTexture
 {
@@ -19,9 +21,9 @@ struct HighlightTexture
 class TileMap
 {
 public:
-	TileMap(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren);
-	TileMap(char *xmlFilePath, int _worldX, int _worldY, string highlightTexturePath, SDL_Renderer *ren);
-	bool LoadFromFile(char *xmlFilePath, int _worldX, int _worldY, SDL_Renderer *ren);
+	TileMap(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren);
+	TileMap(char *xmlFilePath, vec2 _worldPosition, string highlightTexturePath, SDL_Renderer *ren);
+	bool LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren);
 	void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight);
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
 	void InitHightlightTexture(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
