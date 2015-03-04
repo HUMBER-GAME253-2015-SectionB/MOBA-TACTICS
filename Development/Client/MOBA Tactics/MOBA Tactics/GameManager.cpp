@@ -36,6 +36,8 @@ void GameManager::StartProgram()
 				{
 					newGame->Exit();
 				}
+				//Event Manager
+				
 			}
 		
 			lastUpdateTime = SDL_GetTicks();

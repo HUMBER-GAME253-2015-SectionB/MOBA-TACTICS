@@ -55,8 +55,11 @@ void Game::Init()
 	SDL_GetRendererOutputSize(Renderer, &renWidth, &renHeight);
 
 	//Initialize random
-	srand(time(NULL));
+	srand(time(NULL));	
+}
 
+void Game::LoadContent()
+{
 	texture = new Texture();
 	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/HighlightTile.png", Renderer);
 	tiles->HighlightTile(1, 0, 0);
@@ -66,11 +69,6 @@ void Game::Init()
 	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 1), Renderer);
 }
 
-void Game::LoadContent()
-{
-
-}
-
 void Game::UnloadContent()
 {
 
@@ -78,22 +76,18 @@ void Game::UnloadContent()
 
 void Game::Update()
 {
-
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		OnEvent(&event);
-	}
-
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
 	//KeyState = SDL_GetKeyboardState(NULL);	
+
+
+	tiles->Update();
+	character->Update();
+
+
 
 	PreviousMouseState = MouseState;
 	PreviousMouseX = MouseX;
 	PreviousMouseY = MouseY;
-
-	tiles->Update();
-	character->Update();
 }
 
 //Whenever an event of some form occurs, this function is called. For example, mouse clicks/key presses.
@@ -165,7 +159,6 @@ void Game::Draw()
 	}
 	/* DRAW CODE END */
 	SDL_SetRenderDrawColor(Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderSetScale(Renderer, 2, 2); //Change later for zoom in/zoom out
 	SDL_RenderPresent(Renderer);
 }
 
