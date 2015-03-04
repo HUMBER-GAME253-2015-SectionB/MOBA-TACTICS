@@ -13,20 +13,11 @@ private:
 SDL_Rect box;  
 
 public:
-Button( int x, int y, int w, int h );
+Button();
 void onClick();
 void show();
 
 };
-
-Button::Button( int x, int y, int w, int h )
-{
-    //Set the button attributes
-    box.x = x;
-    box.y = y;
-    box.w = w;
-    box.h = h;
-}
 
 void Button::onClick()
 {
