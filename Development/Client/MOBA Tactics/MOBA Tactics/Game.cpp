@@ -55,7 +55,8 @@ void Game::Init()
 	SDL_GetRendererOutputSize(Renderer, &renWidth, &renHeight);
 
 	//Initialize random
-	srand(time(NULL));
+	srand(time(NULL));	
+
 }
 
 void Game::LoadContent()
@@ -76,21 +77,18 @@ void Game::UnloadContent()
 
 void Game::Update()
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		OnEvent(&event);
-	}
-
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
 	//KeyState = SDL_GetKeyboardState(NULL);	
+
+
+	tiles->Update();
+	character->Update();
+
+
 
 	PreviousMouseState = MouseState;
 	PreviousMouseX = MouseX;
 	PreviousMouseY = MouseY;
-
-	tiles->Update();
-	character->Update();
 }
 
 void Game::Draw()
@@ -103,7 +101,6 @@ void Game::Draw()
 	}
 	/* DRAW CODE END */
 	SDL_SetRenderDrawColor(Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderSetScale(Renderer, 2, 2); //Change later for zoom in/zoom out
 	SDL_RenderPresent(Renderer);
 }
 
