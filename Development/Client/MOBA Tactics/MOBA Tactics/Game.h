@@ -4,20 +4,9 @@
 #ifndef __GAME_H_INCLUDED__
 #define __GAME_H_INCLUDED__
 
-#include <ctime>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
-#include <SDL_net.h>
-
-#include <Windows.h>
-#include <stdlib.h>
-#include <math.h>
-#include <cstdlib>
-#include <stdlib.h>
-#include <string>
-#include <sstream>
+#include "ClientAPI.h"
+#include "TileMap.h"
+#include "Character.h"
 
 class Game
 {
