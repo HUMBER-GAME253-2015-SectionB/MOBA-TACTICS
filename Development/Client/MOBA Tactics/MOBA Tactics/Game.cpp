@@ -66,7 +66,7 @@ void Game::Init()
 	tiles->GetTileMap()->at(3).at(3).at(3).SetIsHighlighted(true);
 	tiles->SetHighlightColor(100, 155, 255);
 
-	character = new Character("../Assets/Images/Character.png", Renderer);
+	character = new Character("../Assets/Images/Character.png", &tiles->GetTileMap()->at(0).at(0).at(0), Renderer);
 }
 
 void Game::LoadContent()

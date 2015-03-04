@@ -87,6 +87,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLobby.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="ITile.h" />
     <ClInclude Include="LoginScreen.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Options.h" />

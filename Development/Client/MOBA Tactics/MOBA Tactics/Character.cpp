@@ -5,25 +5,25 @@ Character::Character()
 
 }
 
-Character::Character(char *texturePath, SDL_Renderer *ren)
+Character::Character(char *texturePath, ITile *onTile, SDL_Renderer *ren)
 {
-	Initialize(texturePath, ren);
+	Initialize(texturePath, onTile, ren);
 }
 
-Character::Character(char *texturePath, vec3 _tilePosition, int _maxHealth, int _actionPoints,
+Character::Character(char *texturePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
-	Initialize(texturePath, _tilePosition, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
+	Initialize(texturePath, _tilePosition, onTile, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
 }
 
-void Character::Initialize(char *texturePath, SDL_Renderer *ren)
+void Character::Initialize(char *texturePath, ITile *onTile, SDL_Renderer *ren)
 {
 	texture = new Texture();
 	texture->LoadFromFile(texturePath, ren);
-	Initialize(texturePath, vec3(0, 0, 0), 100, 10, 10, 10, 1, 1, 0, 0, 0, ren); //Can change later for balance
+	Initialize(texturePath, vec3(0, 0, 0), onTile, 100, 10, 10, 10, 1, 1, 0, 0, 0, ren); //Can change later for balance
 }
 
-void Character::Initialize(char *texturePath, vec3 _tilePosition, int _maxHealth, int _actionPoints,
+void Character::Initialize(char *texturePath, vec3 _tilePosition, ITile * onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
 	texture = new Texture();
@@ -44,6 +44,12 @@ void Character::Initialize(char *texturePath, vec3 _tilePosition, int _maxHealth
 	SetExperience(_experience);
 	SetLevel(_level);
 	SetSkillPoints(_skillPoints);
+	SetPositionOnTile(onTile);
+}
+
+void Character::Move(ITile *fromTile, ITile *toTile)
+{
+		
 }
 
 void Character::Attack(Character* target)
@@ -159,7 +165,15 @@ bool Character::GetIsMoving()
 	return isMoving;
 }
 
-void Character::SetTexture(Texture* _texture)
+void Character::SetPositionOnTile(ITile *tile)
+{
+	vec2 temp;
+	temp.x = tile->GetPosition().x + tile->GetTileWidth() / 2 - GetTexture()->GetWidth() / 2;
+	temp.y = tile->GetPosition().y - GetTexture()->GetHeight() / 2;
+	SetPosition(temp);
+}
+
+void Character::SetTexture(Texture *_texture)
 {
 	texture = _texture;
 }

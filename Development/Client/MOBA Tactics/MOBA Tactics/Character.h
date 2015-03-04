@@ -1,7 +1,9 @@
 #pragma once
 
+#include "ITile.h"
 #include "Texture.h"
 #include "glm/glm.hpp"
+#include "Character.h"
 
 using namespace glm;
 
@@ -9,13 +11,13 @@ class Character
 {
 public:
 	Character();
-	Character(char *texturePath, SDL_Renderer *ren);
-	Character(char *texturePath, vec3 _tilePosition, int _maxHealth, int _actionPoints,
+	Character(char *texturePath, ITile *onTile, SDL_Renderer *ren);
+	Character(char *texturePath, vec3 _tilePosition, ITile * nTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
-	void Initialize(char *texturePath, SDL_Renderer *ren);
-	void Initialize(char *texturePath, vec3 _tilePosition, int _maxHealth, int _actionPoints,
+	void Initialize(char *texturePath, ITile *onTile, SDL_Renderer *ren);
+	void Initialize(char *texturePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
-	void MoveToPosition(vec2 pos, vec3 tilePos);
+	void Move(ITile *fromTile, ITile *toTile);
 	void Attack(Character* target);
 	void Defend();
 	//void SpecialAbility(Ability* abilityname); Somethhing like this when special abilities are implemented, 
@@ -62,6 +64,8 @@ public:
 	void SetLevel(int num);
 	void SetSkillPoints(int num);
 	void SetIsMoving(bool _isMoving);
+	
+	void SetPositionOnTile(ITile *tile);
 
 private:
 	Texture *texture;

@@ -4,12 +4,13 @@
 #include "Texture.h"
 #include "Character.h"
 #include "glm/glm.hpp"
+#include "ITile.h"
 
 using namespace std;
 using namespace tinyxml2;
 using namespace glm;
 
-class Tile
+class Tile : public ITile
 {
 public:
 	Tile();
