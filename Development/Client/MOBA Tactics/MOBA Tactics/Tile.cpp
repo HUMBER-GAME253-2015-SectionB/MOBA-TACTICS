@@ -5,14 +5,14 @@ Tile::Tile()
 	InitializeTile(0, vec2(0, 0), 0, 0);
 }
 
-Tile::Tile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
+Tile::Tile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
 {
-	InitializeTile(_tileNumber, _pos, _tileWidth, _tileHeight);
+	InitializeTile(_tileID, _pos, _tileWidth, _tileHeight);
 }
 
-void Tile::InitializeTile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
+void Tile::InitializeTile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
 {
-	SetTileNumber(_tileNumber);
+	SetTileID(_tileID);
 	SetPosition(_pos);
 	SetTileWidth(_tileWidth);
 	SetTileHeight(_tileHeight);
@@ -30,9 +30,9 @@ Tile::~Tile()
 
 }
 
-int Tile::GetTileNumber() const
+int Tile::GetTileID() const
 {
-	return tileNumber;
+	return tileID;
 }
 
 vec2 Tile::GetPosition() const
@@ -65,9 +65,9 @@ bool Tile::GetIsHighlighted() const
 	return isHighlighted;
 }
 
-void Tile::SetTileNumber(int num)
+void Tile::SetTileID(int num)
 {
-	tileNumber = num;
+	tileID = num;
 }
 
 void Tile::SetPosition(vec2 _pos)

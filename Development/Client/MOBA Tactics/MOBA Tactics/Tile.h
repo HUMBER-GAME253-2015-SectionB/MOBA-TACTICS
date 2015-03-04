@@ -13,12 +13,12 @@ class Tile
 {
 public:
 	Tile();
-	Tile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
-	void InitializeTile(int _tileNumber, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
+	Tile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
+	void InitializeTile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
 	void RemoveCharacter();
 	~Tile();
 
-	int GetTileNumber() const;
+	int GetTileID() const;
 	vec2 GetPosition() const;
 	unsigned GetTileWidth() const;
 	unsigned GetTileHeight() const;
@@ -26,7 +26,7 @@ public:
 	bool GetIsHighlighted() const;
 	Character* GetCharacter() const;
 
-	void SetTileNumber(int num);
+	void SetTileID(int num);
 	void SetPosition(vec2 _pos);
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
@@ -34,7 +34,7 @@ public:
 	void SetCharacter(Character* _character);
 
 private:
-	int tileNumber;
+	int tileID;
 	vec2 position;
 	unsigned tileWidth;
 	unsigned tileHeight;

@@ -144,12 +144,12 @@ void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 	SDL_Rect rec;
 	int tileSetRowCol;
 
-	tileSetRowCol = (tileMap[layer][row][col].GetTileNumber() % tileSet.GetNumWidth());
+	tileSetRowCol = (tileMap[layer][row][col].GetTileID() % tileSet.GetNumWidth());
 	if (tileSetRowCol == 0)
 		tileSetRowCol = tileSet.GetNumWidth();
 
 	rec.x = tileSetRowCol * tileSet.GetTileWidth() - tileSet.GetTileWidth();
-	rec.y = ((tileMap[layer][row][col].GetTileNumber() - tileSetRowCol) / tileSet.GetNumWidth()) * tileSet.GetTileHeight();
+	rec.y = ((tileMap[layer][row][col].GetTileID() - tileSetRowCol) / tileSet.GetNumWidth()) * tileSet.GetTileHeight();
 	rec.w = tileSet.GetTileWidth();
 	rec.h = tileSet.GetTileHeight();
 

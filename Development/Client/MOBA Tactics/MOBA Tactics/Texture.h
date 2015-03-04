@@ -3,6 +3,9 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
+#include "glm/glm.hpp"
+
+using namespace glm;
 
 //Texture wrapper class
 class Texture
@@ -23,6 +26,8 @@ public:
 
 	//Deallocates texture
 	void Free();
+
+	void Update();
 
 	//Renders texture at given point
 	void Render(int x, int y, SDL_Rect* clip, SDL_Renderer* ren);

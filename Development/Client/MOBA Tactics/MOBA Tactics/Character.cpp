@@ -46,16 +46,6 @@ void Character::Initialize(char *texturePath, vec3 _tilePosition, int _maxHealth
 	SetSkillPoints(_skillPoints);
 }
 
-void Character::Move(vec3 newTilePosition)
-{
-
-}
-
-void Character::Move(vec2 newMapPosition)
-{
-
-}
-
 void Character::Attack(Character* target)
 {
 
@@ -164,6 +154,11 @@ int Character::GetSkillPoints()
 	return skillPoints;
 }
 
+bool Character::GetIsMoving()
+{
+	return isMoving;
+}
+
 void Character::SetTexture(Texture* _texture)
 {
 	texture = _texture;
@@ -237,4 +232,9 @@ void Character::SetLevel(int num)
 void Character::SetSkillPoints(int num)
 {
 	skillPoints = num;
+}
+
+void Character::SetIsMoving(bool _isMoving)
+{
+	isMoving = _isMoving;
 }
