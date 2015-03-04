@@ -138,6 +138,11 @@ void TileMap::SetHighlightColor(Uint8 r, Uint8 g, Uint8 b)
 	hlTexture.b = b;
 }
 
+void TileMap::HighlightTile(int layer, int row, int col)
+{
+	GetTileMap()->at(layer).at(row).at(col).SetIsHighlighted(true);
+}
+
 //Should be noted tiles numbered 0 are empty tiles.
 void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 {
@@ -216,6 +221,11 @@ unsigned TileMap::GetTileHeight() const
 TileSet TileMap::GetTileSet() const
 {
 	return tileSet;
+}
+
+Tile* TileMap::GetTileAt(int layer, int row, int col)
+{
+	return &GetTileMap()->at(layer).at(row).at(col);
 }
 
 vector<vector<vector<Tile>>>* TileMap::GetTileMap()

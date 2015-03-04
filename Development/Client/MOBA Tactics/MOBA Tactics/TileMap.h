@@ -27,6 +27,7 @@ public:
 	void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight);
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
 	void InitHightlightTexture(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
+	void HighlightTile(int layer, int row, int col);
 	void DrawTile(int layer, int row, int col, SDL_Renderer *ren);
 	void DrawMap(SDL_Renderer *ren);
 	void Update();
@@ -39,6 +40,7 @@ public:
 	unsigned GetTileWidth() const;
 	unsigned GetTileHeight() const;
 	TileSet GetTileSet() const;
+	Tile* GetTileAt(int layer, int row, int col);
 	vector<vector<vector<Tile>>>* GetTileMap();
 
 	void SetNumWidth(unsigned num);

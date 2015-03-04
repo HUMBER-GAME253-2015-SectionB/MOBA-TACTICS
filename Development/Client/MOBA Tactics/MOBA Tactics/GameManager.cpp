@@ -44,7 +44,6 @@ void GameManager::StartProgram()
 			SDL_PumpEvents();
 			newGame->Update();
 			newGame->Draw();
-
 		}
 
 	}

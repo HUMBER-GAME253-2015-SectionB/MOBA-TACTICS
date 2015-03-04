@@ -47,9 +47,20 @@ void Character::Initialize(char *texturePath, vec3 _tilePosition, ITile * onTile
 	SetPositionOnTile(onTile);
 }
 
-void Character::Move(ITile *fromTile, ITile *toTile)
+void Character::MoveToAdjacentTile(ITile *fromTile, ITile *toTile)
 {
-		
+	if (!GetIsMoving())
+	{
+		vec2 startPos = fromTile->GetPosition();
+		vec2 endPos = toTile->GetPosition();
+		SetIsMoving(true);
+		SetVelocity(vec2((endPos - startPos).x / 10, (endPos - startPos).y / 10));
+
+		vec2 temp = toTile->GetPosition();
+		temp.x = toTile->GetPosition().x + toTile->GetTileWidth() / 2 - GetTexture()->GetWidth() / 2;
+		temp.y = toTile->GetPosition().y - GetTexture()->GetHeight() / 2;
+		SetTargetPosition(temp);
+	}
 }
 
 void Character::Attack(Character* target)
@@ -72,7 +83,51 @@ void Character::ResetDefense()
 
 void Character::Update()
 {
-
+	if (GetIsMoving())
+	{
+		vec2 vel = GetVelocity();
+		vec2 targetPos = GetTargetPosition();
+		vec2 tmp = GetPosition();
+		SetPosition(tmp += GetVelocity());
+		
+		//Cases moving right, down
+		if (vel.x > 0 && vel.y > 0)
+		{
+			if (tmp.x > targetPos.x && tmp.y > targetPos.y)
+			{
+				SetIsMoving(false);
+				SetPosition(targetPos);
+			}
+		}
+		//moving left, down
+		else if (vel.x < 0 && vel.y > 0)
+		{
+			if (tmp.x < targetPos.x && tmp.y > targetPos.y)
+			{
+				SetIsMoving(false);
+				SetPosition(targetPos);
+			}
+		}
+		//moving up, right
+		else if (vel.x > 0 && vel.y < 0)
+		{
+			if (tmp.x > targetPos.x && tmp.y < targetPos.y)
+			{
+				SetIsMoving(false);
+				SetPosition(targetPos);
+			}
+		}
+		//moving up, left
+		else if (vel.x < 0 && vel.y < 0)
+		{
+			if (tmp.x < targetPos.x && tmp.y < targetPos.y)
+			{
+				SetIsMoving(false);
+				SetPosition(targetPos);
+			}
+		}
+		SetDefense(0);
+	}
 }
 
 void Character::Draw(SDL_Renderer *ren)
@@ -160,9 +215,19 @@ int Character::GetSkillPoints()
 	return skillPoints;
 }
 
+vec2 Character::GetVelocity()
+{
+	return velocity;
+}
+
 bool Character::GetIsMoving()
 {
 	return isMoving;
+}
+
+vec2 Character::GetTargetPosition()
+{
+	return targetPosition;
 }
 
 void Character::SetPositionOnTile(ITile *tile)
@@ -248,7 +313,17 @@ void Character::SetSkillPoints(int num)
 	skillPoints = num;
 }
 
+void Character::SetVelocity(vec2 vec)
+{
+	velocity = vec;
+}
+
 void Character::SetIsMoving(bool _isMoving)
 {
 	isMoving = _isMoving;
+}
+
+void Character::SetTargetPosition(vec2 _target)
+{
+	targetPosition = _target;
 }

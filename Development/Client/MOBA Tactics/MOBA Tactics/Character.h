@@ -17,7 +17,7 @@ public:
 	void Initialize(char *texturePath, ITile *onTile, SDL_Renderer *ren);
 	void Initialize(char *texturePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
-	void Move(ITile *fromTile, ITile *toTile);
+	void MoveToAdjacentTile(ITile *fromTile, ITile *toTile);
 	void Attack(Character* target);
 	void Defend();
 	//void SpecialAbility(Ability* abilityname); Somethhing like this when special abilities are implemented, 
@@ -44,6 +44,8 @@ public:
 	int GetExperience();
 	int GetLevel();
 	int GetSkillPoints();
+
+	vec2 GetVelocity();
 	bool GetIsMoving();
 
 	void SetTexture(Texture* _texture);
@@ -63,6 +65,8 @@ public:
 	void SetExperience(int num);
 	void SetLevel(int num);
 	void SetSkillPoints(int num);
+
+	void SetVelocity(vec2 vec);
 	void SetIsMoving(bool _isMoving);
 	
 	void SetPositionOnTile(ITile *tile);
@@ -91,4 +95,8 @@ private:
 
 	bool isMoving;
 	vec2 velocity;
+	vec2 targetPosition;
+
+	vec2 GetTargetPosition();
+	void SetTargetPosition(vec2 _target);
 };
