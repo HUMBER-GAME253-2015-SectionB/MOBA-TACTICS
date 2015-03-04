@@ -1,3 +1,5 @@
+//Author:	Nicholas Higa
+//Date:		3/4/2014(NH)
 #include "TileMap.h"
 
 TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)

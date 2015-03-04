@@ -55,7 +55,11 @@ void Game::Init()
 	SDL_GetRendererOutputSize(Renderer, &renWidth, &renHeight);
 
 	//Initialize random
+<<<<<<< HEAD
 	srand(time(NULL));	
+=======
+	srand(time(NULL));
+>>>>>>> origin/Client
 }
 
 void Game::LoadContent()
@@ -76,6 +80,15 @@ void Game::UnloadContent()
 
 void Game::Update()
 {
+<<<<<<< HEAD
+=======
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		OnEvent(&event);
+	}
+
+>>>>>>> origin/Client
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
 	//KeyState = SDL_GetKeyboardState(NULL);	
 
@@ -88,65 +101,6 @@ void Game::Update()
 	PreviousMouseState = MouseState;
 	PreviousMouseX = MouseX;
 	PreviousMouseY = MouseY;
-}
-
-//Whenever an event of some form occurs, this function is called. For example, mouse clicks/key presses.
-void Game::OnEvent(SDL_Event *event)
-{
-	UpdateInput(event);
-}
-
-void Game::UpdateInput(SDL_Event *event)
-{
-	SDL_Event *newMouseState = event;
-
-	if (event->type == SDL_KEYDOWN)
-	{
-		//character->MoveToAdjacentTile(tiles->GetTileAt(1, 0, 1), tiles->GetTileAt(1, 0, 0));
-		vec3 startPos = charPos;
-		switch (event->key.keysym.sym)
-		{
-		case SDLK_UP: case SDLK_w:
-			charPos.y += 1;
-			break;
-		case SDLK_DOWN: case SDLK_s:
-			charPos.y -= 1;
-			break;
-		case SDLK_RIGHT: case SDLK_d:
-			break;
-		case SDLK_LEFT: case SDLK_a:
-			break;
-		default:
-			break;
-		}
-		character->MoveToAdjacentTile(tiles->GetTileAt(startPos.x, startPos.y, startPos.z), tiles->GetTileAt(charPos.x, charPos.y, charPos.z));
-	}
-
-	if (event->type == SDL_MOUSEBUTTONDOWN)
-	{
-		if (event->button.button == SDL_BUTTON_LEFT)
-		{
-		}
-
-		if (event->button.button == SDL_BUTTON_RIGHT)
-		{
-		}
-
-		if (newMouseState->button.button == SDL_BUTTON_RIGHT && oldMouseState->button.button == SDL_BUTTON_RIGHT)
-		{
-		}
-		else
-		{
-			if (newMouseState->button.button == SDL_BUTTON_RIGHT)
-			{
-			}
-			else if (oldMouseState->button.button == SDL_BUTTON_RIGHT)
-			{
-			}
-		}
-	}
-
-	oldMouseState = newMouseState;
 }
 
 void Game::Draw()
