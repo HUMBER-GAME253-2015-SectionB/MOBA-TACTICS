@@ -56,7 +56,10 @@ void Game::Init()
 
 	//Initialize random
 	srand(time(NULL));
+}
 
+void Game::LoadContent()
+{
 	texture = new Texture();
 	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/HighlightTile.png", Renderer);
 	tiles->HighlightTile(1, 0, 0);
@@ -66,11 +69,6 @@ void Game::Init()
 	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 1), Renderer);
 }
 
-void Game::LoadContent()
-{
-
-}
-
 void Game::UnloadContent()
 {
 
@@ -78,7 +76,6 @@ void Game::UnloadContent()
 
 void Game::Update()
 {
-
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -94,65 +91,6 @@ void Game::Update()
 
 	tiles->Update();
 	character->Update();
-}
-
-//Whenever an event of some form occurs, this function is called. For example, mouse clicks/key presses.
-void Game::OnEvent(SDL_Event *event)
-{
-	UpdateInput(event);
-}
-
-void Game::UpdateInput(SDL_Event *event)
-{
-	SDL_Event *newMouseState = event;
-
-	if (event->type == SDL_KEYDOWN)
-	{
-		//character->MoveToAdjacentTile(tiles->GetTileAt(1, 0, 1), tiles->GetTileAt(1, 0, 0));
-		vec3 startPos = charPos;
-		switch (event->key.keysym.sym)
-		{
-		case SDLK_UP: case SDLK_w:
-			charPos.y += 1;
-			break;
-		case SDLK_DOWN: case SDLK_s:
-			charPos.y -= 1;
-			break;
-		case SDLK_RIGHT: case SDLK_d:
-			break;
-		case SDLK_LEFT: case SDLK_a:
-			break;
-		default:
-			break;
-		}
-		character->MoveToAdjacentTile(tiles->GetTileAt(startPos.x, startPos.y, startPos.z), tiles->GetTileAt(charPos.x, charPos.y, charPos.z));
-	}
-
-	if (event->type == SDL_MOUSEBUTTONDOWN)
-	{
-		if (event->button.button == SDL_BUTTON_LEFT)
-		{
-		}
-
-		if (event->button.button == SDL_BUTTON_RIGHT)
-		{
-		}
-
-		if (newMouseState->button.button == SDL_BUTTON_RIGHT && oldMouseState->button.button == SDL_BUTTON_RIGHT)
-		{
-		}
-		else
-		{
-			if (newMouseState->button.button == SDL_BUTTON_RIGHT)
-			{
-			}
-			else if (oldMouseState->button.button == SDL_BUTTON_RIGHT)
-			{
-			}
-		}
-	}
-
-	oldMouseState = newMouseState;
 }
 
 void Game::Draw()

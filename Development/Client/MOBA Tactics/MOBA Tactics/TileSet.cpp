@@ -1,3 +1,5 @@
+//Author:	Nicholas Higa
+//Date:		3/4/2014(NH)
 #include "TileSet.h"
 
 TileSet::TileSet()
