@@ -55,11 +55,8 @@ void Game::Init()
 	SDL_GetRendererOutputSize(Renderer, &renWidth, &renHeight);
 
 	//Initialize random
-<<<<<<< HEAD
 	srand(time(NULL));	
-=======
-	srand(time(NULL));
->>>>>>> origin/Client
+
 }
 
 void Game::LoadContent()
@@ -80,15 +77,6 @@ void Game::UnloadContent()
 
 void Game::Update()
 {
-<<<<<<< HEAD
-=======
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		OnEvent(&event);
-	}
-
->>>>>>> origin/Client
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
 	//KeyState = SDL_GetKeyboardState(NULL);	
 
