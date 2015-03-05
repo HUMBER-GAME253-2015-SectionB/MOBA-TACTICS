@@ -6,16 +6,17 @@
 #include "SDL_ttf.h"
 #include <string>
 #include <iostream>
-
+enum ButtonState{UNPRESSED, PRESSED, HOVER};
 class Button
 {
 private:
-SDL_Rect box;  
+	SDL_Rect box; 
 
 public:
-Button();
-void onClick();
-void show();
+	Button();
+	void onClick();
+	void show();
+	ButtonState btnState;
 
 };
 
