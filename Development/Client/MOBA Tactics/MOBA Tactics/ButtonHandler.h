@@ -13,4 +13,5 @@ public:
 	bool HandleEvents();
 	void SubscribeButton(Button btn);
 	void RemoveButton(int index);
+	void RemoveAll();
 };

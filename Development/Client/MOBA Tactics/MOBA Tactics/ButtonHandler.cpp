@@ -15,6 +15,11 @@ void ButtonHandler::RemoveButton(int index)
 	registeredBtns->pop_at(index);
 }
 
+void ButtonHandler::RemoveAll()
+{
+	registeredBtns->clear();
+}
+
 bool HandleEvent(Button btn)
 {
 	if(btn.btnState == PRESSED)
