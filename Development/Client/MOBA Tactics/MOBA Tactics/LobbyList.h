@@ -4,18 +4,16 @@
 #ifndef __LOBBYLIST_H_INCLUDED__
 #define __LOBBYLIST_H_INCLUDED__
 
-#include "IMenu.h"
+#include "Menu.h"
 
-class LobbyList : public IMenu
+class LobbyList : public Menu
 {
 public:
 	LobbyList();
 	~LobbyList();
 
-	void Load();
-	void Unload();
 	void Update();
-	void Draw(SDL_Renderer* ren);
+
 
 private:
 

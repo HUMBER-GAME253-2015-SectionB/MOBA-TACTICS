@@ -4,18 +4,15 @@
 #ifndef __OPTIONS_H_INCLUDED__
 #define __OPTIONS_H_INCLUDED__
 
-#include "IMenu.h"
+#include "Menu.h"
 
-class Options : public IMenu
+class Options : public Menu
 {
 public:
 	Options();
 	~Options();
 
-	void Load();
-	void Unload();
 	void Update();
-	void Draw(SDL_Renderer* ren);
 
 private:
 

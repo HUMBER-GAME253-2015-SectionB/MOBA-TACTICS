@@ -13,23 +13,9 @@ MainMenu::~MainMenu()
 
 }
 
-void MainMenu::Load()
-{
-
-}
-
-void MainMenu::Unload()
-{
-
-}
-
 void MainMenu::Update()
 {
 
 }
 
-void MainMenu::Draw(SDL_Renderer* ren)
-{
-
-}
 

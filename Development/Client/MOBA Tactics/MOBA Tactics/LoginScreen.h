@@ -4,18 +4,15 @@
 #ifndef __LOGINSCREEN_H_INCLUDED__
 #define __LOGINSCREEN_H_INCLUDED__
 
-#include "IMenu.h"
+#include "Menu.h"
 
-class LoginScreen : public IMenu
+class LoginScreen : public Menu
 {
 public:
 	LoginScreen();
 	~LoginScreen();
-	
-	void Load();
-	void Unload();
+
 	void Update();
-	void Draw(SDL_Renderer* ren);
 
 private:
 

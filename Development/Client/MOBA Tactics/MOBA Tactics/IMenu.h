@@ -5,6 +5,7 @@
 #define IMENU_H
 
 #include <SDL.h>
+#include "IGame.h"
 
 class IMenu
 {

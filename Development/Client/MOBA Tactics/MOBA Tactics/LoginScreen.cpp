@@ -13,23 +13,10 @@ LoginScreen::~LoginScreen()
 
 }
 
-void LoginScreen::Load()
-{
-
-}
-
-void LoginScreen::Unload()
-{
-
-}
 
 void LoginScreen::Update()
 {
 
 }
 
-void LoginScreen::Draw(SDL_Renderer* ren)
-{
-
-}
 

@@ -36,7 +36,10 @@ IMenu* GameStateManager::GetCurrentMenu() const
 void GameStateManager::SetGameObject(IGame* _game)
 {
 	if (gameObject == nullptr)
+	{
 		gameObject = _game;
+		Menu::InitMenus(gameObject);
+	}
 }
 
 void GameStateManager::ChangeToGameState(GameState _newGameState)

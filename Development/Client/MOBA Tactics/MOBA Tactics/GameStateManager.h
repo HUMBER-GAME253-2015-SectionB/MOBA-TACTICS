@@ -5,12 +5,12 @@
 #define GAMESTATE_MANAGER_H
 
 #include "GameState.h"
+#include "IGame.h"
 #include "IMenu.h"
 #include "LobbyList.h"
 #include "LoginScreen.h"
 #include "MainMenu.h"
 #include "Options.h"
-#include "IGame.h"
 
 class GameStateManager
 {

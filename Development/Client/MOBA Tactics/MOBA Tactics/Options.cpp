@@ -13,23 +13,9 @@ Options::~Options()
 
 }
 
-void Options::Load()
-{
-
-}
-
-void Options::Unload()
-{
-
-}
-
 void Options::Update()
 {
 
 }
 
-void Options::Draw(SDL_Renderer* ren)
-{
-
-}
 

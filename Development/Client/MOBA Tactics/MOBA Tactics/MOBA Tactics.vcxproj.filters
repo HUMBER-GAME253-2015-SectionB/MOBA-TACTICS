@@ -46,6 +46,9 @@
     <ClCompile Include="LoginScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -103,6 +106,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

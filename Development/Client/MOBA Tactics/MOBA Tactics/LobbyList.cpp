@@ -13,23 +13,10 @@ LobbyList::~LobbyList()
 
 }
 
-void LobbyList::Load()
-{
-
-}
-
-void LobbyList::Unload()
-{
-
-}
 
 void LobbyList::Update()
 {
 
 }
 
-void LobbyList::Draw(SDL_Renderer* ren)
-{
-
-}
 

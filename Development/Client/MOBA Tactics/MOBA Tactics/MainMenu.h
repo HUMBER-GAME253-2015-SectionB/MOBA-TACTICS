@@ -4,18 +4,15 @@
 #ifndef __MAINMENU_H_INCLUDED__
 #define __MAINMENU_H_INCLUDED__
 
-#include "IMenu.h"
+#include "Menu.h"
 
-class MainMenu : public IMenu
+class MainMenu : public Menu
 {
 public:
 	MainMenu();
 	~MainMenu();
 
-	void Load();
-	void Unload();
 	void Update();
-	void Draw(SDL_Renderer* ren);
 
 private:
 

@@ -79,6 +79,7 @@
     <ClCompile Include="LoginScreen.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -100,7 +101,9 @@
     <ClInclude Include="ITile.h" />
     <ClInclude Include="LoginScreen.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
