@@ -4,12 +4,13 @@
 #ifndef __GAME_H_INCLUDED__
 #define __GAME_H_INCLUDED__
 
+#include "IGame.h"
 #include "ClientAPI.h"
 #include "TileMap.h"
 #include "Character.h"
 #include "GameStateManager.h"
 
-class Game
+class Game : public IGame
 {
 	public:
 		bool GameIsRunning;

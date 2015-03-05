@@ -1,17 +1,17 @@
 //Author:	David Vo, Mathieu Violette
 //Date:		2/23/2014(DV), 3/5/2015(MV)
 
-#ifndef __LOGINSCREEN_H_INCLUDED__
-#define __LOGINSCREEN_H_INCLUDED__
+#ifndef __LOBBYLIST_H_INCLUDED__
+#define __LOBBYLIST_H_INCLUDED__
 
 #include "IMenu.h"
 
-class LoginScreen : public IMenu
+class LobbyList : public IMenu
 {
 public:
-	LoginScreen();
-	~LoginScreen();
-	
+	LobbyList();
+	~LobbyList();
+
 	void Load();
 	void Unload();
 	void Update();

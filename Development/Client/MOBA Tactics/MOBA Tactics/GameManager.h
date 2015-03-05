@@ -3,6 +3,7 @@
 
 #ifndef __GAMEMANAGER_H_INCLUDED__
 #define __GAMEMANAGER_H_INCLUDED__
+
 #include "Game.h"
 
 class GameManager

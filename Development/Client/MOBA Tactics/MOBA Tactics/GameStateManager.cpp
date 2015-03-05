@@ -3,6 +3,8 @@
 
 #include "GameStateManager.h"
 
+IGame* GameStateManager::gameObject;
+
 GameStateManager& GameStateManager::GetInstance()
 {
 	static GameStateManager instance;
@@ -12,71 +14,94 @@ GameStateManager& GameStateManager::GetInstance()
 GameStateManager::GameStateManager()
 {
 	currentState = GameState::NONE;
+	currentMenu = nullptr;
 }
 
-GameStateManager::~GameStateManager(){}
+GameStateManager::~GameStateManager()
+{
+	if (currentMenu != nullptr)
+		delete currentMenu;
+}
 
-GameState GameStateManager::GetGameState()
+GameState GameStateManager::GetGameState() const
 {
 	return currentState;
 }
+
+IMenu* GameStateManager::GetCurrentMenu() const
+{
+	return currentMenu;
+}
 	
+void GameStateManager::SetGameObject(IGame* _game)
+{
+	if (gameObject == nullptr)
+		gameObject = _game;
+}
+
 void GameStateManager::ChangeToGameState(GameState _newGameState)
 {
 	//Unload current state
-	switch (currentState)
+	if (currentState == GameState::SCENE)
 	{
-		case GameState::NONE:
-			break;
-		case GameState::LOGIN:
-			break;
-		case GameState::REGISTER:
-			break;
-		case GameState::MAINMENU:
-			break;
-		case GameState::OPTIONS:
-			break;
-		case GameState::TEAM_VIEW:
-			break;
-		case GameState::TEAM_NEW:
-			break;
-		case GameState::TEAM_EDIT:
-			break;
-		case GameState::LOBBY_LIST:
-			break;
-		case GameState::LOBBY_ROOM:
-			break;
-		case GameState::SCENE:
-			break;
+		
+	}
+	else if (currentMenu != nullptr)
+	{
+		currentMenu->Unload();
+		delete currentMenu;	
 	}
 
+	//Change current state to new state
+	currentState = _newGameState;
+	currentMenu = GetNewMenu(_newGameState);
+
 	//Load new state
+	if (_newGameState == GameState::SCENE)
+	{
+		
+	}
+	else if (currentMenu != nullptr)
+	{
+		currentMenu->Load();
+	}	
+}
+
+IMenu* GameStateManager::GetNewMenu(GameState _newGameState)
+{
 	switch (_newGameState)
 	{
 		case GameState::NONE:
+			return nullptr;
 			break;
 		case GameState::LOGIN:
+			return new LoginScreen();
 			break;
 		case GameState::REGISTER:
+			//return new LoginRegister();
 			break;
 		case GameState::MAINMENU:
+			return new MainMenu();
 			break;
 		case GameState::OPTIONS:
+			return new Options();
 			break;
 		case GameState::TEAM_VIEW:
+			//return new TeamViewer();
 			break;
 		case GameState::TEAM_NEW:
+			//return new TeamCreate();
 			break;
 		case GameState::TEAM_EDIT:
+			//return new TeamEdit();
 			break;
 		case GameState::LOBBY_LIST:
+			return new LobbyList();
 			break;
 		case GameState::LOBBY_ROOM:
-			break;
-		case GameState::SCENE:
+			//return new LobbyRoom();
 			break;
 	}
-	
-	//Change current state to new state
-	currentState = _newGameState;
+
+	return nullptr;
 }

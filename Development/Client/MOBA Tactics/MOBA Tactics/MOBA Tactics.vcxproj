@@ -75,7 +75,11 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="LobbyList.cpp" />
+    <ClCompile Include="LoginScreen.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Options.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -87,10 +91,12 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="ClientAPI.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameLobby.h" />
+    <ClInclude Include="IGame.h" />
+    <ClInclude Include="LobbyList.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="IMenu.h" />
     <ClInclude Include="ITile.h" />
     <ClInclude Include="LoginScreen.h" />
     <ClInclude Include="MainMenu.h" />

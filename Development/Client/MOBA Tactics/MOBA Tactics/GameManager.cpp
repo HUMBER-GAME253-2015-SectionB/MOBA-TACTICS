@@ -11,6 +11,7 @@ GameManager::GameManager()
 	lastUpdateTime = 0, timeSincelastUpdate = 0;
 
 	newGame = new Game();
+	Game::gameStateManager.SetGameObject(newGame);
 }
 
 GameManager::~GameManager()

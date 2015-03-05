@@ -79,27 +79,12 @@ void Game::Update()
 			//Start of game, set to login screen
 			gameStateManager.ChangeToGameState(GameState::LOGIN);
 			break;
-		case GameState::LOGIN:
-			break;
-		case GameState::REGISTER:
-			break;
-		case GameState::MAINMENU:
-			break;
-		case GameState::OPTIONS:
-			break;
-		case GameState::TEAM_VIEW:
-			break;
-		case GameState::TEAM_NEW:
-			break;
-		case GameState::TEAM_EDIT:
-			break;
-		case GameState::LOBBY_LIST:
-			break;
-		case GameState::LOBBY_ROOM:
-			break;
 		case GameState::SCENE:
 			tiles->Update();
 			character->Update();
+			break;
+		default:
+			gameStateManager.GetCurrentMenu()->Update();
 			break;
 	}
 }
@@ -110,27 +95,12 @@ void Game::Draw()
 	{
 		case GameState::NONE:
 			break;
-		case GameState::LOGIN:
-			break;
-		case GameState::REGISTER:
-			break;
-		case GameState::MAINMENU:
-			break;
-		case GameState::OPTIONS:
-			break;
-		case GameState::TEAM_VIEW:
-			break;
-		case GameState::TEAM_NEW:
-			break;
-		case GameState::TEAM_EDIT:
-			break;
-		case GameState::LOBBY_LIST:
-			break;
-		case GameState::LOBBY_ROOM:
-			break;
 		case GameState::SCENE:
 			tiles->DrawMap(Renderer);
 			character->Draw(Renderer);
+			break;
+		default:
+			gameStateManager.GetCurrentMenu()->Draw(Renderer);
 			break;
 	}
 }
