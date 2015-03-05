@@ -5,12 +5,13 @@
 #define __MENU_H_INCLUDED__
 
 #include "IMenu.h"
+#include "Button.h"
 #include "SList.h"
 
 class Menu : public IMenu
 {
-private:
-	SList<int /* Button */> buttons;
+protected:
+	SList<Button> buttons;
 	static IGame* gameObject;
 public:
 	Menu();
@@ -21,10 +22,10 @@ public:
 	void Load();
 	void Unload();
 	virtual void Update();
-	void Draw(SDL_Renderer* ren);
+	void Draw(SDL_Renderer* ren) const;
+	
+	const SList<Button> GetButtons() const;
 
-	void AddButton(/* Button _button */);
-	void RemoveButton(int buttonIndex);
 };
 
 #endif

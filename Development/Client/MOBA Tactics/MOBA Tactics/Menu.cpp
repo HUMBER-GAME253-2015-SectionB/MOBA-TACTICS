@@ -23,15 +23,16 @@ void Menu::InitMenus(IGame* _game)
 
 void Menu::Load()
 {
-
+	
 }
 
 void Menu::Unload()
 {
 	//Unregister buttons
+	
 
 
-	//Remove buttons
+	//Remove buttons from SList
 	buttons.clear();
 }
 
@@ -40,18 +41,17 @@ void Menu::Update()
 
 }
 
-void Menu::Draw(SDL_Renderer* ren)
+void Menu::Draw(SDL_Renderer* ren) const
 {
+	SList<Button>::Iterator i = buttons.begin();
 
+	for (; i != buttons.end(); i++)
+	{
+		// *i.Draw();
+	}
 }
 
-void Menu::AddButton(/* Button _button */)
+const SList<Button> Menu::GetButtons() const
 {
-
+	return buttons;
 }
-
-void Menu::RemoveButton(int buttonIndex)
-{
-
-}
-
