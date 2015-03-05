@@ -1,13 +1,15 @@
 //Author:	Mathieu Violette
-//Date:		3/22/2014(MV)
+//Date:		3/22/2014(MV), 3/4/2015(MV)
 
 #include "GameManager.h"
 
 Game* GameManager::newGame = nullptr;
-Uint32 lastUpdateTime = 0, timeSincelastUpdate = 0;
+GameStateManager Game::gameStateManager = GameStateManager::GetInstance();
 
 GameManager::GameManager()
 {
+	lastUpdateTime = 0, timeSincelastUpdate = 0;
+
 	newGame = new Game();
 }
 
@@ -44,8 +46,25 @@ void GameManager::StartProgram()
 			newGame->elaspedTime = timeSincelastUpdate;
 			
 			SDL_PumpEvents();
+
+			//Pre-update: Get mouse state
+			newGame->MouseState = SDL_GetMouseState(&newGame->MouseX, &newGame->MouseY); 
+			
+			//MAIN UPDATE CALL
 			newGame->Update();
+
+			//Post-update: set previous mouse state
+			{
+				newGame->PreviousMouseState = newGame->MouseState;
+				newGame->PreviousMouseX = newGame->MouseX;
+				newGame->PreviousMouseY = newGame->MouseY;
+			}
+
+			//MAIN DRAW CALL
+			SDL_RenderClear(newGame->Renderer);
 			newGame->Draw();
+			SDL_SetRenderDrawColor(newGame->Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+			SDL_RenderPresent(newGame->Renderer);
 		}
 
 	}

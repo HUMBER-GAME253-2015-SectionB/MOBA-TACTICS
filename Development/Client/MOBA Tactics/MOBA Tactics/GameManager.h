@@ -9,6 +9,7 @@ class GameManager
 {
 	private:
 		static Game *newGame;
+		Uint32 lastUpdateTime, timeSincelastUpdate;
 	public:
 		GameManager();
 		~GameManager();

@@ -1,27 +1,21 @@
 //Author:	Mathieu Violette
-//Date:		3/22/2014(MV)
+//Date:		3/22/2014(MV), 3/4/2015(MV)
 
 #include "Game.h"
 
-const Uint8 *KeyState = SDL_GetKeyboardState(NULL);
-int MouseX, MouseY;
-Uint32 MouseState;
-int PreviousMouseX, PreviousMouseY;
-Uint32 PreviousMouseState;
-
-int renWidth, renHeight;
+int StringToInt(const std::string &Text);
 
 Texture *texture;
 TileMap *tiles;
 Character *character;
 vec3 charPos;
 
-int StringToInt(const std::string &Text);
-
 Game::Game()
 {
 	GameIsRunning = true;
 	elaspedTime = 0;
+
+	KeyState = SDL_GetKeyboardState(NULL);
 }
 
 Game::~Game()
@@ -45,7 +39,7 @@ void Game::Init()
 	SDL_Init(SDL_INIT_AUDIO);
 	Window = nullptr;
 
-	Window = SDL_CreateWindow("SDL 2.0.3", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
+	Window = SDL_CreateWindow("MOBA-Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
 
 	Renderer = nullptr;
 	Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -72,36 +66,73 @@ void Game::LoadContent()
 
 void Game::UnloadContent()
 {
-
+	delete texture;
+	delete tiles;
+	delete character;
 }
 
 void Game::Update()
 {
-	MouseState = SDL_GetMouseState(&MouseX, &MouseY);
-	//KeyState = SDL_GetKeyboardState(NULL);	
-
-
-	tiles->Update();
-	character->Update();
-
-
-
-	PreviousMouseState = MouseState;
-	PreviousMouseX = MouseX;
-	PreviousMouseY = MouseY;
+	switch (gameStateManager.GetGameState())
+	{
+		case GameState::NONE:
+			//Start of game, set to login screen
+			gameStateManager.ChangeToGameState(GameState::LOGIN);
+			break;
+		case GameState::LOGIN:
+			break;
+		case GameState::REGISTER:
+			break;
+		case GameState::MAINMENU:
+			break;
+		case GameState::OPTIONS:
+			break;
+		case GameState::TEAM_VIEW:
+			break;
+		case GameState::TEAM_NEW:
+			break;
+		case GameState::TEAM_EDIT:
+			break;
+		case GameState::LOBBY_LIST:
+			break;
+		case GameState::LOBBY_ROOM:
+			break;
+		case GameState::SCENE:
+			tiles->Update();
+			character->Update();
+			break;
+	}
 }
 
 void Game::Draw()
 {
-	SDL_RenderClear(Renderer);
-	/* DRAW CODE START */
+	switch (gameStateManager.GetGameState())
 	{
-		tiles->DrawMap(Renderer);
-		character->Draw(Renderer);
+		case GameState::NONE:
+			break;
+		case GameState::LOGIN:
+			break;
+		case GameState::REGISTER:
+			break;
+		case GameState::MAINMENU:
+			break;
+		case GameState::OPTIONS:
+			break;
+		case GameState::TEAM_VIEW:
+			break;
+		case GameState::TEAM_NEW:
+			break;
+		case GameState::TEAM_EDIT:
+			break;
+		case GameState::LOBBY_LIST:
+			break;
+		case GameState::LOBBY_ROOM:
+			break;
+		case GameState::SCENE:
+			tiles->DrawMap(Renderer);
+			character->Draw(Renderer);
+			break;
 	}
-	/* DRAW CODE END */
-	SDL_SetRenderDrawColor(Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderPresent(Renderer);
 }
 
 void Game::Exit()
