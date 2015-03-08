@@ -7,7 +7,6 @@ int StringToInt(const std::string &Text);
 
 TileMap *tiles;
 Character *character;
-vec3 charPos;
 
 Game::Game()
 {
@@ -58,9 +57,14 @@ void Game::LoadContent()
 	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
 
-	charPos = vec3(1, 0, 1);
-	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 1), Renderer);
-	character->MoveToAdjacentTile(tiles->GetTileAt(1, 0, 1), tiles->GetTileAt(1, 0, 2));
+	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), Renderer);
+
+	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 0, 1)); //Up and right  //Up
+	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 1, 2)); //Down and right  //Right
+	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 1, 0));  //Up and left    //Left
+	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 2, 1)); //Down and left  //Down
+
+	character->Move(tiles, tiles->GetTileAt(1, 8, 3));
 }
 
 void Game::UnloadContent()

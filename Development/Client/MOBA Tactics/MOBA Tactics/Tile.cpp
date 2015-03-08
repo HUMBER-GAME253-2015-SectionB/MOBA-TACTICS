@@ -4,18 +4,19 @@
 
 Tile::Tile()
 {
-	InitializeTile(0, vec2(0, 0), 0, 0);
+	InitializeTile(0, vec2(0, 0), vec3(0, 0, 0), 0, 0);
 }
 
-Tile::Tile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
+Tile::Tile(int _tileID, vec2 _pos, vec3 _gridPos, unsigned _tileWidth, unsigned _tileHeight)
 {
-	InitializeTile(_tileID, _pos, _tileWidth, _tileHeight);
+	InitializeTile(_tileID, _pos, _gridPos, _tileWidth, _tileHeight);
 }
 
-void Tile::InitializeTile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight)
+void Tile::InitializeTile(int _tileID, vec2 _pos, vec3 _gridPos, unsigned _tileWidth, unsigned _tileHeight)
 {
 	SetTileID(_tileID);
 	SetPosition(_pos);
+	SetGridPosition(_gridPos);
 	SetTileWidth(_tileWidth);
 	SetTileHeight(_tileHeight);
 	SetIsHighlighted(false); //Test boolean
@@ -40,6 +41,11 @@ int Tile::GetTileID() const
 vec2 Tile::GetPosition() const
 {
 	return position;
+}
+
+vec3 Tile::GetGridPosition() const
+{
+	return gridPosition;
 }
 
 unsigned Tile::GetTileWidth() const
@@ -75,6 +81,11 @@ void Tile::SetTileID(int num)
 void Tile::SetPosition(vec2 _pos)
 {
 	position = _pos;
+}
+
+void Tile::SetGridPosition(vec3 _gridPos)
+{
+	gridPosition = _gridPos;
 }
 
 void Tile::SetTileWidth(unsigned num)

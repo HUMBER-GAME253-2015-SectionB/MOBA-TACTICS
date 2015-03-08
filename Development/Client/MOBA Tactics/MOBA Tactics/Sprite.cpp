@@ -36,13 +36,13 @@ void Sprite::SetPosition(vec2 value)
 {
 	if (UseOrigin)
 	{
-		rect.x = value.x - origin.x;
-		rect.y = value.y - origin.y;
+		rect.x = (int)value.x - (int)origin.x;
+		rect.y = (int)value.y - (int)origin.y;
 	}
 	else
 	{
-		rect.x = value.x;
-		rect.y = value.y;
+		rect.x = (int)value.x;
+		rect.y = (int)value.y;
 	}
 	position = value;
 }
@@ -54,20 +54,19 @@ vec2 Sprite::GetDimensions()
 
 void Sprite::SetDimensions(vec2 value)
 {
-	rect.w = value.x;
-	rect.h = value.y;
+	rect.w = (int)value.x;
+	rect.h = (int)value.y;
 	dimensions = value;
 }
 
 int Sprite::GetWidth()
 {
-	vec2 m = GetDimensions();
-	return GetDimensions().x;
+	return (int)GetDimensions().x;
 }
 
 int Sprite::GetHeight()
 {
-	return GetDimensions().y;
+	return (int)GetDimensions().y;
 }
 
 SDL_Texture* Sprite::GetImage()
@@ -121,8 +120,8 @@ void Sprite::Initialize(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool us
 
 	if (UseOrigin)
 	{
-		origin.x = (dim.x / 2.0) * scale;
-		origin.y = (dim.y / 2.0) * scale;
+		origin.x = (int)((dim.x / 2.0) * scale);
+		origin.y = (int)((dim.y / 2.0) * scale);
 	}
 	else
 	{
@@ -262,8 +261,8 @@ bool Sprite::CircleCollisionSprite(Sprite* sprite)
 
 void Sprite::SetScale(float value)
 {
-	rect.w = GetDimensions().x * value;
-	rect.h = GetDimensions().y * value;
+	rect.w = (int)((float)GetDimensions().x * value);
+	rect.h = (int)((float)GetDimensions().y * value);
 	Scale = value;
 }
 

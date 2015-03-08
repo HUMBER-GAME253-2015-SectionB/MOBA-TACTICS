@@ -2,24 +2,27 @@
 //Date:		3/4/2014(NH), 3/8/2014 (NH)
 #pragma once
 
+#include "ITileMap.h"
 #include "ITile.h"
 #include "Sprite.h"
 #include "glm/glm.hpp"
-#include "Character.h"
+#include <queue>
 
 using namespace glm;
+using namespace std;
 
 class Character
 {
 public:
 	Character();
 	Character(char *spritePath, ITile *onTile, SDL_Renderer *ren);
-	Character(char *spritePath, vec3 _tilePosition, ITile * nTile, int _maxHealth, int _actionPoints,
+	Character(char *spritePath, ITile * nTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
 	void Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren);
-	void Initialize(char *spritePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
+	void Initialize(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
-	void MoveToAdjacentTile(ITile *fromTile, ITile *toTile);
+	void MoveToAdjacentTile(ITile *toTile);
+	void Move(ITileMap *tileMap, ITile *toTile);
 	void Attack(Character* target);
 	void Defend();
 	//void SpecialAbility(Ability* abilityname); Somethhing like this when special abilities are implemented, 
@@ -30,8 +33,9 @@ public:
 	~Character();
 
 	Sprite* GetSprite();
-	vec3 GetTilePosition();
 	vec2 GetPosition();
+	vec3 GetTileGridPosition();
+	ITile *GetOnTile();
 
 	int GetCurrenttHealth();
 	int GetMaxHealth();
@@ -50,8 +54,7 @@ public:
 	vec2 GetVelocity();
 	bool GetIsMoving();
 
-	void SetSprite(Sprite* _sprite);
-	void SetTilePosition(vec3 tilePos);
+	void SetSprite(Sprite *_sprite);
 	void SetPosition(vec2 pos);
 
 	void SetCurrentHealth(int num);
@@ -71,14 +74,11 @@ public:
 	void SetVelocity(vec2 vec);
 	void SetIsMoving(bool _isMoving);
 	
-	void SetPositionOnTile(ITile *tile);
+	void SetOnTile(ITile *tile);
 
 private:
 	Sprite *sprite;
-
-	vec3 tilePosition;	//Future proofing, if a character can go on 
-						//different layers on the tile map. This is 
-						//why it's a vec3 instead of a vec2.
+	ITile* onTile;
 
 	int currentHealth;
 	int maxHealth;
@@ -94,10 +94,15 @@ private:
 	int level;
 	int skillPoints;
 
+	//Methods and fields only related to moving
+	ITile* GetTargetTile();
+	queue<ITile *>* GetMovementPath();
+
+	void SetTargetTile(ITile *_targetTile);
+	void SetMovementPath(queue<ITile *> *_movementPath);
+
 	bool isMoving;
 	vec2 velocity;
-	vec2 targetPosition;
-
-	vec2 GetTargetPosition();
-	void SetTargetPosition(vec2 _target);
+	ITile* targetTile;
+	queue<ITile *> movementPath;
 };

@@ -64,7 +64,7 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer 
 				{
 					Tile temp;
 					vec2 worldPos;
-					int tileNum, tileWidth, tileHeight, worldX, worldY;
+					int tileNum, tileWidth, tileHeight;
 					element->QueryIntAttribute("gid", &tileNum);//i * GetNumWidth() + j;
 					tileWidth = GetTileWidth();
 					tileHeight = GetTileHeight();
@@ -78,7 +78,7 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer 
 					temp.SetWorldY(worldY);
 					temp.SetIsHighlighted(false);*/
 
-					temp.InitializeTile(tileNum, worldPos, tileWidth, tileHeight);
+					temp.InitializeTile(tileNum, worldPos, vec3(a, i, j), tileWidth, tileHeight);
 
 					tileRow.push_back(temp);
 
@@ -162,8 +162,8 @@ void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 
 	//Render destination
 	SDL_Rect renderQuad;
-	renderQuad.x = tileMap[layer][row][col].GetPosition().x;
-	renderQuad.y = tileMap[layer][row][col].GetPosition().y;
+	renderQuad.x = (int)tileMap[layer][row][col].GetPosition().x;
+	renderQuad.y = (int)tileMap[layer][row][col].GetPosition().y;
 	renderQuad.w = rec.w;
 	renderQuad.h = rec.h;
 
@@ -274,9 +274,9 @@ void TileMap::SetTileSet(TileSet _tileSet)
 	tileSet = _tileSet;
 }
 
-void TileMap::SetTileMap(vector<vector<vector<Tile>>> _tileMap)
+void TileMap::SetTileMap(vector<vector<vector<Tile>>> *_tileMap)
 {
-	tileMap = _tileMap;
+	tileMap = *_tileMap;
 }
 
 TileMap::~TileMap()

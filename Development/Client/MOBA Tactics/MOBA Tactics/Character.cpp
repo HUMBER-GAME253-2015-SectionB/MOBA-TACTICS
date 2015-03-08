@@ -1,6 +1,7 @@
 //Author:	Nicholas Higa
 //Date:		3/4/2014(NH), 3/8/2014 (NH)
 #include "Character.h"
+#include <cstdlib>
 
 Character::Character()
 {
@@ -12,22 +13,21 @@ Character::Character(char *spritePath, ITile *onTile, SDL_Renderer *ren)
 	Initialize(spritePath, onTile, ren);
 }
 
-Character::Character(char *spritePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
+Character::Character(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
-	Initialize(spritePath, _tilePosition, onTile, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
+	Initialize(spritePath, onTile, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
 }
 
 void Character::Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren)
 {
-	Initialize(spritePath, vec3(0, 0, 0), onTile, 100, 10, 10, 10, 1, 1, 0, 0, 0, ren); //Can change later for balance
+	Initialize(spritePath, onTile, 100, 10, 10, 10, 1, 1, 0, 0, 0, ren); //Can change later for balance
 }
 
-void Character::Initialize(char *spritePath, vec3 _tilePosition, ITile * onTile, int _maxHealth, int _actionPoints,
+void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
 	sprite = new Sprite(spritePath, ren, vec2(0, 0));
-	SetTilePosition(_tilePosition);
 	SetPosition(vec2(0, 0)); //Change after
 
 	SetCurrentHealth(_maxHealth);
@@ -43,23 +43,59 @@ void Character::Initialize(char *spritePath, vec3 _tilePosition, ITile * onTile,
 	SetExperience(_experience);
 	SetLevel(_level);
 	SetSkillPoints(_skillPoints);
-	SetPositionOnTile(onTile);
+	SetOnTile(onTile);
 }
 
-void Character::MoveToAdjacentTile(ITile *fromTile, ITile *toTile)
+void Character::MoveToAdjacentTile(ITile *toTile)
 {
 	if (!GetIsMoving())
 	{
-		vec2 startPos = fromTile->GetPosition();
+		vec2 startPos = GetOnTile()->GetPosition();
 		vec2 endPos = toTile->GetPosition();
 		SetIsMoving(true);
 		SetVelocity(vec2((endPos - startPos).x / 10, (endPos - startPos).y / 10));
-
-		vec2 temp = toTile->GetPosition();
-		temp.x = toTile->GetPosition().x + toTile->GetTileWidth() / 2 - GetSprite()->GetWidth() / 2;
-		temp.y = toTile->GetPosition().y - GetSprite()->GetHeight() / 2;
-		SetTargetPosition(temp);
+		SetTargetTile(toTile);
 	}
+}
+
+//This move function does not account for different layers or any obstacle tiles
+//Needs to be improved later on assuming obstacle tiles are required later.
+void Character::Move(ITileMap *tileMap, ITile *toTile)
+{
+	if (!GetIsMoving())
+	{
+		vec3 gridDisplacement;
+		vec3 tileGridPos = GetTileGridPosition();
+		gridDisplacement = toTile->GetGridPosition() - tileGridPos;
+
+		if (rand() % 2)
+		{
+			for (int i = 0; i < (int)gridDisplacement.y; i++)
+			{
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y + (i + 1), (int)tileGridPos.z));
+			}
+
+			for (int i = 0; i < (int)gridDisplacement.z; i++)
+			{
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)toTile->GetGridPosition().y, (int)tileGridPos.z + (i + 1)));
+			}
+		}
+		else
+		{
+			for (int i = 0; i < (int)gridDisplacement.z; i++)
+			{
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y, (int)tileGridPos.z + (i + 1)));
+			}
+
+			for (int i = 0; i < (int)gridDisplacement.y; i++)
+			{
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y + (i + 1), (int)toTile->GetGridPosition().z));
+			}
+		}
+	}
+
+	MoveToAdjacentTile(movementPath.front());
+	movementPath.pop();
 }
 
 void Character::Attack(Character* target)
@@ -85,46 +121,68 @@ void Character::Update()
 	if (GetIsMoving())
 	{
 		vec2 vel = GetVelocity();
-		vec2 targetPos = GetTargetPosition();
+		vec2 targetPos = GetTargetTile()->GetPosition();
+		targetPos.x += GetTargetTile()->GetTileWidth() / 2 - GetSprite()->GetWidth() / 2;
+		targetPos.y -= GetSprite()->GetHeight() / 2;
+
 		vec2 tmp = GetPosition();
 		SetPosition(tmp += GetVelocity());
 		
+		//I could make this the whole next if block into a single if statement if I wanted
+		//to, however this way looks much cleaner and is more readable.
 		//Cases moving right, down
-		if (vel.x > 0 && vel.y > 0)
+		if (vel.x > 0 && vel.y > 0 
+			&& tmp.x > targetPos.x && tmp.y > targetPos.y) 
 		{
-			if (tmp.x > targetPos.x && tmp.y > targetPos.y)
+			SetIsMoving(false);
+			SetOnTile(GetTargetTile());
+
+			if (!GetMovementPath()->empty())
 			{
-				SetIsMoving(false);
-				SetPosition(targetPos);
+				MoveToAdjacentTile(movementPath.front());
+				movementPath.pop();
 			}
 		}
 		//moving left, down
-		else if (vel.x < 0 && vel.y > 0)
+		else if (vel.x < 0 && vel.y > 0 && 
+			tmp.x < targetPos.x && tmp.y > targetPos.y)
 		{
-			if (tmp.x < targetPos.x && tmp.y > targetPos.y)
+			SetIsMoving(false);
+			SetOnTile(GetTargetTile());
+
+			if (!GetMovementPath()->empty())
 			{
-				SetIsMoving(false);
-				SetPosition(targetPos);
+				MoveToAdjacentTile(movementPath.front());
+				movementPath.pop();
 			}
 		}
 		//moving up, right
-		else if (vel.x > 0 && vel.y < 0)
+		else if (vel.x > 0 && vel.y < 0 && 
+			tmp.x > targetPos.x && tmp.y < targetPos.y)
 		{
-			if (tmp.x > targetPos.x && tmp.y < targetPos.y)
+			SetIsMoving(false);
+			SetOnTile(GetTargetTile());
+
+			if (!GetMovementPath()->empty())
 			{
-				SetIsMoving(false);
-				SetPosition(targetPos);
+				MoveToAdjacentTile(movementPath.front());
+				movementPath.pop();
 			}
 		}
 		//moving up, left
-		else if (vel.x < 0 && vel.y < 0)
+		else if (vel.x < 0 && vel.y < 0 &&
+			tmp.x < targetPos.x && tmp.y < targetPos.y)
 		{
-			if (tmp.x < targetPos.x && tmp.y < targetPos.y)
+			SetIsMoving(false);
+			SetOnTile(GetTargetTile());
+
+			if (!GetMovementPath()->empty())
 			{
-				SetIsMoving(false);
-				SetPosition(targetPos);
+				MoveToAdjacentTile(movementPath.front());
+				movementPath.pop();
 			}
 		}
+
 		SetDefense(0);
 	}
 }
@@ -144,14 +202,19 @@ Sprite* Character::GetSprite()
 	return sprite;
 }
 
-vec3 Character::GetTilePosition()
-{
-	return tilePosition;
-}
-
 vec2 Character::GetPosition()
 {
 	return GetSprite()->GetPosition();
+}
+
+vec3 Character::GetTileGridPosition()
+{
+	return GetOnTile()->GetGridPosition();
+}
+
+ITile *Character::GetOnTile()
+{
+	return onTile;
 }
 
 int Character::GetCurrenttHealth()
@@ -224,27 +287,18 @@ bool Character::GetIsMoving()
 	return isMoving;
 }
 
-vec2 Character::GetTargetPosition()
-{
-	return targetPosition;
-}
-
-void Character::SetPositionOnTile(ITile *tile)
+void Character::SetOnTile(ITile *tile)
 {
 	vec2 temp;
 	temp.x = tile->GetPosition().x + tile->GetTileWidth() / 2 - GetSprite()->GetWidth() / 2;
 	temp.y = tile->GetPosition().y - GetSprite()->GetHeight() / 2;
 	SetPosition(temp);
+	onTile = tile;
 }
 
 void Character::SetSprite(Sprite *_sprite)
 {
 	sprite = _sprite;
-}
-
-void Character::SetTilePosition(vec3 tilePos)
-{
-	tilePosition = tilePos;
 }
 
 void Character::SetPosition(vec2 pos)
@@ -322,7 +376,23 @@ void Character::SetIsMoving(bool _isMoving)
 	isMoving = _isMoving;
 }
 
-void Character::SetTargetPosition(vec2 _target)
+//Private methods
+ITile* Character::GetTargetTile()
 {
-	targetPosition = _target;
+	return targetTile;
+}
+
+queue<ITile *>* Character::GetMovementPath()
+{
+	return &movementPath;
+}
+
+void Character::SetTargetTile(ITile *_targetTile)
+{
+	targetTile = _targetTile;
+}
+
+void Character::SetMovementPath(queue<ITile *> *_movementPath)
+{
+	movementPath = *_movementPath;
 }

@@ -13,13 +13,14 @@ class Tile : public ITile
 {
 public:
 	Tile();
-	Tile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
-	void InitializeTile(int _tileID, vec2 _pos, unsigned _tileWidth, unsigned _tileHeight);
+	Tile(int _tileID, vec2 _pos, vec3 _gridPos, unsigned _tileWidth, unsigned _tileHeight);
+	void InitializeTile(int _tileID, vec2 _pos, vec3 _gridPos, unsigned _tileWidth, unsigned _tileHeight);
 	void RemoveCharacter();
 	~Tile();
 
 	int GetTileID() const;
 	vec2 GetPosition() const;
+	vec3 GetGridPosition() const;
 	unsigned GetTileWidth() const;
 	unsigned GetTileHeight() const;
 	bool GetIsOccupied() const;
@@ -28,6 +29,7 @@ public:
 
 	void SetTileID(int num);
 	void SetPosition(vec2 _pos);
+	void SetGridPosition(vec3 _gridPos);
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
 	void SetIsHighlighted(bool value);
@@ -36,6 +38,7 @@ public:
 private:
 	int tileID;
 	vec2 position;
+	vec3 gridPosition;
 	unsigned tileWidth;
 	unsigned tileHeight;
 	Character* character;

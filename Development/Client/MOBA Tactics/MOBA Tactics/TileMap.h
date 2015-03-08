@@ -6,6 +6,7 @@
 #include <vector>
 #include "Tile.h"
 #include "TileSet.h"
+#include "ITileMap.h"
 #include "glm/glm.hpp"
 
 using namespace std;
@@ -22,7 +23,7 @@ struct HighlightTexture
 	bool isFadingOut;
 };
 
-class TileMap
+class TileMap : public ITileMap
 {
 public:
 	TileMap(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren);
@@ -53,7 +54,7 @@ public:
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
 	void SetTileSet(TileSet _tileSet);
-	void SetTileMap(vector<vector<vector<Tile>>> _tileMap);
+	void SetTileMap(vector<vector<vector<Tile>>> *_tileMap);
 	void SetHighlightColor(Uint8 r, Uint8 g, Uint8 b);
 
 	~TileMap();

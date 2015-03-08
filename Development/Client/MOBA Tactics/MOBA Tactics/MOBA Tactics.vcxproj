@@ -96,6 +96,7 @@
     <ClInclude Include="ClientAPI.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IGame.h" />
+    <ClInclude Include="ITileMap.h" />
     <ClInclude Include="LobbyList.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
