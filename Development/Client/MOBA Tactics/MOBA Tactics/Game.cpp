@@ -5,7 +5,6 @@
 
 int StringToInt(const std::string &Text);
 
-Texture *texture;
 TileMap *tiles;
 Character *character;
 vec3 charPos;
@@ -55,18 +54,17 @@ void Game::Init()
 
 void Game::LoadContent()
 {
-	texture = new Texture();
 	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/HighlightTile.png", Renderer);
 	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
 
 	charPos = vec3(1, 0, 1);
 	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 1), Renderer);
+	character->MoveToAdjacentTile(tiles->GetTileAt(1, 0, 1), tiles->GetTileAt(1, 0, 2));
 }
 
 void Game::UnloadContent()
 {
-	delete texture;
 	delete tiles;
 	delete character;
 }
@@ -77,7 +75,10 @@ void Game::Update()
 	{
 		case GameState::NONE:
 			//Start of game, set to login screen
-			gameStateManager.ChangeToGameState(GameState::LOGIN);
+			//gameStateManager.ChangeToGameState(GameState::LOGIN);
+
+			//Remove this after, used to test game portion
+			gameStateManager.ChangeToGameState(GameState::SCENE);
 			break;
 		case GameState::SCENE:
 			tiles->Update();

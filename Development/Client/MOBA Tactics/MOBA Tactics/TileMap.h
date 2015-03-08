@@ -1,7 +1,8 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH)
+//Date:		3/4/2014(NH), 3/8/2014 (NH)
 #pragma once
 
+#include "tinyxml2.h"
 #include <vector>
 #include "Tile.h"
 #include "TileSet.h"
@@ -9,10 +10,11 @@
 
 using namespace std;
 using namespace glm;
+using namespace tinyxml2;
 
 struct HighlightTexture
 {
-	Texture *texture;
+	Sprite *sprite;
 	Uint8 minAlpha;
 	Uint8 maxAlpha;
 	Uint8 r, g, b, alpha;
@@ -28,7 +30,7 @@ public:
 	bool LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren);
 	void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight);
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
-	void InitHightlightTexture(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
+	void InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
 	void HighlightTile(int layer, int row, int col);
 	void DrawTile(int layer, int row, int col, SDL_Renderer *ren);
 	void DrawMap(SDL_Renderer *ren);

@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH)
+//Date:		3/4/2014(NH), 3/8/2014 (NH)
 #include "Character.h"
 
 Character::Character()
@@ -7,29 +7,26 @@ Character::Character()
 
 }
 
-Character::Character(char *texturePath, ITile *onTile, SDL_Renderer *ren)
+Character::Character(char *spritePath, ITile *onTile, SDL_Renderer *ren)
 {
-	Initialize(texturePath, onTile, ren);
+	Initialize(spritePath, onTile, ren);
 }
 
-Character::Character(char *texturePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
+Character::Character(char *spritePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
-	Initialize(texturePath, _tilePosition, onTile, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
+	Initialize(spritePath, _tilePosition, onTile, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
 }
 
-void Character::Initialize(char *texturePath, ITile *onTile, SDL_Renderer *ren)
+void Character::Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren)
 {
-	texture = new Texture();
-	texture->LoadFromFile(texturePath, ren);
-	Initialize(texturePath, vec3(0, 0, 0), onTile, 100, 10, 10, 10, 1, 1, 0, 0, 0, ren); //Can change later for balance
+	Initialize(spritePath, vec3(0, 0, 0), onTile, 100, 10, 10, 10, 1, 1, 0, 0, 0, ren); //Can change later for balance
 }
 
-void Character::Initialize(char *texturePath, vec3 _tilePosition, ITile * onTile, int _maxHealth, int _actionPoints,
+void Character::Initialize(char *spritePath, vec3 _tilePosition, ITile * onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
-	texture = new Texture();
-	texture->LoadFromFile(texturePath, ren);
+	sprite = new Sprite(spritePath, ren, vec2(0, 0));
 	SetTilePosition(_tilePosition);
 	SetPosition(vec2(0, 0)); //Change after
 
@@ -59,8 +56,8 @@ void Character::MoveToAdjacentTile(ITile *fromTile, ITile *toTile)
 		SetVelocity(vec2((endPos - startPos).x / 10, (endPos - startPos).y / 10));
 
 		vec2 temp = toTile->GetPosition();
-		temp.x = toTile->GetPosition().x + toTile->GetTileWidth() / 2 - GetTexture()->GetWidth() / 2;
-		temp.y = toTile->GetPosition().y - GetTexture()->GetHeight() / 2;
+		temp.x = toTile->GetPosition().x + toTile->GetTileWidth() / 2 - GetSprite()->GetWidth() / 2;
+		temp.y = toTile->GetPosition().y - GetSprite()->GetHeight() / 2;
 		SetTargetPosition(temp);
 	}
 }
@@ -134,17 +131,17 @@ void Character::Update()
 
 void Character::Draw(SDL_Renderer *ren)
 {
-	texture->Render(position.x, position.y, NULL, ren);
+	sprite->Draw(ren);
 }
 
 Character::~Character()
 {
-	delete texture;
+	delete sprite;
 }
 
-Texture* Character::GetTexture()
+Sprite* Character::GetSprite()
 {
-	return texture;
+	return sprite;
 }
 
 vec3 Character::GetTilePosition()
@@ -154,7 +151,7 @@ vec3 Character::GetTilePosition()
 
 vec2 Character::GetPosition()
 {
-	return position;
+	return GetSprite()->GetPosition();
 }
 
 int Character::GetCurrenttHealth()
@@ -235,14 +232,14 @@ vec2 Character::GetTargetPosition()
 void Character::SetPositionOnTile(ITile *tile)
 {
 	vec2 temp;
-	temp.x = tile->GetPosition().x + tile->GetTileWidth() / 2 - GetTexture()->GetWidth() / 2;
-	temp.y = tile->GetPosition().y - GetTexture()->GetHeight() / 2;
+	temp.x = tile->GetPosition().x + tile->GetTileWidth() / 2 - GetSprite()->GetWidth() / 2;
+	temp.y = tile->GetPosition().y - GetSprite()->GetHeight() / 2;
 	SetPosition(temp);
 }
 
-void Character::SetTexture(Texture *_texture)
+void Character::SetSprite(Sprite *_sprite)
 {
-	texture = _texture;
+	sprite = _sprite;
 }
 
 void Character::SetTilePosition(vec3 tilePos)
@@ -252,7 +249,7 @@ void Character::SetTilePosition(vec3 tilePos)
 
 void Character::SetPosition(vec2 pos)
 {
-	position = pos;
+	GetSprite()->SetPosition(pos);
 }
 
 void Character::SetCurrentHealth(int num)

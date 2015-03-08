@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH)
+//Date:		3/4/2014(NH), 3/8/2014 (NH)
 #include "TileMap.h"
 
 TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)
@@ -10,12 +10,12 @@ TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)
 TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, string highlightTexturePath, SDL_Renderer *ren)
 {
 	LoadFromFile(xmlFilePath, _worldPosition, ren);
-	InitHightlightTexture(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
+	InitHightlightSprite(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
 }
 
 bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)
 {
-	XMLDocument doc;
+	tinyxml2::XMLDocument doc;
 	const char *texturePath;
 	int _numWidth, _numHeight, mapTileWidth, mapTileHeight, tileSetWidth, tileSetHeight, numLayers;
 	XMLElement* layerElement;
@@ -118,12 +118,11 @@ void TileMap::InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tile
 	tileSet.Initialize(texturePath, _tileWidth, _tileHeight, ren);
 }
 
-void TileMap::InitHightlightTexture(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren)
+void TileMap::InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren)
 {
-	hlTexture.texture = new Texture();
-	hlTexture.texture->LoadFromFile(highlightTexturePath, ren);
-	hlTexture.texture->SetBlendMode(SDL_BLENDMODE_BLEND);
-	hlTexture.texture->SetAlpha((minAlpha + maxAlpha) / 2);
+	hlTexture.sprite = new Sprite(highlightTexturePath, ren, vec2(0, 0));
+	hlTexture.sprite->SetBlendMode(SDL_BLENDMODE_BLEND);
+	hlTexture.sprite->SetAlpha((minAlpha + maxAlpha) / 2);
 	hlTexture.alpha = (minAlpha + maxAlpha) / 2;
 	hlTexture.minAlpha = minAlpha;
 	hlTexture.maxAlpha = maxAlpha;
@@ -134,7 +133,7 @@ void TileMap::InitHightlightTexture(string highlightTexturePath, Uint8 r, Uint8 
 
 void TileMap::SetHighlightColor(Uint8 r, Uint8 g, Uint8 b)
 {
-	hlTexture.texture->SetColor(r, g, b);
+	hlTexture.sprite->SetColor(r, g, b);
 	hlTexture.r = r;
 	hlTexture.g = g;
 	hlTexture.b = b;
@@ -155,15 +154,25 @@ void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 	if (tileSetRowCol == 0)
 		tileSetRowCol = tileSet.GetNumWidth();
 
+	//Clipping rectangle
 	rec.x = tileSetRowCol * tileSet.GetTileWidth() - tileSet.GetTileWidth();
 	rec.y = ((tileMap[layer][row][col].GetTileID() - tileSetRowCol) / tileSet.GetNumWidth()) * tileSet.GetTileHeight();
 	rec.w = tileSet.GetTileWidth();
 	rec.h = tileSet.GetTileHeight();
 
-	tileSet.GetTileSetTexture()->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, &rec, ren);
+	//Render destination
+	SDL_Rect renderQuad;
+	renderQuad.x = tileMap[layer][row][col].GetPosition().x;
+	renderQuad.y = tileMap[layer][row][col].GetPosition().y;
+	renderQuad.w = rec.w;
+	renderQuad.h = rec.h;
+
+	//tileSet.GetTileSetTexture()->Draw(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, &rec, ren);
+	SDL_RenderCopy(ren, tileSet.GetTileSetSprite()->GetImage(), &rec, &renderQuad);
 
 	if (tileMap[layer][row][col].GetIsHighlighted())
-		hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
+		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
+		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
 }
 
 void TileMap::Update()
@@ -178,7 +187,7 @@ void TileMap::Update()
 	else if (hlTexture.alpha > hlTexture.maxAlpha)
 		hlTexture.isFadingOut = true;
 
-	hlTexture.texture->SetAlpha(hlTexture.alpha);
+	hlTexture.sprite->SetAlpha(hlTexture.alpha);
 }
 
 void TileMap::DrawMap(SDL_Renderer *ren)
@@ -272,7 +281,7 @@ void TileMap::SetTileMap(vector<vector<vector<Tile>>> _tileMap)
 
 TileMap::~TileMap()
 {
-	delete hlTexture.texture;
+	delete hlTexture.sprite;
 }
 
 //Don't think this is an efficient method since it has to update every single tile's position.

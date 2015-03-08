@@ -1,15 +1,12 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH)
+//Date:		3/4/2014(NH), 3/8/2014 (NH)
 #pragma once
 
-#include "tinyxml2.h"
-#include "Texture.h"
 #include "Character.h"
 #include "glm/glm.hpp"
 #include "ITile.h"
 
 using namespace std;
-using namespace tinyxml2;
 using namespace glm;
 
 class Tile : public ITile

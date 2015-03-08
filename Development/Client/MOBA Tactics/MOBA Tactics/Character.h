@@ -1,9 +1,9 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH)
+//Date:		3/4/2014(NH), 3/8/2014 (NH)
 #pragma once
 
 #include "ITile.h"
-#include "Texture.h"
+#include "Sprite.h"
 #include "glm/glm.hpp"
 #include "Character.h"
 
@@ -13,11 +13,11 @@ class Character
 {
 public:
 	Character();
-	Character(char *texturePath, ITile *onTile, SDL_Renderer *ren);
-	Character(char *texturePath, vec3 _tilePosition, ITile * nTile, int _maxHealth, int _actionPoints,
+	Character(char *spritePath, ITile *onTile, SDL_Renderer *ren);
+	Character(char *spritePath, vec3 _tilePosition, ITile * nTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
-	void Initialize(char *texturePath, ITile *onTile, SDL_Renderer *ren);
-	void Initialize(char *texturePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
+	void Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren);
+	void Initialize(char *spritePath, vec3 _tilePosition, ITile *onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
 	void MoveToAdjacentTile(ITile *fromTile, ITile *toTile);
 	void Attack(Character* target);
@@ -29,7 +29,7 @@ public:
 	void Draw(SDL_Renderer *ren);
 	~Character();
 
-	Texture* GetTexture();
+	Sprite* GetSprite();
 	vec3 GetTilePosition();
 	vec2 GetPosition();
 
@@ -50,7 +50,7 @@ public:
 	vec2 GetVelocity();
 	bool GetIsMoving();
 
-	void SetTexture(Texture* _texture);
+	void SetSprite(Sprite* _sprite);
 	void SetTilePosition(vec3 tilePos);
 	void SetPosition(vec2 pos);
 
@@ -74,12 +74,11 @@ public:
 	void SetPositionOnTile(ITile *tile);
 
 private:
-	Texture *texture;
+	Sprite *sprite;
 
 	vec3 tilePosition;	//Future proofing, if a character can go on 
 						//different layers on the tile map. This is 
 						//why it's a vec3 instead of a vec2.
-	vec2 position;		//Coordinate position
 
 	int currentHealth;
 	int maxHealth;
