@@ -1,5 +1,5 @@
 //Author:	David Vo, Mathieu Violette
-//Date:		2/23/2014(DV), 3/5/2015(MV)
+//Date:		2/23/2015(DV), 3/5/2015(MV)
 
 #ifndef __OPTIONS_H_INCLUDED__
 #define __OPTIONS_H_INCLUDED__

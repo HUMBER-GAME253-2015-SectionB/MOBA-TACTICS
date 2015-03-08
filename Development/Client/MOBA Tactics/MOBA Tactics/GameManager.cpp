@@ -62,10 +62,14 @@ void GameManager::StartProgram()
 			}
 
 			//MAIN DRAW CALL
-			SDL_RenderClear(newGame->Renderer);
+			SDL_RenderClear(ClientAPI::mainRenderer);
+			newGame->Draw();
+			SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+			SDL_RenderPresent(ClientAPI::mainRenderer);
+			/*SDL_RenderClear(newGame->Renderer);
 			newGame->Draw();
 			SDL_SetRenderDrawColor(newGame->Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-			SDL_RenderPresent(newGame->Renderer);
+			SDL_RenderPresent(newGame->Renderer);*/
 		}
 
 	}
