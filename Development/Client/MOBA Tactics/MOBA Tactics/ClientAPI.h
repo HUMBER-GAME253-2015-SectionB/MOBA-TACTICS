@@ -1,5 +1,5 @@
 //Author:	David Vo
-//Date:		2/23/2014(DV)
+//Date:		2/23/2015(DV)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
@@ -25,26 +25,29 @@ class ClientAPI
 {
 
 public:
-	SDL_Surface imageLoader(const char* _imgURL) {
-		SDL_Surface *tempSurface = IMG_Load(_imgURL);
-		//tempSurface = IMG_Load("..\\Content\\Images\\humber_logo.jpg");
-		return *tempSurface;
-	}
 
-	SDL_Rect createRectangle(int _x, int _y, int _width, int _height) {
-		SDL_Rect tempRect;
-		tempRect.x = _x;
-		tempRect.y = _y;
-		tempRect.w = _width;
-		tempRect.h = _height;
-		return tempRect;
-	}
+	static SDL_Window *mainWindow;
+	static SDL_Renderer *mainRenderer;
+	static SDL_Surface *mainSurface;
 
-	//SDL_Texture createTexture(SDL_Renderer* _renderer, SDL_Surface* _image) {
-	//	SDL_Texture *tempTexture;
-	//	tempTexture = SDL_CreateTextureFromSurface(_renderer, _image);
-	//	return *tempTexture;
-	//}
+	static Mix_Music* mainMusic;
+	static Mix_Chunk* _audioChannel;
+	static Mix_Chunk* _audioChannel1;
+	static Mix_Chunk* _audioChannel2;
+	static Mix_Chunk* _audioChannel3;
+
+	static TTF_Font* mainFont;
+
+	static enum colorList
+	{
+		White, Red, Black, Blue, Green, Purple
+	};
+
+	static SDL_Texture* createTexture(std::string _imgURL);
+	static SDL_Rect createRectangle(int _x, int _y, int _width, int _height);
+	static Mix_Music* loadMusic(std::string _musicURL);
+	static Mix_Chunk* loadSFX(std::string _sfxURL);
+	static TTF_Font* loadFont(std::string _fontURL, int _fontSize);
 
 private:
 	ClientAPI() {}

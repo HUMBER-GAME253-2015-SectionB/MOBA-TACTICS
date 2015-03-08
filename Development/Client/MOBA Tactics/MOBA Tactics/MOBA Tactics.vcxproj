@@ -74,7 +74,11 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonHandler.cpp" />
     <ClCompile Include="Character.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="EventManager.cpp" />
+=======
+    <ClCompile Include="ClientAPI.cpp" />
+>>>>>>> origin/Client
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
@@ -84,6 +88,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -110,6 +115,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Tile.h" />

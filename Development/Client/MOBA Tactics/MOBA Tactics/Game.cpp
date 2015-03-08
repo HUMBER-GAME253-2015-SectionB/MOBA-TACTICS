@@ -22,8 +22,8 @@ Game::Game()
 
 Game::~Game()
 {
-	SDL_DestroyRenderer(Renderer);
-	SDL_DestroyWindow(Window);
+	SDL_DestroyRenderer(ClientAPI::mainRenderer);
+	SDL_DestroyWindow(ClientAPI::mainWindow);
 	Mix_Quit();
 	TTF_Quit();
 	IMG_Quit();
@@ -39,16 +39,19 @@ void Game::Init()
 	TTF_Init();
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 	SDL_Init(SDL_INIT_AUDIO);
-	Window = nullptr;
+	ClientAPI::mainWindow = nullptr;
 
-	Window = SDL_CreateWindow("MOBA-Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
+	ClientAPI::mainWindow = SDL_CreateWindow("MOBA-Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
 
-	Renderer = nullptr;
-	Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	ClientAPI::mainRenderer = nullptr;
+	ClientAPI::mainRenderer = SDL_CreateRenderer(ClientAPI::mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	SDL_SetRenderDrawColor(Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 400);
-	SDL_GetRendererOutputSize(Renderer, &renWidth, &renHeight);
+	SDL_GetRendererOutputSize(ClientAPI::mainRenderer, &renWidth, &renHeight);
+
+	ClientAPI::mainRenderer = ClientAPI::mainRenderer;
+	ClientAPI::mainWindow = ClientAPI::mainWindow;
 
 	//Initialize random
 	srand(time(NULL));	
@@ -57,11 +60,11 @@ void Game::Init()
 
 void Game::LoadContent()
 {
-	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/HighlightTile.png", Renderer);
+	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
 
-	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), Renderer);
+	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
 
 	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 0, 1)); //Up and right  //Up
 	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 1, 2)); //Down and right  //Right
@@ -75,6 +78,29 @@ void Game::UnloadContent()
 {
 	delete tiles;
 	delete character;
+
+	//End program
+	Mix_FreeChunk(ClientAPI::_audioChannel);
+	Mix_FreeChunk(ClientAPI::_audioChannel1);
+	Mix_FreeChunk(ClientAPI::_audioChannel2);
+	Mix_FreeChunk(ClientAPI::_audioChannel3);
+
+	ClientAPI::_audioChannel = NULL;
+	ClientAPI::_audioChannel1 = NULL;
+	ClientAPI::_audioChannel2 = NULL;
+	ClientAPI::_audioChannel3 = NULL;
+
+	Mix_FreeMusic(ClientAPI::mainMusic);
+	ClientAPI::mainMusic = NULL;
+
+	SDL_DestroyRenderer(ClientAPI::mainRenderer);
+	SDL_DestroyWindow(ClientAPI::mainWindow);
+	ClientAPI::mainRenderer = NULL;
+	ClientAPI::mainWindow = NULL;
+
+	Mix_Quit();
+	IMG_Quit();
+	SDL_Quit();
 }
 
 void Game::Update()
@@ -102,11 +128,11 @@ void Game::Draw()
 		case GameState::NONE:
 			break;
 		case GameState::SCENE:
-			tiles->DrawMap(Renderer);
-			character->Draw(Renderer);
+			tiles->DrawMap(ClientAPI::mainRenderer);
+			character->Draw(ClientAPI::mainRenderer);
 			break;
 		default:
-			gameStateManager.GetCurrentMenu()->Draw(Renderer);
+			gameStateManager.GetCurrentMenu()->Draw(ClientAPI::mainRenderer);
 			break;
 	}
 }

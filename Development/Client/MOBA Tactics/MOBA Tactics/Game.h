@@ -16,9 +16,9 @@ class Game : public IGame
 	public:
 		bool GameIsRunning;
 		Uint32 elaspedTime;
-		SDL_Window *Window;
+		//SDL_Window *Window;
 		int renWidth, renHeight;
-		SDL_Renderer *Renderer;
+		//SDL_Renderer *Renderer;
 		static GameStateManager gameStateManager;
 		static EventManager eventManager;
 		

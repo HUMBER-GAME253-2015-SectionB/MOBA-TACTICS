@@ -52,7 +52,14 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="EventManager.cpp">
+=======
+    <ClCompile Include="ClientAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+>>>>>>> origin/Client
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -126,10 +133,14 @@
     <ClInclude Include="ITileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="EventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIElement.h">
+=======
+    <ClInclude Include="Scene.h">
+>>>>>>> origin/Client
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
