@@ -74,11 +74,8 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonHandler.cpp" />
     <ClCompile Include="Character.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="EventManager.cpp" />
-=======
     <ClCompile Include="ClientAPI.cpp" />
->>>>>>> origin/Client
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />

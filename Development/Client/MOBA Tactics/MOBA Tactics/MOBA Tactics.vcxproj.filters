@@ -52,14 +52,13 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="EventManager.cpp">
-=======
+		<Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ClientAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
->>>>>>> origin/Client
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
