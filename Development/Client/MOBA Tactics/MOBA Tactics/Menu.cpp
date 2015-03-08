@@ -46,7 +46,7 @@ void Menu::Draw(SDL_Renderer* ren) const
 	}
 }
 
-const SList<Button*> Menu::GetButtons() const
+const SList<Button*>& Menu::GetButtons() const
 {
 	return buttons;
 }

@@ -80,6 +80,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="LobbyList.cpp" />
+    <ClCompile Include="LoginButton.cpp" />
     <ClCompile Include="LoginScreen.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="ITile.h" />
+    <ClInclude Include="LoginButton.h" />
     <ClInclude Include="LoginScreen.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />

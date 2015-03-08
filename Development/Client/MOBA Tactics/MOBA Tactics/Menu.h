@@ -21,7 +21,7 @@ public:
 	virtual void Update();
 	void Draw(SDL_Renderer* ren) const;
 	
-	const SList<Button*> GetButtons() const;
+	const SList<Button*>& GetButtons() const;
 
 };
 

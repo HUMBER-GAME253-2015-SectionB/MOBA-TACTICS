@@ -10,13 +10,15 @@ enum ButtonState{UNPRESSED, PRESSED, HOVER};
 
 class Button : public GUIElement
 {
-private:
+protected:
 	bool isVisible;
-	Sprite *image;
+	Sprite *sprite;
 public:
 
 	ButtonState buttonState;
 	virtual void OnClick() = 0;
+	virtual void OnHover() = 0;
+	virtual void Draw();
 	void Show();
 	void Hide();
 

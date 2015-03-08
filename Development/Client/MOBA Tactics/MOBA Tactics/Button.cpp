@@ -12,3 +12,9 @@ void Button::Hide()
 {
 	isVisible = false;
 }
+
+void Button::Draw()
+{
+	if (isVisible)
+		sprite->Draw(ClientAPI::mainRenderer);
+}
