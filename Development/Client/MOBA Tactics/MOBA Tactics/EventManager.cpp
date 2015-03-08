@@ -13,7 +13,6 @@ EventManager& EventManager::GetInstance()
 
 EventManager::EventManager()
 {
-	test = false;
 }
 
 EventManager::~EventManager()

@@ -19,8 +19,6 @@ public:
 	Uint32 MouseState;
 	int PreviousMouseX, PreviousMouseY;
 	Uint32 PreviousMouseState;
-
-	bool test;
 	
 	static EventManager& GetInstance();
 	~EventManager();

@@ -39,8 +39,8 @@ void Game::Init()
 	TTF_Init();
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 	SDL_Init(SDL_INIT_AUDIO);
+	
 	ClientAPI::mainWindow = nullptr;
-
 	ClientAPI::mainWindow = SDL_CreateWindow("MOBA-Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
 
 	ClientAPI::mainRenderer = nullptr;
