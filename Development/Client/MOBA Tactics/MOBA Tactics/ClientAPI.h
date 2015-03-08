@@ -4,6 +4,8 @@
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
 
+#define WIN32_LEAN_AND_MEAN
+
 #include <ctime>
 #include <SDL.h>
 #include <SDL_image.h>
