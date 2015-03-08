@@ -1,6 +1,7 @@
+#pragma once
+
 #include "SList.h"
 #include "Button.h"
-
 
 class ButtonHandler
 {

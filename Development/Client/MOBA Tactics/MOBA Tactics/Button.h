@@ -1,5 +1,6 @@
 //Author:	Alejandro Zielinsky
 //Date:		3/4/2015(AZ)
+#pragma once
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -20,14 +21,3 @@ public:
 
 };
 
-void Button::onClick()
-{
-
-}
-
-void Button::show()
-{
-
-
-
-}

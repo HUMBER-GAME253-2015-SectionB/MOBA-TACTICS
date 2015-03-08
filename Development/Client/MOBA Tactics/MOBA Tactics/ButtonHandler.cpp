@@ -20,7 +20,7 @@ void ButtonHandler::RemoveAll()
 	registeredBtns->clear();
 }
 
-bool HandleEvent(Button btn)
+bool ButtonHandler::HandleEvent(Button btn)
 {
 	if(btn.btnState == PRESSED)
 	{
