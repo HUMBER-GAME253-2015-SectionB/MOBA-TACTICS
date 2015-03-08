@@ -3,6 +3,10 @@
 
 #include "Game.h"
 
+//FOR DEBUGGING: SWITCH TO DIFFERENT STARTING STATE
+GameState startingState = GameState::LOGIN;
+//GameState startingState = GameState::SCENE;
+
 int StringToInt(const std::string &Text);
 
 TileMap *tiles;
@@ -13,7 +17,7 @@ Game::Game()
 	GameIsRunning = true;
 	elaspedTime = 0;
 
-	KeyState = SDL_GetKeyboardState(NULL);
+	eventManager.KeyState = SDL_GetKeyboardState(NULL);
 }
 
 Game::~Game()
@@ -64,7 +68,7 @@ void Game::LoadContent()
 	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 1, 0));  //Up and left    //Left
 	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 2, 1)); //Down and left  //Down
 
-	character->Move(tiles, tiles->GetTileAt(1, 8, 3));
+	//character->Move(tiles, tiles->GetTileAt(1, 8, 3));
 }
 
 void Game::UnloadContent()
@@ -79,14 +83,11 @@ void Game::Update()
 	{
 		case GameState::NONE:
 			//Start of game, set to login screen
-			//gameStateManager.ChangeToGameState(GameState::LOGIN);
-
-			//Remove this after, used to test game portion
-			gameStateManager.ChangeToGameState(GameState::SCENE);
+			gameStateManager.ChangeToGameState(startingState);
 			break;
 		case GameState::SCENE:
 			tiles->Update();
-			character->Update();
+			//character->Update();
 			break;
 		default:
 			gameStateManager.GetCurrentMenu()->Update();

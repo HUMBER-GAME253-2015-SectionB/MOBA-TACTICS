@@ -9,6 +9,7 @@
 #include "TileMap.h"
 #include "Character.h"
 #include "GameStateManager.h"
+#include "EventManager.h"
 
 class Game : public IGame
 {
@@ -19,13 +20,8 @@ class Game : public IGame
 		int renWidth, renHeight;
 		SDL_Renderer *Renderer;
 		static GameStateManager gameStateManager;
-
-		const Uint8 *KeyState;
-		int MouseX, MouseY;
-		Uint32 MouseState;
-		int PreviousMouseX, PreviousMouseY;
-		Uint32 PreviousMouseState;
-
+		static EventManager eventManager;
+		
 		Game();
 		~Game();
 		void Init();

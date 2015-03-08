@@ -5,13 +5,13 @@
 
 Game* GameManager::newGame = nullptr;
 GameStateManager Game::gameStateManager = GameStateManager::GetInstance();
+EventManager Game::eventManager = EventManager::GetInstance();
 
 GameManager::GameManager()
 {
 	lastUpdateTime = 0, timeSincelastUpdate = 0;
 
 	newGame = new Game();
-	Game::gameStateManager.SetGameObject(newGame);
 }
 
 GameManager::~GameManager()
@@ -38,33 +38,36 @@ void GameManager::StartProgram()
 				if(evt.type == SDL_QUIT || evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 				{
 					newGame->Exit();
-				}
-				//Event Manager
-				
+				}	
 			}
-		
+			
+			//Event Manager
+			Game::eventManager.ManageEvents(&evt);
+
 			lastUpdateTime = SDL_GetTicks();
 			newGame->elaspedTime = timeSincelastUpdate;
 			
 			SDL_PumpEvents();
-
-			//Pre-update: Get mouse state
-			newGame->MouseState = SDL_GetMouseState(&newGame->MouseX, &newGame->MouseY); 
 			
 			//MAIN UPDATE CALL
 			newGame->Update();
 
 			//Post-update: set previous mouse state
 			{
-				newGame->PreviousMouseState = newGame->MouseState;
-				newGame->PreviousMouseX = newGame->MouseX;
-				newGame->PreviousMouseY = newGame->MouseY;
+				newGame->eventManager.PreviousMouseState = newGame->eventManager.MouseState;
+				newGame->eventManager.PreviousMouseX = newGame->eventManager.MouseX;
+				newGame->eventManager.PreviousMouseY = newGame->eventManager.MouseY;
 			}
 
 			//MAIN DRAW CALL
 			SDL_RenderClear(newGame->Renderer);
 			newGame->Draw();
-			SDL_SetRenderDrawColor(newGame->Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+			if (newGame->eventManager.test)
+				SDL_SetRenderDrawColor(newGame->Renderer, 0xFF, 0x00, 0x00, 0xFF);
+			else
+				SDL_SetRenderDrawColor(newGame->Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
 			SDL_RenderPresent(newGame->Renderer);
 		}
 

@@ -1,23 +1,24 @@
-//Author:	Alejandro Zielinsky
-//Date:		3/4/2015(AZ)
-#pragma once
+//Author:	Alejandro Zielinsky, Kees Vermeulen
+//Date:		3/4/2015(AZ), 3/6/2015(KV)
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
+#pragma once
+#include "GUIElement.h";
+#include "Sprite.h"
 #include <string>
-#include <iostream>
+
 enum ButtonState{UNPRESSED, PRESSED, HOVER};
-class Button
+
+class Button : public GUIElement
 {
 private:
-	SDL_Rect box; 
-
+	bool isVisible;
+	Sprite *image;
 public:
-	Button();
-	void onClick();
-	void show();
-	ButtonState btnState;
+
+	ButtonState buttonState;
+	virtual void OnClick() = 0;
+	void Show();
+	void Hide();
 
 };
 

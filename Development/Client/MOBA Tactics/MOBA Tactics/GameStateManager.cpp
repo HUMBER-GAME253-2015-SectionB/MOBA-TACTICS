@@ -3,8 +3,6 @@
 
 #include "GameStateManager.h"
 
-IGame* GameStateManager::gameObject;
-
 GameStateManager& GameStateManager::GetInstance()
 {
 	static GameStateManager instance;
@@ -33,15 +31,6 @@ IMenu* GameStateManager::GetCurrentMenu() const
 	return currentMenu;
 }
 	
-void GameStateManager::SetGameObject(IGame* _game)
-{
-	if (gameObject == nullptr)
-	{
-		gameObject = _game;
-		Menu::InitMenus(gameObject);
-	}
-}
-
 void GameStateManager::ChangeToGameState(GameState _newGameState)
 {
 	//Unload current state

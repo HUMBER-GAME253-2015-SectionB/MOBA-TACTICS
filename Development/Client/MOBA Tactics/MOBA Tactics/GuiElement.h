@@ -1,31 +1,18 @@
-//Author:	Alejandro Zielinsky
-//Date:		3/4/2015(AZ)
+//Author:	Alejandro Zielinsky, Mathieu Violette
+//Date:		3/4/2015(AZ), 3/8/2015(MV)
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
-#include <string>
-#include <iostream>
+#ifndef GUI_ELEMENT_H
+#define GUI_ELEMENT_H
 
-class GuiElement
+class GUIElement
 {
-private:
-SDL_Rect box;
 
 public:
-GuiElement(int x,int y,int w,int h);
-virtual void Update();
-virtual void Draw();
-virtual void show();
-virtual void hide();
+	virtual void Update() = 0;
+	virtual void Draw() = 0;
+	virtual void Show() = 0;
+	virtual void Hide() = 0;
+
 };
 
-GuiElement::GuiElement(int x,int y,int w,int h)
-{
- //Set the button attributes
- box.x = x;
- box.y = y;
- box.w = w;
- box.h = h;
-
-}
+#endif

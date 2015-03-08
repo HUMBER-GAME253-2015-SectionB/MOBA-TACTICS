@@ -11,20 +11,17 @@
 class Menu : public IMenu
 {
 protected:
-	SList<Button> buttons;
-	static IGame* gameObject;
+	SList<Button*> buttons;
 public:
 	Menu();
 	~Menu();
-
-	static void InitMenus(IGame* _game);
-
+	
 	void Load();
 	void Unload();
 	virtual void Update();
 	void Draw(SDL_Renderer* ren) const;
 	
-	const SList<Button> GetButtons() const;
+	const SList<Button*> GetButtons() const;
 
 };
 

@@ -1,13 +1,14 @@
 //Author:	Mathieu Violette
-//Date:		3/5/2015(MV)
+//Date:		3/5/2015(MV), 3/8/2015(MV)
 
 #include "Menu.h"
 
-IGame* Menu::gameObject = nullptr;
+//To use static members of game class. MUST BE IN CPP FILE.
+#include "Game.h"
 
 Menu::Menu()
 {
-	
+	//Populate List of Buttons in constructor.
 }
 
 Menu::~Menu()
@@ -15,23 +16,17 @@ Menu::~Menu()
 	Unload();
 }
 
-void Menu::InitMenus(IGame* _game)
-{
-	if (gameObject == nullptr)
-		gameObject = _game;
-}
-
 void Menu::Load()
 {
-	
+	//Register Menu
+	Game::eventManager.RegisterMenu(*this);
 }
 
 void Menu::Unload()
 {
-	//Unregister buttons
+	//Unregister menu
+	Game::eventManager.UnregisterMenu(*this);
 	
-
-
 	//Remove buttons from SList
 	buttons.clear();
 }
@@ -43,15 +38,15 @@ void Menu::Update()
 
 void Menu::Draw(SDL_Renderer* ren) const
 {
-	SList<Button>::Iterator i = buttons.begin();
+	SList<Button*>::Iterator i = buttons.begin();
 
 	for (; i != buttons.end(); i++)
 	{
-		// *i.Draw();
+		(*i)->Draw();
 	}
 }
 
-const SList<Button> Menu::GetButtons() const
+const SList<Button*> Menu::GetButtons() const
 {
 	return buttons;
 }

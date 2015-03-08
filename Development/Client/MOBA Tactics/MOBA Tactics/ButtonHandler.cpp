@@ -1,18 +1,28 @@
+//Author:	Kees Vermeulen, Mathieu Violette
+//Date:		3/6/2015(KV), 3/8/2015(MV)
+
 #include "ButtonHandler.h"
 
 ButtonHandler::ButtonHandler()
 {
-	registeredBtns = new SList<Button>();
+	registeredBtns = new SList<Button*>();
 }
 
-void ButtonHandler::SubscribeButton(Button btn)
+void ButtonHandler::SubscribeButton(Button& btn)
 {
-	registeredBtns->push_front(btn);
+	registeredBtns->push_front(&btn);
 }
 
-void ButtonHandler::RemoveButton(int index)
+void ButtonHandler::RemoveButton()
 {
-	registeredBtns->pop_at(index);
+	registeredBtns->pop_front();
+}
+
+void ButtonHandler::RemoveButton(Button& btn)
+{
+	SList<Button*>::Iterator target = registeredBtns->find(&btn);
+	
+	registeredBtns->erase(target);
 }
 
 void ButtonHandler::RemoveAll()
@@ -20,11 +30,11 @@ void ButtonHandler::RemoveAll()
 	registeredBtns->clear();
 }
 
-bool ButtonHandler::HandleEvent(Button btn)
+bool ButtonHandler::HandleEvent(Button* btn)
 {
-	if(btn.btnState == PRESSED)
+	if(btn->buttonState == PRESSED)
 	{
-		btn.onClick();
+		btn->OnClick();
 		return true;
 	}
 	else
@@ -32,14 +42,16 @@ bool ButtonHandler::HandleEvent(Button btn)
 }
 bool ButtonHandler::HandleEvents()
 {
-	for(SList<Button>::Iterator i = registeredBtns->begin(); i != registeredBtns->end(); ++i)
+	for(SList<Button*>::Iterator i = registeredBtns->begin(); i != registeredBtns->end(); ++i)
 	{
 		if(HandleEvent(*i))
 			return true;
 	}
 	return false;
 }
-ButtonHandler ButtonHandler::GetInstance()
+
+ButtonHandler& ButtonHandler::GetInstance()
 {
-	return ButtonHandler();
+	static ButtonHandler instance;
+	return instance;
 }
