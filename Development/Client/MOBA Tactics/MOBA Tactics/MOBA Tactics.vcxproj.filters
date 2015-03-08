@@ -132,14 +132,13 @@
     <ClInclude Include="ITileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="EventManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIElement.h">
-=======
+		<Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Scene.h">
->>>>>>> origin/Client
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
