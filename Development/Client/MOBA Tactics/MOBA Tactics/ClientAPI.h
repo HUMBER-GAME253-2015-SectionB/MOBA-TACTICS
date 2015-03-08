@@ -48,6 +48,7 @@ public:
 	static Mix_Music* loadMusic(std::string _musicURL);
 	static Mix_Chunk* loadSFX(std::string _sfxURL);
 	static TTF_Font* loadFont(std::string _fontURL, int _fontSize);
+	static int StringToInt(const std::string &Text);
 
 private:
 	ClientAPI() {}

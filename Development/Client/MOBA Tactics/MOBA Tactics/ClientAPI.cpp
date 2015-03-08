@@ -84,3 +84,10 @@ TTF_Font* ClientAPI::loadFont(std::string _fontURL, int _fontSize) {
 	}
 	return tempFont;
 }
+
+int ClientAPI::StringToInt(const std::string &Text)
+{
+	std::stringstream ss(Text);
+	int result;
+	return ss >> result ? result : 0;
+}

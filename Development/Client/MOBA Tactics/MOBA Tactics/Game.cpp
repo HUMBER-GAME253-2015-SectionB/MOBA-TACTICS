@@ -7,8 +7,6 @@
 GameState startingState = GameState::LOGIN;
 //GameState startingState = GameState::SCENE;
 
-int StringToInt(const std::string &Text);
-
 TileMap *tiles;
 Character *character;
 
@@ -140,11 +138,4 @@ void Game::Draw()
 void Game::Exit()
 {
 	GameIsRunning = false;
-}
-
-int StringToInt(const std::string &Text)
-{
-	std::stringstream ss(Text);
-	int result;
-	return ss >> result ? result : 0;
 }
