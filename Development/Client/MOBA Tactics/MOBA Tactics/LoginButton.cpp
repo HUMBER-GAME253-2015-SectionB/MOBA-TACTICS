@@ -14,6 +14,8 @@ LoginButton::LoginButton()
 	SDL_Color grey = {0x32, 0x32, 0x32, 0xFF};
 
 	sprite = new Sprite(grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 500, 150));
+	sprite->SetText("Login");
+	sprite->SetTextScale(0.3f);
 }
 
 LoginButton::~LoginButton()

@@ -12,7 +12,7 @@ SDL_Point Sprite::GetOrigin()
 	return origin;
 }
 
-void Sprite::SetOrigin(SDL_Point value)
+void Sprite::SetOrigin(SDL_Point& value)
 {
 	origin = value;
 }
@@ -22,7 +22,7 @@ vec2 Sprite::GetPosition()
 	return position;
 }
 
-void Sprite::SetPosition(vec2 value)
+void Sprite::SetPosition(vec2& value)
 {
 	if (UseOrigin)
 	{
@@ -42,7 +42,7 @@ vec2 Sprite::GetDimensions()
 	return dimensions;
 }
 
-void Sprite::SetDimensions(vec2 value)
+void Sprite::SetDimensions(vec2& value)
 {
 	rect.w = (int)value.x;
 	rect.h = (int)value.y;
@@ -69,6 +69,44 @@ void Sprite::SetImage(SDL_Texture* _image)
 	Image = _image;
 }
 
+std::string& Sprite::GetText()
+{
+	return label;
+}
+
+void Sprite::SetText(char* _text)
+{
+	label = _text;
+
+	if (Text != nullptr)
+		SDL_DestroyTexture(Text);
+
+	SDL_Surface* textSurface = TTF_RenderText_Solid(ClientAPI::mainFont, label.c_str(), labelColor); 
+
+	Text = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, textSurface);
+
+	SDL_FreeSurface(textSurface);
+}
+
+SDL_Color& Sprite::GetTextColor()
+{
+	return labelColor;
+}
+
+void Sprite::SetTextColor(SDL_Color& colour)
+{
+	labelColor = colour;
+}
+
+float Sprite::GetTextScale()
+{
+	return labelScale;
+}
+
+void Sprite::SetTextScale(float scale)
+{
+	labelScale = scale;
+}
 
 //===========================
 //  CONSTRUCTOR / DESTRUCTOR
@@ -108,6 +146,9 @@ Sprite::Sprite(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin, fl
 
 void Sprite::Initialize(int width, int height, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
+	label = "";
+	labelColor = ClientAPI::Color.Black;
+
 	UseOrigin = useOrigin;
 	InitialScale = scale;
 	SetPosition(pos);
@@ -143,7 +184,21 @@ Sprite::~Sprite()
 
 void Sprite::Draw(SDL_Renderer* ren)
 {
-	SDL_RenderCopyEx(ren, Image, NULL, &rect, Rotation, &origin, SpriteEffect);
+	if (Image != nullptr)
+		SDL_RenderCopyEx(ren, Image, NULL, &rect, Rotation, &origin, SpriteEffect);
+
+	if (Text != nullptr)
+	{
+		float scale = Scale * labelScale;
+		int x = rect.x + ((rect.w / 2.0f) - (rect.w * scale * 0.5f));
+		int y = rect.y + ((rect.h / 2.0f) - (rect.h * scale * 0.5f));
+
+		int w = rect.w * scale;
+		int h = rect.h * scale;
+
+		SDL_Rect textRect = {x, y, w, h};
+		SDL_RenderCopyEx(ren, Text, NULL, &textRect, Rotation, &origin, SpriteEffect);
+	}
 }
 
 void Sprite::Update(Uint32 elaspedTime)

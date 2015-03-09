@@ -15,17 +15,23 @@ class Sprite
 		vec2 position, dimensions;
 		SDL_Point origin;
 		SDL_Rect rect;
+		std::string label;
+		SDL_Color labelColor;
+		float labelScale;
 	public:
 		bool UseOrigin;
 		float Rotation, Scale, InitialScale;
-		SDL_Texture *Image;
+		SDL_Texture *Image, *Text;
 		SDL_RendererFlip SpriteEffect;
 
+		std::string& GetText();
 		vec2 GetPosition(), GetDimensions();
 		int GetWidth(), GetHeight();
+		float GetTextScale();
 		SDL_Texture* GetImage();
 		SDL_Point GetOrigin();
-		void SetOrigin(SDL_Point), SetPosition(vec2), SetDimensions(vec2);
+		SDL_Color& GetTextColor();
+		void SetOrigin(SDL_Point&), SetPosition(vec2&), SetDimensions(vec2&), SetText(char*), SetTextColor(SDL_Color&), SetTextScale(float);
 
 		Sprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		Sprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE); 

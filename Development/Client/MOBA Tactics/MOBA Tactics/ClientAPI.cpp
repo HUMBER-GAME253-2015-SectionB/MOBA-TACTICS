@@ -1,5 +1,5 @@
-//Author:	David Vo
-//Date:		2/23/2015(DV)
+//Author:	David Vo, Mathieu Violette
+//Date:		2/23/2015(DV), 3/8/2015(MV)
 
 #include "ClientAPI.h"
 
@@ -15,12 +15,18 @@ Mix_Chunk* ClientAPI::_audioChannel3 = NULL;
 
 TTF_Font* ClientAPI::mainFont = NULL;
 
-//SDL_Color* ClientAPI::White = { 255, 255, 255, 255};
-//SDL_Color* ClientAPI::Red = { 255, 0, 0, 255 };
-//SDL_Color* ClientAPI::Black = { 0, 0, 0, 255 };
-//SDL_Color* ClientAPI::Blue = { 0, 0, 255, 255 };
-//SDL_Color* ClientAPI::Green = { 0, 255, 0, 255 };
-//SDL_Color* ClientAPI::Purple = { 51, 0, 102, 255 };
+Colors::Colors()
+{
+	White = ClientAPI::createColor(255, 255, 255, 255);
+	Red = ClientAPI::createColor(255, 0, 0, 255);
+	Black = ClientAPI::createColor(0, 0, 0, 255);
+	Blue = ClientAPI::createColor(0, 0, 255, 255);
+	Green = ClientAPI::createColor(0, 255, 0, 255);
+	Purple = ClientAPI::createColor(51, 0, 102, 255);
+}
+
+Colors ClientAPI::Color = Colors();
+
 
 SDL_Texture* ClientAPI::createTexture(std::string _imgURL) {
 	SDL_Surface* optimizedSurface = NULL;
@@ -90,4 +96,10 @@ int ClientAPI::StringToInt(const std::string &Text)
 	std::stringstream ss(Text);
 	int result;
 	return ss >> result ? result : 0;
+}
+
+SDL_Color& ClientAPI::createColor(int r, int g, int b, int a)
+{
+	SDL_Color color = {r, g, b, a};
+	return color;
 }

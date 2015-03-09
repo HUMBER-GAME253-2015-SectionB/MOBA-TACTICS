@@ -1,5 +1,5 @@
-//Author:	David Vo
-//Date:		2/23/2015(DV)
+//Author:	David Vo, Mathieu Violette
+//Date:		2/23/2015(DV), 3/8/2015(MV)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
@@ -21,10 +21,26 @@
 #include <string>
 #include <sstream>
 
+struct Colors
+{
+	SDL_Color White; 
+	SDL_Color Red; 
+	SDL_Color Black; 
+	SDL_Color Blue; 
+	SDL_Color Green; 
+	SDL_Color Purple;
+
+	Colors();
+};
+
 class ClientAPI
 {
 
 public:
+
+	static Colors Color;
+
+	static SDL_Color& createColor(int r, int g, int b, int a);
 
 	static SDL_Window *mainWindow;
 	static SDL_Renderer *mainRenderer;
@@ -38,20 +54,14 @@ public:
 
 	static TTF_Font* mainFont;
 
-	static enum colorList
-	{
-		White, Red, Black, Blue, Green, Purple
-	};
-
 	static SDL_Texture* createTexture(std::string _imgURL);
 	static SDL_Rect createRectangle(int _x, int _y, int _width, int _height);
 	static Mix_Music* loadMusic(std::string _musicURL);
 	static Mix_Chunk* loadSFX(std::string _sfxURL);
 	static TTF_Font* loadFont(std::string _fontURL, int _fontSize);
-	static int StringToInt(const std::string &Text);
+	static int StringToInt(const std::string &Text); 
 
-private:
-	ClientAPI() {}
-	~ClientAPI() {}
+
+	
 };
 #endif

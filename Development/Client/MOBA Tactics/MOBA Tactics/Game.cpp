@@ -58,6 +58,8 @@ void Game::Init()
 
 void Game::LoadContent()
 {
+	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/lazy.ttf", 72);
+
 	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
@@ -78,6 +80,8 @@ void Game::UnloadContent()
 	delete character;
 
 	//End program
+	TTF_CloseFont(ClientAPI::mainFont);
+
 	Mix_FreeChunk(ClientAPI::_audioChannel);
 	Mix_FreeChunk(ClientAPI::_audioChannel1);
 	Mix_FreeChunk(ClientAPI::_audioChannel2);
