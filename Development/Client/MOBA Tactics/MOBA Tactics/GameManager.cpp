@@ -33,16 +33,15 @@ void GameManager::StartProgram()
 		if (timeSincelastUpdate >= 16)
 		{
 
-			if( SDL_PollEvent(&evt) )
+			while( SDL_PollEvent(&evt) )
 			{
 				if(evt.type == SDL_QUIT || evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 				{
 					newGame->Exit();
 				}	
-			}
-			
-			//Event Manager
-			Game::eventManager.ManageEvents(&evt);
+				//Event Manager
+				Game::eventManager.ManageEvents(&evt);
+			}			
 
 			lastUpdateTime = SDL_GetTicks();
 			newGame->elaspedTime = timeSincelastUpdate;
@@ -62,7 +61,12 @@ void GameManager::StartProgram()
 			//MAIN DRAW CALL
 			SDL_RenderClear(ClientAPI::mainRenderer);
 			newGame->Draw();
-			SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+			if (Game::eventManager.test)
+				SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0x00, 0x00, 0xFF);
+			else
+				SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+			
 			SDL_RenderPresent(ClientAPI::mainRenderer);
 			
 			/*

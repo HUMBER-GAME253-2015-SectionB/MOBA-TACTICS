@@ -15,9 +15,3 @@ LoginScreen::~LoginScreen()
 }
 
 
-void LoginScreen::Update()
-{
-
-}
-
-

@@ -18,3 +18,8 @@ void Button::Draw()
 	if (isVisible)
 		sprite->Draw(ClientAPI::mainRenderer);
 }
+
+bool Button::CheckMouseCollision(int x, int y)
+{
+	return sprite->CollisionMouse(x, y);
+}

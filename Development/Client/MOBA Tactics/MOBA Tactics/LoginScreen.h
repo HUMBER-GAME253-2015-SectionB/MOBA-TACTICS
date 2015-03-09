@@ -12,8 +12,6 @@ public:
 	LoginScreen();
 	~LoginScreen();
 
-	void Update();
-
 private:
 
 };

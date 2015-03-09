@@ -13,6 +13,7 @@ EventManager& EventManager::GetInstance()
 
 EventManager::EventManager()
 {
+	test = false;
 }
 
 EventManager::~EventManager()
@@ -26,8 +27,13 @@ void EventManager::ManageEvents(SDL_Event *event)
 	MouseState = SDL_GetMouseState(&MouseX, &MouseY); 
 
 	//Check for button click
-	if (event->button.type == SDL_MOUSEBUTTONDOWN && PreviousMouseState != MouseState)
-		buttonHandler.HandleEvents();
+	if (event->button.type == SDL_MOUSEBUTTONDOWN && 
+		event->button.button == SDL_BUTTON_LEFT &&
+		SDL_BUTTON(PreviousMouseState) != SDL_BUTTON(MouseState))
+	{
+		buttonHandler.HandleEventClick(MouseX, MouseY);
+		//test = true;
+	}
 }
 
 void EventManager::RegisterMenu(const Menu& menu)

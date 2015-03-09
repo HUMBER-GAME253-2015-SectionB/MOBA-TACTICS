@@ -12,8 +12,6 @@ public:
 	MainMenu();
 	~MainMenu();
 
-	void Update();
-
 private:
 
 };

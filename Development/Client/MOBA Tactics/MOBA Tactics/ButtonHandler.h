@@ -11,10 +11,9 @@ class ButtonHandler
 private:
 	ButtonHandler();
 	SList<Button*> *registeredBtns;
-	bool HandleEvent(Button* btn);
 public:
 	static ButtonHandler& GetInstance();
-	bool HandleEvents();
+	bool HandleEventClick(int x, int y);
 	void SubscribeButton(Button& btn);
 	void RemoveButton();
 	void RemoveButton(Button& btn);

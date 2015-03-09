@@ -64,6 +64,9 @@
     <ClCompile Include="LoginButton.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="LogoutButton.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -145,6 +148,9 @@
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
     <ClInclude Include="LoginButton.h">
+      <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="LogoutButton.h">
       <Filter>Header Files\Buttons</Filter>
     </ClInclude>
   </ItemGroup>

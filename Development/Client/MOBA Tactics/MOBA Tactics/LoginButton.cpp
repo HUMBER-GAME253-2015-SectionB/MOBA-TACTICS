@@ -10,10 +10,7 @@ LoginButton::LoginButton()
 {
 	isVisible = true;
 
-	SDL_Color black = {0x00, 0x00, 0x00, 0xFF};
-	SDL_Color grey = {0x32, 0x32, 0x32, 0xFF};
-
-	sprite = new Sprite(grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 500, 150));
+	sprite = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
 	sprite->SetText("Login");
 	sprite->SetTextScale(0.3f);
 }
@@ -25,7 +22,7 @@ LoginButton::~LoginButton()
 
 void LoginButton::OnClick()
 {
-
+	Game::gameStateManager.ChangeToGameState(GameState::MAINMENU);
 }
 
 void LoginButton::OnHover()

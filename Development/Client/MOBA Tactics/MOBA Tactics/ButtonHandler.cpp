@@ -30,22 +30,15 @@ void ButtonHandler::RemoveAll()
 	registeredBtns->clear();
 }
 
-bool ButtonHandler::HandleEvent(Button* btn)
-{
-	if(btn->buttonState == PRESSED)
-	{
-		btn->OnClick();
-		return true;
-	}
-	else
-		return false;
-}
-bool ButtonHandler::HandleEvents()
+bool ButtonHandler::HandleEventClick(int x, int y)
 {
 	for(SList<Button*>::Iterator i = registeredBtns->begin(); i != registeredBtns->end(); ++i)
 	{
-		if(HandleEvent(*i))
+		if((*i)->CheckMouseCollision(x, y))
+		{
+			(*i)->OnClick();
 			return true;
+		}
 	}
 	return false;
 }

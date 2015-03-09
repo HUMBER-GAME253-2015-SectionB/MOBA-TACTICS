@@ -21,6 +21,7 @@ public:
 	virtual void Draw();
 	void Show();
 	void Hide();
+	bool CheckMouseCollision(int x, int y);
 
 };
 

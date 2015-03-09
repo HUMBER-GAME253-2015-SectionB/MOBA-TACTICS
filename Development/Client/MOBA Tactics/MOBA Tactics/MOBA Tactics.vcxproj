@@ -82,6 +82,7 @@
     <ClCompile Include="LobbyList.cpp" />
     <ClCompile Include="LoginButton.cpp" />
     <ClCompile Include="LoginScreen.cpp" />
+    <ClCompile Include="LogoutButton.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="ITile.h" />
     <ClInclude Include="LoginButton.h" />
     <ClInclude Include="LoginScreen.h" />
+    <ClInclude Include="LogoutButton.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
