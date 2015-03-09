@@ -51,12 +51,12 @@ void GameManager::StartProgram()
 			//MAIN UPDATE CALL
 			newGame->Update();
 
-			//Post-update: set previous mouse state
-			{
-				newGame->eventManager.PreviousMouseState = newGame->eventManager.MouseState;
-				newGame->eventManager.PreviousMouseX = newGame->eventManager.MouseX;
-				newGame->eventManager.PreviousMouseY = newGame->eventManager.MouseY;
-			}
+			////Post-update: set previous mouse state
+			//{
+			//	newGame->eventManager.PreviousMouseState = newGame->eventManager.MouseState;
+			//	newGame->eventManager.PreviousMouseX = newGame->eventManager.MouseX;
+			//	newGame->eventManager.PreviousMouseY = newGame->eventManager.MouseY;
+			//}
 
 			//MAIN DRAW CALL
 			SDL_RenderClear(ClientAPI::mainRenderer);

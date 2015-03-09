@@ -23,3 +23,22 @@ bool Button::CheckMouseCollision(int x, int y)
 {
 	return sprite->CollisionMouse(x, y);
 }
+
+void Button::Update()
+{
+	if (buttonState == UNPRESSED)
+	{
+		if (isBeingHovered)
+			sprite = spriteHover;
+		else
+			sprite = spriteUnpressed;
+	}
+	else if (buttonState == PRESSED)
+	{
+		if (isBeingHovered)
+			sprite = spritePressed;
+		else
+			sprite = spriteUnpressed;
+	}
+		
+}

@@ -9,15 +9,29 @@
 LogoutButton::LogoutButton()
 {
 	isVisible = true;
+	isBeingHovered = false;
 	
-	sprite = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 200, 624, 150));
-	sprite->SetText("Logout");
-	sprite->SetTextScale(0.3f);
+	spriteUnpressed = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 200, 624, 150));
+	spriteUnpressed->SetText("Logout Unpressed");
+	spriteUnpressed->SetTextScale(0.6f);
+
+	spritePressed = new Sprite(ClientAPI::Color.Blue, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 200, 624, 150));
+	spritePressed->SetText("Logout Pressed");
+	spritePressed->SetTextScale(0.6f);
+
+	spriteHover = new Sprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 200, 624, 150));
+	spriteHover->SetText("Logout Hover");
+	spriteHover->SetTextScale(0.6f);
+
+	buttonState = UNPRESSED;
+	sprite = spriteUnpressed;
 }
 
 LogoutButton::~LogoutButton()
 {
-	delete sprite;
+	delete spritePressed;
+	delete spriteHover;
+	delete spriteUnpressed;
 }
 
 void LogoutButton::OnClick()
@@ -26,11 +40,6 @@ void LogoutButton::OnClick()
 }
 
 void LogoutButton::OnHover()
-{
-
-}
-
-void LogoutButton::Update()
 {
 
 }

@@ -9,15 +9,29 @@
 LoginButton::LoginButton()
 {
 	isVisible = true;
+	isBeingHovered = false;
 
-	sprite = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
-	sprite->SetText("Login");
-	sprite->SetTextScale(0.3f);
+	spriteUnpressed = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
+	spriteUnpressed->SetText("Login Unpressed");
+	spriteUnpressed->SetTextScale(0.6f);
+
+	spritePressed = new Sprite(ClientAPI::Color.Blue, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
+	spritePressed->SetText("Login Pressed");
+	spritePressed->SetTextScale(0.6f);
+
+	spriteHover = new Sprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
+	spriteHover->SetText("Login Hover");
+	spriteHover->SetTextScale(0.6f);
+
+	buttonState = UNPRESSED;
+	sprite = spriteUnpressed;
 }
 
 LoginButton::~LoginButton()
 {
-	delete sprite;
+	delete spritePressed;
+	delete spriteHover;
+	delete spriteUnpressed;
 }
 
 void LoginButton::OnClick()
@@ -26,11 +40,6 @@ void LoginButton::OnClick()
 }
 
 void LoginButton::OnHover()
-{
-
-}
-
-void LoginButton::Update()
 {
 
 }

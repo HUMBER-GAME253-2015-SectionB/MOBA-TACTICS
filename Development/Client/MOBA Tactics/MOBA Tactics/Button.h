@@ -6,18 +6,19 @@
 #include "Sprite.h"
 #include <string>
 
-enum ButtonState{UNPRESSED, PRESSED, HOVER};
+enum ButtonState{UNPRESSED, PRESSED};
 
 class Button : public GUIElement
 {
 protected:
 	bool isVisible;
-	Sprite *sprite;
+	Sprite *sprite, *spriteUnpressed, *spritePressed, *spriteHover;
 public:
-
 	ButtonState buttonState;
+	bool isBeingHovered;
 	virtual void OnClick() = 0;
 	virtual void OnHover() = 0;
+	virtual void Update();
 	virtual void Draw();
 	void Show();
 	void Hide();

@@ -30,17 +30,60 @@ void ButtonHandler::RemoveAll()
 	registeredBtns->clear();
 }
 
-bool ButtonHandler::HandleEventClick(int x, int y)
+bool ButtonHandler::HandleEventMouseDown(int x, int y)
 {
 	for(SList<Button*>::Iterator i = registeredBtns->begin(); i != registeredBtns->end(); ++i)
 	{
 		if((*i)->CheckMouseCollision(x, y))
 		{
-			(*i)->OnClick();
+			(*i)->buttonState = PRESSED;
 			return true;
 		}
 	}
 	return false;
+}
+
+bool ButtonHandler::HandleEventMouseUp(int x, int y)
+{
+	bool succeess = false;
+	SList<Button*>::Iterator target = registeredBtns->begin();
+
+	for (SList<Button*>::Iterator i = registeredBtns->begin(); i != registeredBtns->end(); ++i)
+	{
+		if ((*i)->CheckMouseCollision(x, y) && (*i)->buttonState == PRESSED)
+		{
+			target = i;
+			succeess = true;
+		}
+
+		(*i)->buttonState = UNPRESSED;
+	}
+
+	if (succeess)
+		(*target)->OnClick();
+
+	return succeess;
+}
+
+bool ButtonHandler::HandleEventMouseHover(int x, int y)
+{
+	bool succeess = false;
+
+	for (SList<Button*>::Iterator i = registeredBtns->begin(); i != registeredBtns->end(); ++i)
+	{
+		if ((*i)->CheckMouseCollision(x, y))
+		{
+			(*i)->isBeingHovered = true;
+
+			succeess = true;
+		}
+		else
+		{
+			(*i)->isBeingHovered = false;
+		}
+	}
+
+	return succeess;
 }
 
 ButtonHandler& ButtonHandler::GetInstance()

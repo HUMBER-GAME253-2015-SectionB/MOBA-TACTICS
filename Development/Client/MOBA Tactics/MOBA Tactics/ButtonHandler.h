@@ -13,7 +13,9 @@ private:
 	SList<Button*> *registeredBtns;
 public:
 	static ButtonHandler& GetInstance();
-	bool HandleEventClick(int x, int y);
+	bool HandleEventMouseDown(int x, int y);
+	bool HandleEventMouseUp(int x, int y);
+	bool HandleEventMouseHover(int x, int y);
 	void SubscribeButton(Button& btn);
 	void RemoveButton();
 	void RemoveButton(Button& btn);

@@ -15,7 +15,6 @@ public:
 
 	void OnClick();
 	void OnHover();
-	void Update();
 };
 
 #endif

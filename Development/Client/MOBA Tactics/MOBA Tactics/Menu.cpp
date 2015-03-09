@@ -33,13 +33,17 @@ void Menu::Unload()
 
 void Menu::Update()
 {
+	//Call Update Of Each Button
+	for (SList<Button*>::Iterator i = buttons.begin(); i != buttons.end(); i++)
+	{
+		(*i)->Update();
+	}
 
 }
 
 void Menu::Draw(SDL_Renderer* ren) const
 {
 	SList<Button*>::Iterator i = buttons.begin();
-
 	for (; i != buttons.end(); i++)
 	{
 		(*i)->Draw();
