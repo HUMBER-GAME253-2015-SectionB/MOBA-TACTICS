@@ -70,6 +70,9 @@
     <ClCompile Include="PlayButton.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -158,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="PlayButton.h">
       <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

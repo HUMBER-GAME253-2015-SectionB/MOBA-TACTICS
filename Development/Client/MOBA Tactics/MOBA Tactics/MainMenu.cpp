@@ -11,9 +11,3 @@ MainMenu::MainMenu()
 	buttons.push_front(new PlayButton());
 }
 
-MainMenu::~MainMenu()
-{
-
-}
-
-

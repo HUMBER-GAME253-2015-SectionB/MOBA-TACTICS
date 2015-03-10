@@ -20,6 +20,15 @@ void Menu::Load()
 {
 	//Register Menu
 	Game::eventManager.RegisterMenu(*this);
+
+	//Init Buttons
+	for (SList<Button*>::Iterator i = buttons.begin(); i != buttons.end(); i++)
+	{
+		(*i)->SelectSprite();
+	}
+
+	//Check button hover state
+	Game::eventManager.UpdateHoverState();
 }
 
 void Menu::Unload()

@@ -49,14 +49,8 @@ void GameManager::StartProgram()
 			SDL_PumpEvents();
 			
 			//MAIN UPDATE CALL
+			newGame->gameStateManager.UpdateGameState();
 			newGame->Update();
-
-			////Post-update: set previous mouse state
-			//{
-			//	newGame->eventManager.PreviousMouseState = newGame->eventManager.MouseState;
-			//	newGame->eventManager.PreviousMouseX = newGame->eventManager.MouseX;
-			//	newGame->eventManager.PreviousMouseY = newGame->eventManager.MouseY;
-			//}
 
 			//MAIN DRAW CALL
 			SDL_RenderClear(ClientAPI::mainRenderer);
@@ -68,13 +62,6 @@ void GameManager::StartProgram()
 				SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 			
 			SDL_RenderPresent(ClientAPI::mainRenderer);
-			
-			/*
-			SDL_RenderClear(newGame->Renderer);
-			newGame->Draw();
-			SDL_SetRenderDrawColor(newGame->Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-			SDL_RenderPresent(newGame->Renderer);
-			*/
 
 		}
 

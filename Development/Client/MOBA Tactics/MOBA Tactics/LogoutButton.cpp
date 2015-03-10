@@ -7,10 +7,8 @@
 #include "Game.h"
 
 LogoutButton::LogoutButton()
+	: Button()
 {
-	isVisible = true;
-	isBeingHovered = false;
-	
 	spriteUnpressed = new Sprite(ClientAPI::Color.Purple, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
 	spriteUnpressed->SetText("Logout Unpressed");
 	spriteUnpressed->SetTextScale(0.6f);
@@ -22,21 +20,11 @@ LogoutButton::LogoutButton()
 	spriteHover = new Sprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
 	spriteHover->SetText("Logout Hover");
 	spriteHover->SetTextScale(0.6f);
-
-	buttonState = UNPRESSED;
-	sprite = spriteUnpressed;
-}
-
-LogoutButton::~LogoutButton()
-{
-	delete spritePressed;
-	delete spriteHover;
-	delete spriteUnpressed;
 }
 
 void LogoutButton::OnClick()
 {
-	Game::gameStateManager.ChangeToGameState(GameState::LOGIN);
+	Game::gameStateManager.QueueChangeToGameState(GameState::LOGIN);
 }
 
 void LogoutButton::OnHover()

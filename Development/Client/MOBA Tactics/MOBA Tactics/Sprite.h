@@ -33,6 +33,7 @@ class Sprite
 		SDL_Color& GetTextColor();
 		void SetOrigin(SDL_Point&), SetPosition(vec2&), SetDimensions(vec2&), SetText(char*), SetTextColor(SDL_Color&), SetTextScale(float);
 
+		Sprite(char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		Sprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		Sprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE); 
 		Sprite(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);

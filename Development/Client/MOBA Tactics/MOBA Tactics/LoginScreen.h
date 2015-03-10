@@ -10,9 +10,6 @@ class LoginScreen : public Menu
 {
 public:
 	LoginScreen();
-	~LoginScreen();
-
-private:
 
 };
 

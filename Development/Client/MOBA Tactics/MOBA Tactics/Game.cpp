@@ -111,7 +111,7 @@ void Game::Update()
 	{
 		case GameState::NONE:
 			//Start of game, set to login screen
-			gameStateManager.ChangeToGameState(startingState);
+			gameStateManager.QueueChangeToGameState(startingState);
 			break;
 		case GameState::SCENE:
 			tiles->Update();

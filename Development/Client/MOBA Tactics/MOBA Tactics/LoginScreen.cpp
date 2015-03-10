@@ -9,9 +9,4 @@ LoginScreen::LoginScreen()
 	buttons.push_front(new LoginButton());
 }
 
-LoginScreen::~LoginScreen()
-{
-
-}
-
 

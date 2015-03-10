@@ -11,7 +11,6 @@ class PlayButton : public Button
 
 public:
 	PlayButton();
-	~PlayButton();
 
 	void OnClick();
 	void OnHover();
