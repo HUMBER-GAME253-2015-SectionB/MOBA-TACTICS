@@ -87,6 +87,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="PlayButton.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="PlayButton.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />

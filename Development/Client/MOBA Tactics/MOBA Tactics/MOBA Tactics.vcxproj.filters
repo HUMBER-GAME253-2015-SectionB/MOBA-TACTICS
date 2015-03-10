@@ -67,6 +67,9 @@
     <ClCompile Include="LogoutButton.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
+    <ClCompile Include="PlayButton.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -151,6 +154,9 @@
       <Filter>Header Files\Buttons</Filter>
     </ClInclude>
     <ClInclude Include="LogoutButton.h">
+      <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayButton.h">
       <Filter>Header Files\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
