@@ -3,11 +3,11 @@
 
 #include "Label.h"
 
-Label::Label(std::string _text, SDL_Rect& dimentions)
+Label::Label(char* _text, SDL_Rect& dimentions)
 {
 	text = _text;
 	this->dimentions = dimentions;
-	sprite = new Sprite(text.c_str, dimentions, ClientAPI::mainRenderer);
+	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
 }
 
 
@@ -54,7 +54,7 @@ void Label::SetText(char* _text)
 
 }
 
-char* Label::GetText() const
+std::string Label::GetText() const
 {
-	return text.c_str;
+	return text;
 }

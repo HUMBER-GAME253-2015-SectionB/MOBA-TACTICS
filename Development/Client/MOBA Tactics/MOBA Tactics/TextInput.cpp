@@ -53,7 +53,7 @@ void TextInput::SetText(char* _text)
 
 }
 
-char* TextInput::GetText() const
+std::string TextInput::GetText() const
 {
-	return text.c_str;
+	return text;
 }

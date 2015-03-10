@@ -112,18 +112,20 @@ void Sprite::SetTextScale(float scale)
 //  CONSTRUCTOR / DESTRUCTOR
 //===========================
 
-Sprite::Sprite(char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE)
+//Text Only Constructor
+Sprite::Sprite(char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
 	//Make invisible background
 	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
 	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
 	SetAlpha(0);
-
-	SetText(text);
-	SetTextScale(0.75f);
+	SetBlendMode(SDL_BLENDMODE_BLEND);
 
 	Initialize(dimensions.w, dimensions.h, vec2(dimensions.x, dimensions.y), useOrigin, scale, spriteEffect);
 
+	SetTextScale(0.75f);
+	SetText(text);
+	
 	SDL_FreeSurface(loadedSurface);
 }
 

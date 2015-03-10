@@ -15,7 +15,7 @@ protected:
 	std::string text;
 	SDL_Rect dimentions;
 public:
-	Label(std::string _text, SDL_Rect& dimentions);
+	Label(char* _text, SDL_Rect& dimentions);
 	~Label();
 	void OnClick();
 	void OnHover();
@@ -26,7 +26,7 @@ public:
 	bool CheckMouseCollision(int x, int y);
 
 	void SetText(char* _text);
-	char* GetText() const;
+	std::string GetText() const;
 };
 
 #endif

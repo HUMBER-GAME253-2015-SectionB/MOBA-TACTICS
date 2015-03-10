@@ -91,6 +91,7 @@
     <ClCompile Include="PlayButton.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="TextInput.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />

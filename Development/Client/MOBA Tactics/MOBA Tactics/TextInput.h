@@ -29,7 +29,7 @@ public:
 	bool CheckMouseCollision(int x, int y);
 
 	void SetText(char* _text);
-	char* GetText() const;
+	std::string GetText() const;
 };
 
 #endif
