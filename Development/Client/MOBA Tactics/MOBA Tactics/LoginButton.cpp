@@ -11,7 +11,7 @@ LoginButton::LoginButton()
 	isVisible = true;
 	isBeingHovered = false;
 
-	spriteUnpressed = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
+	spriteUnpressed = new Sprite(ClientAPI::Color.Purple, ClientAPI::mainRenderer, ClientAPI::createRectangle(200, 400, 624, 150));
 	spriteUnpressed->SetText("Login Unpressed");
 	spriteUnpressed->SetTextScale(0.6f);
 
