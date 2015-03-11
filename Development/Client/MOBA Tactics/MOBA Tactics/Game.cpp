@@ -57,14 +57,14 @@ void Game::LoadContent()
 {
 	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/lazy.ttf", 72);
 
-	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(200, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
+	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
 
-	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
+	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 8, 0), ClientAPI::mainRenderer);
 
-	character->Move(tiles, tiles->GetTileAt(1, 8, 3));
+	character->Move(tiles, tiles->GetTileAt(1, 0, 1));
 }
 
 void Game::UnloadContent()
