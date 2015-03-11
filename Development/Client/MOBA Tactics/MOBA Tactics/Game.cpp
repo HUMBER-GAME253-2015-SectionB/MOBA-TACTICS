@@ -4,11 +4,8 @@
 #include "Game.h"
 
 //FOR DEBUGGING: SWITCH TO DIFFERENT STARTING STATE
-//GameState startingState = GameState::LOGIN;
-GameState startingState = GameState::SCENE;
-
-TileMap *tiles;
-Character *character;
+GameState startingState = GameState::LOGIN;
+//GameState startingState = GameState::SCENE;
 
 Game::Game()
 {
@@ -138,4 +135,14 @@ void Game::Draw()
 void Game::Exit()
 {
 	GameIsRunning = false;
+}
+
+void* Game::GetCharacter()
+{
+	return character;
+}
+
+void* Game::GetTileMap()
+{
+	return tiles;
 }

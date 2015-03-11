@@ -6,6 +6,7 @@
 
 #include <SDL.h>
 #include "ButtonHandler.h"
+#include "SceneHandler.h"
 #include "Menu.h"
 
 class EventManager
@@ -13,6 +14,7 @@ class EventManager
 private:
 	EventManager();
 	static ButtonHandler buttonHandler;
+	static SceneHandler sceneHandler; 
 public:
 	const Uint8 *KeyState;
 	int MouseX, MouseY;
@@ -30,6 +32,8 @@ public:
 
 	void RegisterMenu(const Menu& menu);
 	void UnregisterMenu(const Menu& menu);
+
+	SceneHandler* GetSceneHandler();
 };
 
 #endif

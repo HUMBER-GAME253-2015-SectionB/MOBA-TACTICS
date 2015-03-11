@@ -4,6 +4,7 @@
 #include "EventManager.h"
 
 ButtonHandler EventManager::buttonHandler = ButtonHandler::GetInstance();
+SceneHandler EventManager::sceneHandler = SceneHandler::GetInstance();
 
 EventManager& EventManager::GetInstance()
 {
@@ -32,6 +33,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 		SDL_BUTTON(PreviousMouseState) != SDL_BUTTON(MouseState))
 	{
 		buttonHandler.HandleEventMouseDown(MouseX, MouseY);
+		sceneHandler.HandleEventMouseDown(MouseX, MouseY);
 	}
 
 	//Check for left button up
@@ -40,6 +42,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 		SDL_BUTTON(PreviousMouseState) != SDL_BUTTON(MouseState))
 	{
 		buttonHandler.HandleEventMouseUp(MouseX, MouseY);
+		sceneHandler.HandleEventMouseUp(MouseX, MouseY);
 	}
 
 	//Check for mouse movement
@@ -61,6 +64,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 void EventManager::UpdateHoverState()
 {
 	buttonHandler.HandleEventMouseHover(MouseX, MouseY);
+	sceneHandler.HandleEventMouseHover(MouseX, MouseY);
 }
 
 void EventManager::RegisterMenu(const Menu& menu)
@@ -81,4 +85,9 @@ void EventManager::UnregisterMenu(const Menu& menu)
 	{
 		buttonHandler.RemoveButton(*(*i));
 	}
+}
+
+SceneHandler* EventManager::GetSceneHandler()
+{
+	return &sceneHandler;
 }

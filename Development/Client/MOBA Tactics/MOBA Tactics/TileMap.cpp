@@ -234,9 +234,11 @@ bool TileMap::CollisionMouse(int mX, int mY)
 {
 	//Check to make sure TileID not = 0 
 	vec2 tileCoord = ConvertScreenToTileCoordinates(vec2(mX, mY));
-	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() && tileCoord.y < GetNumHeight() 
-		&& GetTileAt(1, tileCoord.x, tileCoord.y)->GetTileID() != 0)
+	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() && tileCoord.y < GetNumHeight()
+		&& GetTileAt(1, (int)tileCoord.x, (int)tileCoord.y)->GetTileID() != 0)
 		return true;
+	else
+		return false;
 }
 
 //Check if tilemap initialized before returning a value.

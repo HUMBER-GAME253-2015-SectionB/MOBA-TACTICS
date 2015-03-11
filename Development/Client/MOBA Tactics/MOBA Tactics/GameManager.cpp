@@ -12,6 +12,7 @@ GameManager::GameManager()
 	lastUpdateTime = 0, timeSincelastUpdate = 0;
 
 	newGame = new Game();
+	Game::eventManager.GetSceneHandler()->SetGame(newGame);
 }
 
 GameManager::~GameManager()

@@ -21,6 +21,9 @@ class Game : public IGame
 		//SDL_Renderer *Renderer;
 		static GameStateManager gameStateManager;
 		static EventManager eventManager;
+
+		TileMap *tiles;
+		Character *character;
 		
 		Game();
 		~Game();
@@ -32,6 +35,9 @@ class Game : public IGame
 		void Update();
 		void Draw();
 		void Exit();	
+
+		void* GetCharacter();
+		void* GetTileMap();
 };
 
 #endif 
