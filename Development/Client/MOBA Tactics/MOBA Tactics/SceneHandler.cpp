@@ -5,12 +5,13 @@
 
 SceneHandler::SceneHandler()
 {
+	prevHighlightedTile = vec3(0, 0, 0);
 }
 
 void SceneHandler::HandleEventMouseDown(int x, int y)
 {
 	//TODO: Figure out why certain tile clicks don't get detected.
-	if (game->GetTileMap()->CollisionMouse(x, y))
+	if (game->GetTileMap()->IsPointOnMap(x, y))
 	{
 		vec2 temp = game->GetTileMap()->ConvertScreenToTileCoordinates(vec2(x, y));
 		printf("Clicked on (%f, %f)\n", temp.x, temp.y);
@@ -25,7 +26,21 @@ void SceneHandler::HandleEventMouseUp(int x, int y)
 
 void SceneHandler::HandleEventMouseHover(int x, int y)
 {
+	if (game->GetTileMap()->IsPointOnMap(x, y))
+	{
+		vec2 temp = game->GetTileMap()->ConvertScreenToTileCoordinates(vec2(x, y));
 
+		if (prevHighlightedTile != vec3(1, temp.y, temp.x))
+		{
+			game->GetTileMap()->SetIsTileHighlighted(true, 1, temp.y, temp.x);
+			game->GetTileMap()->SetIsTileHighlighted(false, prevHighlightedTile.x, prevHighlightedTile.y, prevHighlightedTile.z);
+		}
+		prevHighlightedTile = vec3(1, temp.y, temp.x);
+	}
+	else
+	{
+		game->GetTileMap()->SetIsTileHighlighted(false, prevHighlightedTile.x, prevHighlightedTile.y, prevHighlightedTile.z);
+	}
 }
 
 SceneHandler& SceneHandler::GetInstance()

@@ -12,6 +12,7 @@ class SceneHandler
 private:
 	SceneHandler();
 	Game *game;
+	vec3 prevHighlightedTile;
 public:
 	static SceneHandler& GetInstance();
 	void HandleEventMouseDown(int x, int y);

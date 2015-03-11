@@ -59,7 +59,6 @@ void Game::LoadContent()
 
 	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
-	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
 
 	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 8, 0), ClientAPI::mainRenderer);

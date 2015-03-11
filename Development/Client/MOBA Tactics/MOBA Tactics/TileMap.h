@@ -32,10 +32,10 @@ public:
 	void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight);
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
 	void InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
-	void HighlightTile(int layer, int row, int col);
+	void SetIsTileHighlighted(bool isHighlighted, int layer, int row, int col);
 	void DrawTile(int layer, int row, int col, SDL_Renderer *ren);
 	void DrawMap(SDL_Renderer *ren);
-	bool CollisionMouse(int mX, int mY);
+	bool IsPointOnMap(int mX, int mY);
 	void Update();
 	
 	vec2 ConvertTileToScreenCoordinate(vec2 tileCoord); //Conversion from Tile coordinates ie (1, 3) will be converted to a screen position ie (32, 64) on the screen

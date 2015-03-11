@@ -25,7 +25,6 @@ public:
 	virtual void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight) = 0;
 	virtual void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren) = 0;
 	virtual void InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren) = 0;
-	virtual void HighlightTile(int layer, int row, int col) = 0;
 	virtual void DrawTile(int layer, int row, int col, SDL_Renderer *ren) = 0;
 	virtual void DrawMap(SDL_Renderer *ren) = 0;
 	virtual void Update() = 0;
@@ -39,6 +38,7 @@ public:
 	virtual ITile* GetTileAt(int layer, int row, int col) = 0;
 	//virtual vector<vector<vector<ITile*>>>* GetTileMap() = 0;
 
+	virtual void SetIsTileHighlighted(bool isHighlighted, int layer, int row, int col) = 0;
 	virtual void SetNumWidth(unsigned num) = 0;
 	virtual void SetNumHeight(unsigned num) = 0;
 	virtual void SetNumLayers(unsigned num) = 0;

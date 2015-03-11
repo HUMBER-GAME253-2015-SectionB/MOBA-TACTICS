@@ -142,11 +142,6 @@ void TileMap::SetHighlightColor(Uint8 r, Uint8 g, Uint8 b)
 	hlTexture.b = b;
 }
 
-void TileMap::HighlightTile(int layer, int row, int col)
-{
-	GetTileMap()->at(layer).at(row).at(col).SetIsHighlighted(true);
-}
-
 //Should be noted tiles numbered 0 are empty tiles.
 void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 {
@@ -230,13 +225,11 @@ vec2 TileMap::ConvertScreenToTileCoordinates(vec2 screenCoord)
 	return vec2((int)temp.x, (int)temp.y);
 }  
 
-bool TileMap::CollisionMouse(int mX, int mY)
+bool TileMap::IsPointOnMap(int mX, int mY)
 {
 	//Check to make sure TileID not = 0 
 	vec2 tileCoord = ConvertScreenToTileCoordinates(vec2(mX, mY));
-	int test = GetTileAt(1, (int)tileCoord.x, (int)tileCoord.y)->GetTileID();
-	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1
-		&& GetTileAt(1, (int)tileCoord.x, (int)tileCoord.y)->GetTileID() != 0)
+	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1)
 		return true;
 	else
 		return false;
@@ -289,6 +282,11 @@ Tile* TileMap::GetTileAt(int layer, int row, int col)
 vector<vector<vector<Tile>>>* TileMap::GetTileMap()
 {
 	return &tileMap;
+}
+
+void TileMap::SetIsTileHighlighted(bool isHighlighted, int layer, int row, int col)
+{
+	GetTileMap()->at(layer).at(row).at(col).SetIsHighlighted(isHighlighted);
 }
 
 void TileMap::SetOrigin(vec2 pos)
