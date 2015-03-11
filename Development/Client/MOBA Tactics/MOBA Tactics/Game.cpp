@@ -4,8 +4,8 @@
 #include "Game.h"
 
 //FOR DEBUGGING: SWITCH TO DIFFERENT STARTING STATE
-GameState startingState = GameState::LOGIN;
-//GameState startingState = GameState::SCENE;
+//GameState startingState = GameState::LOGIN;
+GameState startingState = GameState::SCENE;
 
 Game::Game()
 {
@@ -41,7 +41,7 @@ void Game::Init()
 	ClientAPI::mainRenderer = nullptr;
 	ClientAPI::mainRenderer = SDL_CreateRenderer(ClientAPI::mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor	(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 400);
 	SDL_GetRendererOutputSize(ClientAPI::mainRenderer, &renWidth, &renHeight);
 
@@ -57,7 +57,7 @@ void Game::LoadContent()
 {
 	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/lazy.ttf", 72);
 
-	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(500, 200), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
+	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(200, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
@@ -137,12 +137,12 @@ void Game::Exit()
 	GameIsRunning = false;
 }
 
-void* Game::GetCharacter()
+Character* Game::GetCharacter()
 {
 	return character;
 }
 
-void* Game::GetTileMap()
+TileMap* Game::GetTileMap()
 {
 	return tiles;
 }

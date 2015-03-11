@@ -3,18 +3,20 @@
 
 #pragma once
 
-#include "IGame.h"
+class Game;
+
+#include "Game.h"
 
 class SceneHandler
 {
 private:
 	SceneHandler();
-	IGame *game;
+	Game *game;
 public:
 	static SceneHandler& GetInstance();
 	void HandleEventMouseDown(int x, int y);
 	void HandleEventMouseUp(int x, int y);
 	void HandleEventMouseHover(int x, int y);
 
-	void SetGame(IGame *_game);
+	void SetGame(Game *_game);
 };

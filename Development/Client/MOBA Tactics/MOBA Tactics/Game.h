@@ -4,6 +4,11 @@
 #ifndef __GAME_H_INCLUDED__
 #define __GAME_H_INCLUDED__
 
+class GameStateManager;
+class EventManager;
+class Character;
+class TileMap;
+
 #include "IGame.h"
 #include "ClientAPI.h"
 #include "TileMap.h"
@@ -36,8 +41,8 @@ class Game : public IGame
 		void Draw();
 		void Exit();	
 
-		void* GetCharacter();
-		void* GetTileMap();
+		Character* GetCharacter();
+		TileMap* GetTileMap();
 };
 
 #endif 

@@ -225,16 +225,17 @@ vec2 TileMap::ConvertScreenToTileCoordinates(vec2 screenCoord)
 {
 	//Might need to include changes with scale
 	vec2 temp;
-	temp.x = screenCoord.x / GetTileWidth() + screenCoord.y / GetTileHeight() - GetOrigin().x;
-	temp.y = screenCoord.y / GetTileHeight() - screenCoord.x / GetTileWidth() - GetOrigin().y;
+	temp.x = (screenCoord.x - GetOrigin().x) / GetTileWidth() + (screenCoord.y - GetOrigin().y) / GetTileHeight();
+	temp.y = (screenCoord.y - GetOrigin().y) / GetTileHeight() - (screenCoord.x - GetOrigin().x) / GetTileWidth();
 	return vec2((int)temp.x, (int)temp.y);
-}
+}  
 
 bool TileMap::CollisionMouse(int mX, int mY)
 {
 	//Check to make sure TileID not = 0 
 	vec2 tileCoord = ConvertScreenToTileCoordinates(vec2(mX, mY));
-	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() && tileCoord.y < GetNumHeight()
+	int test = GetTileAt(1, (int)tileCoord.x, (int)tileCoord.y)->GetTileID();
+	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1
 		&& GetTileAt(1, (int)tileCoord.x, (int)tileCoord.y)->GetTileID() != 0)
 		return true;
 	else

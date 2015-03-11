@@ -52,7 +52,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\SDL2-2.0.3\lib\x86;..\SDL2_image-2.0.0\lib\x86;..\SDL2_ttf-2.0.12\lib\x86;..\SDL2_mixer-2.0.0\lib\x86;..\SDL2_net-2.0.0\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -91,6 +91,7 @@
     <ClCompile Include="PlayButton.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneHandler.cpp" />
+    <ClCompile Include="SceneStateManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="PlayButton.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneHandler.h" />
+    <ClInclude Include="SceneStateManager.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextInput.h" />

@@ -9,7 +9,12 @@ SceneHandler::SceneHandler()
 
 void SceneHandler::HandleEventMouseDown(int x, int y)
 {
-	//game->GetCharacter()->
+	if (game->GetTileMap()->CollisionMouse(x, y))
+	{
+		vec2 temp = game->GetTileMap()->ConvertScreenToTileCoordinates(vec2(x, y));
+		printf("Clicked on (%f, %f)\n", temp.x, temp.y);
+		//game->GetCharacter()->Move(game->GetTileMap(), game->GetTileMap()->GetTileAt(1, temp.x, temp.y));
+	}
 }
 
 void SceneHandler::HandleEventMouseUp(int x, int y)
@@ -28,7 +33,7 @@ SceneHandler& SceneHandler::GetInstance()
 	return instance;
 }
 
-void SceneHandler::SetGame(IGame *_game)
+void SceneHandler::SetGame(Game *_game)
 {
 	game = _game;
 }
