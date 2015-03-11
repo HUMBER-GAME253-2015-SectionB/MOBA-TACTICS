@@ -6,7 +6,7 @@
 #include "Sprite.h"
 #include <string>
 
-enum ButtonState{UNPRESSED, PRESSED};
+enum ButtonState{UNPRESSED, PRESSED, HOVER};
 
 class Button : public GUIElement
 {

@@ -13,12 +13,9 @@ class Menu : public IMenu
 {
 protected:
 	SList<Button*> buttons;
-<<<<<<< HEAD
 	Sprite *background;
 	Sprite *title;
-=======
 	SList<Label*> labels;
->>>>>>> origin/Client
 public:
 	Menu();
 	~Menu();

@@ -57,12 +57,10 @@ void Menu::Update()
 
 void Menu::Draw(SDL_Renderer* ren) const
 {
-<<<<<<< HEAD
 	if(background != NULL)
 		background->Draw(ren);
 	if(title != NULL)
 		title->Draw(ren);
-=======
 	//Draw Labels
 	for (SList<Label*>::Iterator i = labels.begin(); i != labels.end(); i++)
 	{
@@ -70,7 +68,6 @@ void Menu::Draw(SDL_Renderer* ren) const
 	}
 
 	//Draw Buttons
->>>>>>> origin/Client
 	SList<Button*>::Iterator i = buttons.begin();
 	for (; i != buttons.end(); i++)
 	{
