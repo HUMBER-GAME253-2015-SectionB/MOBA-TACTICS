@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette
-//Date:		3/8/2015(MV)
+//Author:	Mathieu Violette, Kees Vermeulen 
+//Date:		3/8/2015(MV), 3/10/2015
 
 #include "Button.h"
 
@@ -24,21 +24,26 @@ bool Button::CheckMouseCollision(int x, int y)
 	return sprite->CollisionMouse(x, y);
 }
 
+void Button::SetSprite(Sprite* sprite)
+{
+	this->sprite = sprite;
+}
+
 void Button::Update()
 {
 	if (buttonState == UNPRESSED)
 	{
 		if (isBeingHovered)
-			sprite = spriteHover;
+			SetSprite(spriteHover);
 		else
-			sprite = spriteUnpressed;
+			SetSprite(spriteUnpressed);
 	}
 	else if (buttonState == PRESSED)
 	{
 		if (isBeingHovered)
-			sprite = spritePressed;
+			SetSprite(spritePressed);
 		else
-			sprite = spriteUnpressed;
+			SetSprite(spriteUnpressed);
 	}
 		
 }

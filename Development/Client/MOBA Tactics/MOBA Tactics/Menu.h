@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette
-//Date:		3/5/2015(MV)
+//Author:	Mathieu Violette, Kees Vermeulen
+//Date:		3/5/2015(MV), 3/10/2015
 
 #ifndef __MENU_H_INCLUDED__
 #define __MENU_H_INCLUDED__
@@ -12,6 +12,8 @@ class Menu : public IMenu
 {
 protected:
 	SList<Button*> buttons;
+	Sprite *background;
+	Sprite *title;
 public:
 	Menu();
 	~Menu();

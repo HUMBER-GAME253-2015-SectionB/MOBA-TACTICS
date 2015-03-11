@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette
-//Date:		3/5/2015(MV), 3/8/2015(MV)
+//Author:	Mathieu Violette Kees Vermeulen
+//Date:		3/5/2015(MV), 3/8/2015(MV), 3/10/2015
 
 #include "Menu.h"
 
@@ -43,11 +43,16 @@ void Menu::Update()
 
 void Menu::Draw(SDL_Renderer* ren) const
 {
+	if(background != NULL)
+		background->Draw(ren);
+	if(title != NULL)
+		title->Draw(ren);
 	SList<Button*>::Iterator i = buttons.begin();
 	for (; i != buttons.end(); i++)
 	{
 		(*i)->Draw();
 	}
+
 }
 
 const SList<Button*>& Menu::GetButtons() const

@@ -23,6 +23,7 @@ public:
 	void Show();
 	void Hide();
 	bool CheckMouseCollision(int x, int y);
+	void SetSprite(Sprite* sprite);
 
 };
 
