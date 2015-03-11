@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH), 3/8/2014 (NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
 #pragma once
 
 #include "ITileMap.h"
@@ -100,6 +100,7 @@ private:
 
 	void SetTargetTile(ITile *_targetTile);
 	void SetMovementPath(queue<ITile *> *_movementPath);
+	void MoveToNextTile();
 
 	bool isMoving;
 	vec2 velocity;

@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH)
+//Date:		3/4/2015(NH), 3/10/2015(NH)
 
 //This class has been created to prevent circular dependance with the Character class.
 #pragma once
@@ -31,4 +31,5 @@ public:
 	virtual void SetTileWidth(unsigned num) = 0;
 	virtual void SetTileHeight(unsigned num) = 0;
 	virtual void SetIsHighlighted(bool value) = 0;
+	virtual void SetCharacter(void* _character) = 0;
 };

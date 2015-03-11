@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH)
+//Date:		3/4/2015(NH), 3/10/2015(NH)
 #include "Tile.h"
 
 Tile::Tile()
@@ -80,7 +80,18 @@ void Tile::SetTileID(int num)
 
 void Tile::SetPosition(vec2 _pos)
 {
-	position = _pos;
+	// This is how the tile texture/image looks like when it is loaded into the program.
+	// The x position is subtracted by tileWidth / 2 so the position corresponds to the
+	// top tip of the tile instead of corresponding to the top left of the texture.
+	//  ____
+	//  |/\| 
+	//  |\/| 
+	//  ----
+	position = vec2(_pos.x -GetTileWidth() / 2, _pos.y);
+
+	Character* temp = GetCharacter();
+	if (GetCharacter() != NULL)
+		GetCharacter()->SetOnTile(this);
 }
 
 void Tile::SetGridPosition(vec3 _gridPos)
@@ -103,7 +114,12 @@ void Tile::SetIsHighlighted(bool value)
 	isHighlighted = value;
 }
 
-void Tile::SetCharacter(Character* _character)
+//This is probably bad practice to make it a void* instead of a 
+//character*. Did this because couldn't find a way for the ITile
+//interface to include a reference to Character* without avoiding
+//a circular reference and Character requires a reference to this
+//method.
+void Tile::SetCharacter(void* _character)
 {
-	character = _character;
+	character = static_cast<Character *>(_character);
 }

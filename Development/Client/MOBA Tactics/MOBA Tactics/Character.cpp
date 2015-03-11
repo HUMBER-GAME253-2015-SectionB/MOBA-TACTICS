@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH), 3/8/2014 (NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
 #include "Character.h"
 #include <cstdlib>
 
@@ -68,6 +68,11 @@ void Character::Move(ITileMap *tileMap, ITile *toTile)
 		vec3 tileGridPos = GetTileGridPosition();
 		gridDisplacement = toTile->GetGridPosition() - tileGridPos;
 
+		//Random function, to randomize movement just slightly. Either the character first moves horizontally then vertically
+		//or the character moves vertically then horizontally
+
+		//Create a queue for the movement path. The queue corresponds to every tile that the character has to go through, so that
+		//moveToAdjacentTile function can be used.
 		if (rand() % 2)
 		{
 			for (int i = 0; i < (int)gridDisplacement.y; i++)
@@ -94,6 +99,7 @@ void Character::Move(ITileMap *tileMap, ITile *toTile)
 		}
 	}
 
+	//Move to first adjacent tile in the queue.
 	MoveToAdjacentTile(movementPath.front());
 	movementPath.pop();
 }
@@ -130,57 +136,30 @@ void Character::Update()
 		
 		//I could make this the whole next if block into a single if statement if I wanted
 		//to, however this way looks much cleaner and is more readable.
+
 		//Cases moving right, down
 		if (vel.x > 0 && vel.y > 0 
 			&& tmp.x > targetPos.x && tmp.y > targetPos.y) 
 		{
-			SetIsMoving(false);
-			SetOnTile(GetTargetTile());
-
-			if (!GetMovementPath()->empty())
-			{
-				MoveToAdjacentTile(movementPath.front());
-				movementPath.pop();
-			}
+			MoveToNextTile();
 		}
 		//moving left, down
 		else if (vel.x < 0 && vel.y > 0 && 
 			tmp.x < targetPos.x && tmp.y > targetPos.y)
 		{
-			SetIsMoving(false);
-			SetOnTile(GetTargetTile());
-
-			if (!GetMovementPath()->empty())
-			{
-				MoveToAdjacentTile(movementPath.front());
-				movementPath.pop();
-			}
+			MoveToNextTile();
 		}
 		//moving up, right
 		else if (vel.x > 0 && vel.y < 0 && 
 			tmp.x > targetPos.x && tmp.y < targetPos.y)
 		{
-			SetIsMoving(false);
-			SetOnTile(GetTargetTile());
-
-			if (!GetMovementPath()->empty())
-			{
-				MoveToAdjacentTile(movementPath.front());
-				movementPath.pop();
-			}
+			MoveToNextTile();
 		}
 		//moving up, left
 		else if (vel.x < 0 && vel.y < 0 &&
 			tmp.x < targetPos.x && tmp.y < targetPos.y)
 		{
-			SetIsMoving(false);
-			SetOnTile(GetTargetTile());
-
-			if (!GetMovementPath()->empty())
-			{
-				MoveToAdjacentTile(movementPath.front());
-				movementPath.pop();
-			}
+			MoveToNextTile();
 		}
 
 		SetDefense(0);
@@ -294,6 +273,7 @@ void Character::SetOnTile(ITile *tile)
 	temp.y = tile->GetPosition().y - GetSprite()->GetHeight() / 2;
 	SetPosition(temp);
 	onTile = tile;
+	tile->SetCharacter(this);
 }
 
 void Character::SetSprite(Sprite *_sprite)
@@ -395,4 +375,16 @@ void Character::SetTargetTile(ITile *_targetTile)
 void Character::SetMovementPath(queue<ITile *> *_movementPath)
 {
 	movementPath = *_movementPath;
+}
+
+void Character::MoveToNextTile()
+{
+	SetIsMoving(false);
+	SetOnTile(GetTargetTile());
+
+	if (!GetMovementPath()->empty())
+	{
+		MoveToAdjacentTile(movementPath.front());
+		movementPath.pop();
+	}
 }
