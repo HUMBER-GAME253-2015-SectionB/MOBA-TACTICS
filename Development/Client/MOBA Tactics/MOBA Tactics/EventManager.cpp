@@ -32,8 +32,11 @@ void EventManager::ManageEvents(SDL_Event *event)
 		event->button.button == SDL_BUTTON_LEFT &&
 		SDL_BUTTON(PreviousMouseState) != SDL_BUTTON(MouseState))
 	{
-		buttonHandler.HandleEventMouseDown(MouseX, MouseY);
-		sceneHandler.HandleEventMouseDown(MouseX, MouseY);
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+			sceneHandler.HandleEventMouseDown(MouseX, MouseY);
+		else
+			buttonHandler.HandleEventMouseDown(MouseX, MouseY);
+		
 	}
 
 	//Check for left button up
@@ -41,8 +44,10 @@ void EventManager::ManageEvents(SDL_Event *event)
 		event->button.button == SDL_BUTTON_LEFT &&
 		SDL_BUTTON(PreviousMouseState) != SDL_BUTTON(MouseState))
 	{
-		buttonHandler.HandleEventMouseUp(MouseX, MouseY);
-		sceneHandler.HandleEventMouseUp(MouseX, MouseY);
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+			sceneHandler.HandleEventMouseUp(MouseX, MouseY);
+		else
+			buttonHandler.HandleEventMouseUp(MouseX, MouseY);
 	}
 
 	//Check for mouse movement
@@ -63,8 +68,10 @@ void EventManager::ManageEvents(SDL_Event *event)
 
 void EventManager::UpdateHoverState()
 {
-	buttonHandler.HandleEventMouseHover(MouseX, MouseY);
-	sceneHandler.HandleEventMouseHover(MouseX, MouseY);
+	if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+		sceneHandler.HandleEventMouseHover(MouseX, MouseY);
+	else
+		buttonHandler.HandleEventMouseHover(MouseX, MouseY);
 }
 
 void EventManager::RegisterMenu(const Menu& menu)
