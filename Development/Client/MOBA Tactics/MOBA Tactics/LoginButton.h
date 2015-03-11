@@ -11,7 +11,6 @@ class LoginButton : public Button
 
 public:
 	LoginButton();
-	~LoginButton();
 
 	void OnClick();
 	void OnHover();

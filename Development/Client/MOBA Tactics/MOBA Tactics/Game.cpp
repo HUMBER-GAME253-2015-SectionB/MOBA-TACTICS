@@ -7,9 +7,6 @@
 GameState startingState = GameState::LOGIN;
 //GameState startingState = GameState::SCENE;
 
-TileMap *tiles;
-Character *character;
-
 Game::Game()
 {
 	GameIsRunning = true;
@@ -44,7 +41,7 @@ void Game::Init()
 	ClientAPI::mainRenderer = nullptr;
 	ClientAPI::mainRenderer = SDL_CreateRenderer(ClientAPI::mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	SDL_SetRenderDrawColor(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor	(ClientAPI::mainRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 400);
 	SDL_GetRendererOutputSize(ClientAPI::mainRenderer, &renWidth, &renHeight);
 
@@ -60,18 +57,14 @@ void Game::LoadContent()
 {
 	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/lazy.ttf", 72);
 
-	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(250, 50), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
+	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
+	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	tiles->HighlightTile(1, 0, 0);
 	tiles->SetHighlightColor(255, 0, 0);
 
-	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
+	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 8, 0), ClientAPI::mainRenderer);
 
-	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 0, 1)); //Up and right  //Up
-	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 1, 2)); //Down and right  //Right
-	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 1, 0));  //Up and left    //Left
-	//character->MoveToAdjacentTile(tiles->GetTileAt(1, 2, 1)); //Down and left  //Down
-
-	//character->Move(tiles, tiles->GetTileAt(1, 8, 3));
+	character->Move(tiles, tiles->GetTileAt(1, 0, 1));
 }
 
 void Game::UnloadContent()
@@ -111,11 +104,11 @@ void Game::Update()
 	{
 		case GameState::NONE:
 			//Start of game, set to login screen
-			gameStateManager.ChangeToGameState(startingState);
+			gameStateManager.QueueChangeToGameState(startingState);
 			break;
 		case GameState::SCENE:
 			tiles->Update();
-			//character->Update();
+			character->Update();
 			break;
 		default:
 			gameStateManager.GetCurrentMenu()->Update();
@@ -142,4 +135,14 @@ void Game::Draw()
 void Game::Exit()
 {
 	GameIsRunning = false;
+}
+
+Character* Game::GetCharacter()
+{
+	return character;
+}
+
+TileMap* Game::GetTileMap()
+{
+	return tiles;
 }

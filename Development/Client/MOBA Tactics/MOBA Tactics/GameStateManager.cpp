@@ -12,6 +12,7 @@ GameStateManager& GameStateManager::GetInstance()
 GameStateManager::GameStateManager()
 {
 	currentState = GameState::NONE;
+	queuedState = currentState;
 	currentMenu = nullptr;
 }
 
@@ -30,33 +31,42 @@ IMenu* GameStateManager::GetCurrentMenu() const
 {
 	return currentMenu;
 }
-	
-void GameStateManager::ChangeToGameState(GameState _newGameState)
+
+void GameStateManager::UpdateGameState()
 {
-	//Unload current state
-	if (currentState == GameState::SCENE)
+	if (queuedState != currentState)
 	{
+		//Unload current state
+		if (currentState == GameState::SCENE)
+		{
 		
-	}
-	else if (currentMenu != nullptr)
-	{
-		currentMenu->Unload();
-		delete currentMenu;	
-	}
+		}
+		else if (currentMenu != nullptr)
+		{
+			currentMenu->Unload();
+			delete currentMenu;	
+		}
 
-	//Change current state to new state
-	currentState = _newGameState;
-	currentMenu = GetNewMenu(_newGameState);
+		//Change current state to new state
+		currentState = queuedState;
+		currentMenu = GetNewMenu(currentState);
 
-	//Load new state
-	if (_newGameState == GameState::SCENE)
-	{
+		//Load new state
+		if (currentState == GameState::SCENE)
+		{
 		
+		}
+		else if (currentMenu != nullptr)
+		{
+			currentMenu->Load();
+		}	
 	}
-	else if (currentMenu != nullptr)
-	{
-		currentMenu->Load();
-	}	
+}
+	
+void GameStateManager::QueueChangeToGameState(GameState _newGameState)
+{
+	if (queuedState != _newGameState)
+		queuedState = _newGameState;
 }
 
 IMenu* GameStateManager::GetNewMenu(GameState _newGameState)

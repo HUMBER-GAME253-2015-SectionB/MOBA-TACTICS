@@ -3,6 +3,23 @@
 
 #include "Button.h"
 
+Button::Button()
+{
+	isVisible = true;
+	isBeingHovered = false;
+	buttonState = UNPRESSED;
+}
+
+Button::~Button()
+{
+	if (spritePressed != NULL)
+		delete spritePressed;
+	if (spriteHover != NULL)
+		delete spriteHover;
+	if (spriteUnpressed != NULL)
+		delete spriteUnpressed;
+}
+
 void Button::Show()
 {
 	isVisible = true;
@@ -16,7 +33,10 @@ void Button::Hide()
 void Button::Draw()
 {
 	if (isVisible)
+	{
+		SelectSprite();
 		sprite->Draw(ClientAPI::mainRenderer);
+	}
 }
 
 bool Button::CheckMouseCollision(int x, int y)
@@ -30,6 +50,11 @@ void Button::SetSprite(Sprite* sprite)
 }
 
 void Button::Update()
+{
+	SelectSprite();	
+}
+
+void Button::SelectSprite()
 {
 	if (buttonState == UNPRESSED)
 	{
@@ -45,5 +70,4 @@ void Button::Update()
 		else
 			SetSprite(spriteUnpressed);
 	}
-		
 }

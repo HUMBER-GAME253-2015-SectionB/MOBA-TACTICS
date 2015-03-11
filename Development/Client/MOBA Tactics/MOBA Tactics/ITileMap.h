@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		/8/2014 (NH)
+//Date:		/8/2015 (NH)
 
 //This class has been created to prevent circular dependance with the Character class.
 #pragma once

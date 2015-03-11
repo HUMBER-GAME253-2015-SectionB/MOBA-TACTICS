@@ -20,6 +20,15 @@ void Menu::Load()
 {
 	//Register Menu
 	Game::eventManager.RegisterMenu(*this);
+
+	//Init Buttons
+	for (SList<Button*>::Iterator i = buttons.begin(); i != buttons.end(); i++)
+	{
+		(*i)->SelectSprite();
+	}
+
+	//Check button hover state
+	Game::eventManager.UpdateHoverState();
 }
 
 void Menu::Unload()
@@ -33,20 +42,35 @@ void Menu::Unload()
 
 void Menu::Update()
 {
+	//Call Update Of Each Label
+	for (SList<Label*>::Iterator i = labels.begin(); i != labels.end(); i++)
+	{
+		(*i)->Update();
+	}
+
 	//Call Update Of Each Button
 	for (SList<Button*>::Iterator i = buttons.begin(); i != buttons.end(); i++)
 	{
 		(*i)->Update();
 	}
-
 }
 
 void Menu::Draw(SDL_Renderer* ren) const
 {
+<<<<<<< HEAD
 	if(background != NULL)
 		background->Draw(ren);
 	if(title != NULL)
 		title->Draw(ren);
+=======
+	//Draw Labels
+	for (SList<Label*>::Iterator i = labels.begin(); i != labels.end(); i++)
+	{
+		(*i)->Draw();
+	}
+
+	//Draw Buttons
+>>>>>>> origin/Client
 	SList<Button*>::Iterator i = buttons.begin();
 	for (; i != buttons.end(); i++)
 	{

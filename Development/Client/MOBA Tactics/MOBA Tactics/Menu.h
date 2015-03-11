@@ -6,14 +6,19 @@
 
 #include "IMenu.h"
 #include "Button.h"
+#include "Label.h"
 #include "SList.h"
 
 class Menu : public IMenu
 {
 protected:
 	SList<Button*> buttons;
+<<<<<<< HEAD
 	Sprite *background;
 	Sprite *title;
+=======
+	SList<Label*> labels;
+>>>>>>> origin/Client
 public:
 	Menu();
 	~Menu();

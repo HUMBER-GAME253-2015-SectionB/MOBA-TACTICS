@@ -4,6 +4,11 @@
 #ifndef __GAME_H_INCLUDED__
 #define __GAME_H_INCLUDED__
 
+class GameStateManager;
+class EventManager;
+class Character;
+class TileMap;
+
 #include "IGame.h"
 #include "ClientAPI.h"
 #include "TileMap.h"
@@ -21,6 +26,9 @@ class Game : public IGame
 		//SDL_Renderer *Renderer;
 		static GameStateManager gameStateManager;
 		static EventManager eventManager;
+
+		TileMap *tiles;
+		Character *character;
 		
 		Game();
 		~Game();
@@ -32,6 +40,9 @@ class Game : public IGame
 		void Update();
 		void Draw();
 		void Exit();	
+
+		Character* GetCharacter();
+		TileMap* GetTileMap();
 };
 
 #endif 

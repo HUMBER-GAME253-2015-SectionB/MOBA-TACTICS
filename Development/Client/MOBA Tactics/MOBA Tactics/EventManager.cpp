@@ -4,6 +4,7 @@
 #include "EventManager.h"
 
 ButtonHandler EventManager::buttonHandler = ButtonHandler::GetInstance();
+SceneHandler EventManager::sceneHandler = SceneHandler::GetInstance();
 
 EventManager& EventManager::GetInstance()
 {
@@ -31,7 +32,11 @@ void EventManager::ManageEvents(SDL_Event *event)
 		event->button.button == SDL_BUTTON_LEFT &&
 		SDL_BUTTON(PreviousMouseState) != SDL_BUTTON(MouseState))
 	{
-		buttonHandler.HandleEventMouseDown(MouseX, MouseY);
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+			sceneHandler.HandleEventMouseDown(MouseX, MouseY);
+		else
+			buttonHandler.HandleEventMouseDown(MouseX, MouseY);
+		
 	}
 
 	//Check for left button up
@@ -39,16 +44,19 @@ void EventManager::ManageEvents(SDL_Event *event)
 		event->button.button == SDL_BUTTON_LEFT &&
 		SDL_BUTTON(PreviousMouseState) != SDL_BUTTON(MouseState))
 	{
-		buttonHandler.HandleEventMouseUp(MouseX, MouseY);
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+			sceneHandler.HandleEventMouseUp(MouseX, MouseY);
+		else
+			buttonHandler.HandleEventMouseUp(MouseX, MouseY);
 	}
 
 	//Check for mouse movement
 	if (PreviousMouseX != MouseX ||
 		PreviousMouseY != MouseY)
 	{
-		buttonHandler.HandleEventMouseHover(MouseX, MouseY);
+		UpdateHoverState();
 	}
-
+	
 
 	//Post-update: set previous mouse state
 	{
@@ -56,6 +64,14 @@ void EventManager::ManageEvents(SDL_Event *event)
 		PreviousMouseX = MouseX;
 		PreviousMouseY = MouseY;
 	}
+}
+
+void EventManager::UpdateHoverState()
+{
+	if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+		sceneHandler.HandleEventMouseHover(MouseX, MouseY);
+	else
+		buttonHandler.HandleEventMouseHover(MouseX, MouseY);
 }
 
 void EventManager::RegisterMenu(const Menu& menu)
@@ -76,4 +92,9 @@ void EventManager::UnregisterMenu(const Menu& menu)
 	{
 		buttonHandler.RemoveButton(*(*i));
 	}
+}
+
+SceneHandler* EventManager::GetSceneHandler()
+{
+	return &sceneHandler;
 }

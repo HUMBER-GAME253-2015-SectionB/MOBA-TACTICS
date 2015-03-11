@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH), 3/8/2014 (NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
 #pragma once
 
 #include "Character.h"
@@ -33,7 +33,7 @@ public:
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
 	void SetIsHighlighted(bool value);
-	void SetCharacter(Character* _character);
+	void SetCharacter(void* _character);
 
 private:
 	int tileID;

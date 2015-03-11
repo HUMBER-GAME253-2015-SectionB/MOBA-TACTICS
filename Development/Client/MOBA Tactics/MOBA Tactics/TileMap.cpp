@@ -1,25 +1,27 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2014(NH), 3/8/2014 (NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
 #include "TileMap.h"
 
-TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)
+TileMap::TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
 {
-	LoadFromFile(xmlFilePath, _worldPosition, ren);
+	LoadFromFile(xmlFilePath, _origin, ren);
 }
 
-TileMap::TileMap(char *xmlFilePath, vec2 _worldPosition, string highlightTexturePath, SDL_Renderer *ren)
+TileMap::TileMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath, SDL_Renderer *ren)
 {
-	LoadFromFile(xmlFilePath, _worldPosition, ren);
+	LoadFromFile(xmlFilePath, _origin, ren);
 	InitHightlightSprite(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
 }
 
-bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer *ren)
+bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
 {
 	tinyxml2::XMLDocument doc;
 	const char *texturePath;
 	int _numWidth, _numHeight, mapTileWidth, mapTileHeight, tileSetWidth, tileSetHeight, numLayers;
 	XMLElement* layerElement;
 	numLayers = 0;
+
+	SetOrigin(_origin);
 	
 	try
 	{
@@ -54,22 +56,23 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer 
 		element = doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
 		layerElement = doc.FirstChildElement("map")->FirstChildElement("layer");
 
-		for (unsigned a = 0; a < GetNumLayers(); a++)
+		for (int i = 0; i < (int)GetNumLayers(); i++)
 		{
 			vector<vector<Tile>> tileLayer;
-			for (unsigned i = 0; i < GetNumHeight(); i++)
+			for (int j = 0; j < (int)GetNumHeight(); j++)
 			{
 				vector<Tile> tileRow;
-				for (unsigned j = 0; j < GetNumWidth(); j++)
+				for (int k = 0; k < (int)GetNumWidth(); k++)
 				{
 					Tile temp;
-					vec2 worldPos;
 					int tileNum, tileWidth, tileHeight;
-					element->QueryIntAttribute("gid", &tileNum);//i * GetNumWidth() + j;
+					element->QueryIntAttribute("gid", &tileNum);
 					tileWidth = GetTileWidth();
 					tileHeight = GetTileHeight();
-					worldPos.x = _worldPosition.x + j * (GetTileWidth() / 2) - ((i + 1) * GetTileWidth() / 2);
-					worldPos.y = _worldPosition.y + j * (GetTileHeight() / 2) + (i * GetTileHeight() / 2);
+					vec2 worldPos = ConvertTileToScreenCoordinate(vec2(k, j));
+					worldPos.x -= tileWidth / 2;
+					//worldPos.x = _worldPosition.x + (k - j) * (tileWidth / 2);
+					//worldPos.y = _worldPosition.y + (j + k) * (tileHeight / 2);
 
 					/*temp.SetTileNumber(tileNum);
 					temp.SetTileWidth(tileWidth);
@@ -78,7 +81,7 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _worldPosition, SDL_Renderer 
 					temp.SetWorldY(worldY);
 					temp.SetIsHighlighted(false);*/
 
-					temp.InitializeTile(tileNum, worldPos, vec3(a, i, j), tileWidth, tileHeight);
+					temp.InitializeTile(tileNum, worldPos, vec3(i, j, k), tileWidth, tileHeight);
 
 					tileRow.push_back(temp);
 
@@ -204,6 +207,47 @@ void TileMap::DrawMap(SDL_Renderer *ren)
 	}
 }
 
+//Conversion from Tile coordinates ie (1, 3) will be converted to a screen position ie (32, 64) on the screen
+vec2 TileMap::ConvertTileToScreenCoordinate(vec2 tileCoord)
+{
+	//Might need to include changes with scale
+	vec2 temp;
+	temp.x = GetOrigin().x + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2;
+	temp.y = GetOrigin().y + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2;
+	return temp;
+}
+
+//Conversion from screen position ie (32, 64) will be convrted to a Tile coordinate ie (1, 3)
+//This also can convert from a screen coordinate that does not correspond to a tile's corner.
+//For example if the corodinate (35, 62) is within the Tile at (1, 3) this method will
+//return (1, 3)
+vec2 TileMap::ConvertScreenToTileCoordinates(vec2 screenCoord)
+{
+	//Might need to include changes with scale
+	vec2 temp;
+	temp.x = (screenCoord.x - GetOrigin().x) / GetTileWidth() + (screenCoord.y - GetOrigin().y) / GetTileHeight();
+	temp.y = (screenCoord.y - GetOrigin().y) / GetTileHeight() - (screenCoord.x - GetOrigin().x) / GetTileWidth();
+	return vec2((int)temp.x, (int)temp.y);
+}  
+
+bool TileMap::CollisionMouse(int mX, int mY)
+{
+	//Check to make sure TileID not = 0 
+	vec2 tileCoord = ConvertScreenToTileCoordinates(vec2(mX, mY));
+	int test = GetTileAt(1, (int)tileCoord.x, (int)tileCoord.y)->GetTileID();
+	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1
+		&& GetTileAt(1, (int)tileCoord.x, (int)tileCoord.y)->GetTileID() != 0)
+		return true;
+	else
+		return false;
+}
+
+//Check if tilemap initialized before returning a value.
+vec2 TileMap::GetOrigin()
+{
+	return origin;
+}
+
 unsigned TileMap::GetNumWidth() const
 {
 	return numWidth;
@@ -236,12 +280,31 @@ TileSet TileMap::GetTileSet() const
 
 Tile* TileMap::GetTileAt(int layer, int row, int col)
 {
-	return &GetTileMap()->at(layer).at(row).at(col);
+	if (&GetTileMap()->at(layer).at(row).at(col) != NULL)
+		return &GetTileMap()->at(layer).at(row).at(col);
+	else
+		return NULL;
 }
 
 vector<vector<vector<Tile>>>* TileMap::GetTileMap()
 {
 	return &tileMap;
+}
+
+void TileMap::SetOrigin(vec2 pos)
+{
+	origin = pos;
+
+	for (unsigned a = 0; a < GetNumLayers(); a++)
+	{
+		for (unsigned b = 0; b< GetNumHeight(); b++)
+		{
+			for (unsigned c = 0; c < GetNumWidth(); c++)
+			{
+				tileMap[a][b][c].SetPosition(ConvertTileToScreenCoordinate(vec2(c, b)));
+			}
+		}
+	}
 }
 
 void TileMap::SetNumWidth(unsigned num)

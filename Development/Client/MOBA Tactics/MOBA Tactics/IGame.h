@@ -11,6 +11,8 @@ public:
 	virtual void Init() = 0;
 	virtual void LoadContent() = 0;
 	virtual void UnloadContent() = 0;
+	//virtual void* GetCharacter();
+	//virtual void* GetTileMap();
 };
 
 #endif
