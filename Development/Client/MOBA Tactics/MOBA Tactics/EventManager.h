@@ -26,6 +26,8 @@ public:
 	~EventManager();
 	
 	void ManageEvents(SDL_Event *event);
+	void UpdateHoverState();
+
 	void RegisterMenu(const Menu& menu);
 	void UnregisterMenu(const Menu& menu);
 };

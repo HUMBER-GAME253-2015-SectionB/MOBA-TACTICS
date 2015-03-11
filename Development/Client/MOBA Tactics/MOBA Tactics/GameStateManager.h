@@ -15,14 +15,15 @@ class GameStateManager
 {
 private:
 	GameStateManager();
-	GameState currentState;
+	GameState currentState, queuedState;
 	IMenu* currentMenu;
 public:
 	static GameStateManager& GetInstance();
 	~GameStateManager();
 	GameState GetGameState() const;
 	IMenu* GetCurrentMenu() const;
-	void ChangeToGameState(GameState _newGameState);
+	void UpdateGameState();
+	void QueueChangeToGameState(GameState _newGameState);
 	IMenu* GetNewMenu(GameState _newGameState);
 };
 

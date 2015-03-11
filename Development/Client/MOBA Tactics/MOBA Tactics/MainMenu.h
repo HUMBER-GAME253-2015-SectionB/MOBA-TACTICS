@@ -10,9 +10,6 @@ class MainMenu : public Menu
 {
 public:
 	MainMenu();
-	~MainMenu();
-
-private:
 
 };
 

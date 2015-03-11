@@ -6,13 +6,16 @@
 
 class GUIElement
 {
-
+protected:
+	bool isVisible;
 public:
+	virtual ~GUIElement();
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual void Show() = 0;
 	virtual void Hide() = 0;
-
 };
+
+inline GUIElement::~GUIElement(){}
 
 #endif

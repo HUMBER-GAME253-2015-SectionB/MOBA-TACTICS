@@ -6,12 +6,14 @@
 
 #include "IMenu.h"
 #include "Button.h"
+#include "Label.h"
 #include "SList.h"
 
 class Menu : public IMenu
 {
 protected:
 	SList<Button*> buttons;
+	SList<Label*> labels;
 public:
 	Menu();
 	~Menu();

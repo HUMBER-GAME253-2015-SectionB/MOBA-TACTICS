@@ -79,6 +79,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="Label.cpp" />
     <ClCompile Include="LobbyList.cpp" />
     <ClCompile Include="LoginButton.cpp" />
     <ClCompile Include="LoginScreen.cpp" />
@@ -87,8 +88,10 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="PlayButton.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
@@ -104,6 +107,7 @@
     <ClInclude Include="GUIElement.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="ITileMap.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="LobbyList.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameState.h" />
@@ -116,9 +120,11 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="PlayButton.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="TextInput.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />

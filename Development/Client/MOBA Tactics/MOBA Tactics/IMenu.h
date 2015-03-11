@@ -9,10 +9,13 @@
 class IMenu
 {
 public:
+	virtual ~IMenu() = 0;
 	virtual void Load() = 0;
 	virtual void Unload() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(SDL_Renderer*) const = 0;
 };
+
+inline IMenu::~IMenu(){}
 
 #endif

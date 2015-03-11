@@ -10,10 +10,13 @@ enum ButtonState{UNPRESSED, PRESSED};
 
 class Button : public GUIElement
 {
+private:
 protected:
-	bool isVisible;
 	Sprite *sprite, *spriteUnpressed, *spritePressed, *spriteHover;
 public:
+	Button();
+	~Button();
+
 	ButtonState buttonState;
 	bool isBeingHovered;
 	virtual void OnClick() = 0;
@@ -22,6 +25,7 @@ public:
 	virtual void Draw();
 	void Show();
 	void Hide();
+	void SelectSprite();
 	bool CheckMouseCollision(int x, int y);
 
 };

@@ -46,9 +46,9 @@ void EventManager::ManageEvents(SDL_Event *event)
 	if (PreviousMouseX != MouseX ||
 		PreviousMouseY != MouseY)
 	{
-		buttonHandler.HandleEventMouseHover(MouseX, MouseY);
+		UpdateHoverState();
 	}
-
+	
 
 	//Post-update: set previous mouse state
 	{
@@ -56,6 +56,11 @@ void EventManager::ManageEvents(SDL_Event *event)
 		PreviousMouseX = MouseX;
 		PreviousMouseY = MouseY;
 	}
+}
+
+void EventManager::UpdateHoverState()
+{
+	buttonHandler.HandleEventMouseHover(MouseX, MouseY);
 }
 
 void EventManager::RegisterMenu(const Menu& menu)
