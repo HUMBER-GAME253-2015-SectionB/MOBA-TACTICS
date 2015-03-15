@@ -47,6 +47,7 @@ void Game::Init()
 
 	ClientAPI::mainRenderer = ClientAPI::mainRenderer;
 	ClientAPI::mainWindow = ClientAPI::mainWindow;
+	camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
 
 	//Initialize random
 	srand(time(NULL));	
@@ -61,15 +62,17 @@ void Game::LoadContent()
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	tiles->SetHighlightColor(255, 0, 0);
 
-	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 8, 0), ClientAPI::mainRenderer);
-
-	character->Move(tiles, tiles->GetTileAt(1, 0, 1));
+	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
+	camera->AddToDrawList(tiles);
+	camera->AddToDrawList(character);
+	camera->SetPosition(vec2(100, 100));
 }
 
 void Game::UnloadContent()
 {
 	delete tiles;
 	delete character;
+	delete camera;
 
 	//End program
 	TTF_CloseFont(ClientAPI::mainFont);
@@ -122,8 +125,11 @@ void Game::Draw()
 		case GameState::NONE:
 			break;
 		case GameState::SCENE:
-			tiles->DrawMap(ClientAPI::mainRenderer);
-			character->Draw(ClientAPI::mainRenderer);
+			camera->Draw(ClientAPI::mainRenderer);
+			//tiles->Draw(vec2(0, 0), ClientAPI::mainRenderer);
+			//tiles->Draw(ClientAPI::mainRenderer);
+			//tiles->DrawTile(vec2(0, 0), 1, 5, 5, ClientAPI::mainRenderer);
+			//character->Draw(ClientAPI::mainRenderer);
 			break;
 		default:
 			gameStateManager.GetCurrentMenu()->Draw(ClientAPI::mainRenderer);

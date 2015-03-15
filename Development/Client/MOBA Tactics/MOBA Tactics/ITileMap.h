@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		/8/2015 (NH)
+//Date:		3/8/2015 (NH), 3/15/2015 (NH)
 
 //This class has been created to prevent circular dependance with the Character class.
 #pragma once
@@ -26,7 +26,7 @@ public:
 	virtual void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren) = 0;
 	virtual void InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren) = 0;
 	virtual void DrawTile(int layer, int row, int col, SDL_Renderer *ren) = 0;
-	virtual void DrawMap(SDL_Renderer *ren) = 0;
+	virtual void Draw(SDL_Renderer *ren) = 0;
 	virtual void Update() = 0;
 
 	virtual unsigned GetNumWidth() const = 0;
@@ -34,7 +34,7 @@ public:
 	virtual unsigned GetNumLayers() const = 0;
 	virtual unsigned GetTileWidth() const = 0;
 	virtual unsigned GetTileHeight() const = 0;
-	virtual TileSet GetTileSet() const = 0;
+	virtual TileSet* GetTileSet() const = 0;
 	virtual ITile* GetTileAt(int layer, int row, int col) = 0;
 	//virtual vector<vector<vector<ITile*>>>* GetTileMap() = 0;
 
@@ -44,6 +44,6 @@ public:
 	virtual void SetNumLayers(unsigned num) = 0;
 	virtual void SetTileWidth(unsigned num) = 0;
 	virtual void SetTileHeight(unsigned num) = 0;
-	virtual void SetTileSet(TileSet _tileSet) = 0;
+	virtual void SetTileSet(TileSet *_tileSet) = 0;
 	virtual void SetHighlightColor(Uint8 r, Uint8 g, Uint8 b) = 0;
 };

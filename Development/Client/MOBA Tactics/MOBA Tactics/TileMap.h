@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH)
 #pragma once
 
 #include "tinyxml2.h"
@@ -23,7 +23,7 @@ struct HighlightTexture
 	bool isFadingOut;
 };
 
-class TileMap : public ITileMap
+class TileMap : public ITileMap, public Sprite
 {
 public:
 	TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren);
@@ -33,13 +33,19 @@ public:
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
 	void InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
 	void SetIsTileHighlighted(bool isHighlighted, int layer, int row, int col);
+	void Draw(vec2 pos, SDL_Renderer *ren);
+	void Draw(SDL_Renderer *ren);
 	void DrawTile(int layer, int row, int col, SDL_Renderer *ren);
-	void DrawMap(SDL_Renderer *ren);
+	void DrawTile(vec2 pos, int layer, int row, int col, SDL_Renderer *ren);
 	bool IsPointOnMap(int mX, int mY);
+	bool IsPointOnMap(vec2 _origin, int mX, int mY);
 	void Update();
 	
 	vec2 ConvertTileToScreenCoordinate(vec2 tileCoord); //Conversion from Tile coordinates ie (1, 3) will be converted to a screen position ie (32, 64) on the screen
 	vec2 ConvertScreenToTileCoordinates(vec2 screenCoord); //Conversion from screen position ie (32, 64) will be convrted to a Tile coordinate ie (1, 3)
+
+	vec2 ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord);
+	vec2 ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord);
 
 	void MoveMap(int x, int y); //Should not use in final project, works but not efficient.
 
@@ -49,7 +55,7 @@ public:
 	unsigned GetNumLayers() const;
 	unsigned GetTileWidth() const;
 	unsigned GetTileHeight() const;
-	TileSet GetTileSet() const;
+	TileSet* GetTileSet() const;
 	Tile* GetTileAt(int layer, int row, int col);
 	vector<vector<vector<Tile>>>* GetTileMap();
 
@@ -59,7 +65,7 @@ public:
 	void SetNumLayers(unsigned num);
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
-	void SetTileSet(TileSet _tileSet);
+	void SetTileSet(TileSet *_tileSet);
 	void SetTileMap(vector<vector<vector<Tile>>> *_tileMap);
 	void SetHighlightColor(Uint8 r, Uint8 g, Uint8 b);
 
@@ -67,7 +73,7 @@ public:
 
 private:
 	vector<vector<vector<Tile>>> tileMap;
-	TileSet tileSet;
+	TileSet* tileSet;
 	HighlightTexture hlTexture;
 	vec2 origin;
 	unsigned numWidth;

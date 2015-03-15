@@ -1,5 +1,5 @@
 //Author:	Mathieu Violette, Nicholas Higa
-//Date:		3/30/2014(MV), 3/8/2014 (NH)
+//Date:		3/30/2014(MV), 3/8/2014 (NH), 3/15/2015 (NH)
 
 #include "Sprite.h"
 
@@ -112,6 +112,10 @@ void Sprite::SetTextScale(float scale)
 //  CONSTRUCTOR / DESTRUCTOR
 //===========================
 
+//No parameter constructor, used for inheritance purposes.
+//Assumes programmer will use Initialize method manually
+Sprite::Sprite() { }
+
 //Text Only Constructor
 Sprite::Sprite(char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
@@ -152,6 +156,16 @@ Sprite::Sprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool useOrigin, 
 }
 
 Sprite::Sprite(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
+{
+	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
+
+	Initialize(loadedSurface->w, loadedSurface->h, pos, useOrigin, scale, spriteEffect);
+
+	SDL_FreeSurface(loadedSurface);
+}
+
+void Sprite::Initialize(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
@@ -216,6 +230,18 @@ void Sprite::Draw(SDL_Renderer* ren)
 		SDL_Rect textRect = {x, y, w, h};
 		SDL_RenderCopyEx(ren, Text, NULL, &textRect, Rotation, &origin, SpriteEffect);
 	}
+}
+
+//Draw at different position than its set position
+//Primary usage for Camera class
+void Sprite::Draw(vec2 pos, SDL_Renderer *ren)
+{
+	SDL_Rect tmp = rect;
+	tmp.x = pos.x;
+	tmp.y = pos.y;
+
+	if (Image != nullptr)
+		SDL_RenderCopyEx(ren, Image, NULL, &tmp, Rotation, &origin, SpriteEffect);
 }
 
 void Sprite::Update(Uint32 elaspedTime)

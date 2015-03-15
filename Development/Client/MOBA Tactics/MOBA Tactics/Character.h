@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH)
 #pragma once
 
 #include "ITileMap.h"
@@ -11,12 +11,12 @@
 using namespace glm;
 using namespace std;
 
-class Character
+class Character : public Sprite
 {
 public:
 	Character();
 	Character(char *spritePath, ITile *onTile, SDL_Renderer *ren);
-	Character(char *spritePath, ITile * nTile, int _maxHealth, int _actionPoints,
+	Character(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
 	void Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren);
 	void Initialize(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
@@ -29,11 +29,8 @@ public:
 												//assuming new class should be created for skills.
 	void ResetDefense(); //Set defense back to regular value.
 	void Update();
-	void Draw(SDL_Renderer *ren);
 	~Character();
 
-	Sprite* GetSprite();
-	vec2 GetPosition();
 	vec3 GetTileGridPosition();
 	ITile *GetOnTile();
 
@@ -53,9 +50,6 @@ public:
 
 	vec2 GetVelocity();
 	bool GetIsMoving();
-
-	void SetSprite(Sprite *_sprite);
-	void SetPosition(vec2 pos);
 
 	void SetCurrentHealth(int num);
 	void SetMaxHealth(int num);
@@ -77,7 +71,6 @@ public:
 	void SetOnTile(ITile *tile);
 
 private:
-	Sprite *sprite;
 	ITile* onTile;
 
 	int currentHealth;

@@ -1,24 +1,22 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015 (NH)
+//Date:		3/4/2015(NH), 3/8/2015 (NH), 3/15/2015 (NH)
 #include "TileSet.h"
 
-TileSet::TileSet()
+TileSet::TileSet(char *spritePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren) : Sprite(spritePath, ren, vec2(0, 0))
 {
-
+	Initialize(spritePath, _tileWidth, _tileHeight, ren);
 }
 
 void TileSet::Initialize(char *spritePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren)
 {
-	tileSetSprite = new Sprite(std::string(spritePath), ren, vec2(0, 0));
-	tileWidth = _tileWidth;
-	tileHeight = _tileHeight;
-	numWidth = tileSetSprite->GetWidth() / _tileWidth;
-	numHeight = tileSetSprite->GetHeight() / _tileHeight;
+	SetTileWidth(_tileWidth);
+	SetTileHeight(_tileHeight);
+	numWidth = GetWidth() / _tileWidth;
+	numHeight = GetHeight() / _tileHeight;
 }
 
 TileSet::~TileSet()
 {
-	delete tileSetSprite;
 }
 
 unsigned TileSet::GetNumWidth() const
@@ -41,11 +39,6 @@ unsigned TileSet::GetTileHeight() const
 	return tileHeight;
 }
 
-Sprite* TileSet::GetTileSetSprite() const
-{
-	return tileSetSprite;
-}
-
 void TileSet::SetNumWidth(unsigned num)
 {
 	numWidth = num;
@@ -64,9 +57,4 @@ void TileSet::SetTileWidth(unsigned num)
 void TileSet::SetTileHeight(unsigned num)
 {
 	tileHeight = num;
-}
-
-void TileSet::SetTileSetSprite(Sprite *sprite)
-{
-	tileSetSprite = sprite;
 }

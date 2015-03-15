@@ -56,7 +56,22 @@ void EventManager::ManageEvents(SDL_Event *event)
 	{
 		UpdateHoverState();
 	}
+
+	if (event->type == SDL_KEYDOWN)
+	{
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+		{
+			sceneHandler.HandleEventKeyDown(event);
+		}
+	}
 	
+	if (event->type == SDL_KEYUP)
+	{
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+		{
+			sceneHandler.HandleEventKeyUp(event);
+		}
+	}
 
 	//Post-update: set previous mouse state
 	{

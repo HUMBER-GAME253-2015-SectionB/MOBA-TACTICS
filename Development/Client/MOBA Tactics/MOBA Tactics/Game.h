@@ -13,6 +13,7 @@ class TileMap;
 #include "ClientAPI.h"
 #include "TileMap.h"
 #include "Character.h"
+#include "Camera.h"
 #include "GameStateManager.h"
 #include "EventManager.h"
 
@@ -29,6 +30,7 @@ class Game : public IGame
 
 		TileMap *tiles;
 		Character *character;
+		Camera *camera;
 		
 		Game();
 		~Game();

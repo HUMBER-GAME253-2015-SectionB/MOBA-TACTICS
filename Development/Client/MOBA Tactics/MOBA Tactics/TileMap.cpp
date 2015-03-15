@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH)
 #include "TileMap.h"
 
 TileMap::TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
@@ -52,6 +52,7 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
 		texturePath = element->Attribute("source");
 
 		InitTileSet((char*)texturePath, tileSetWidth, tileSetHeight, ren);
+		Sprite::Initialize((char*)texturePath, ren, _origin);
 
 		element = doc.FirstChildElement("map")->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
 		layerElement = doc.FirstChildElement("map")->FirstChildElement("layer");
@@ -118,7 +119,7 @@ void TileMap::InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _num
 
 void TileMap::InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren)
 {
-	tileSet.Initialize(texturePath, _tileWidth, _tileHeight, ren);
+	tileSet = new TileSet(texturePath, _tileWidth, _tileHeight, ren);
 }
 
 void TileMap::InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren)
@@ -142,37 +143,6 @@ void TileMap::SetHighlightColor(Uint8 r, Uint8 g, Uint8 b)
 	hlTexture.b = b;
 }
 
-//Should be noted tiles numbered 0 are empty tiles.
-void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
-{
-	SDL_Rect rec;
-	int tileSetRowCol;
-
-	tileSetRowCol = (tileMap[layer][row][col].GetTileID() % tileSet.GetNumWidth());
-	if (tileSetRowCol == 0)
-		tileSetRowCol = tileSet.GetNumWidth();
-
-	//Clipping rectangle
-	rec.x = tileSetRowCol * tileSet.GetTileWidth() - tileSet.GetTileWidth();
-	rec.y = ((tileMap[layer][row][col].GetTileID() - tileSetRowCol) / tileSet.GetNumWidth()) * tileSet.GetTileHeight();
-	rec.w = tileSet.GetTileWidth();
-	rec.h = tileSet.GetTileHeight();
-
-	//Render destination
-	SDL_Rect renderQuad;
-	renderQuad.x = (int)tileMap[layer][row][col].GetPosition().x;
-	renderQuad.y = (int)tileMap[layer][row][col].GetPosition().y;
-	renderQuad.w = rec.w;
-	renderQuad.h = rec.h;
-
-	//tileSet.GetTileSetTexture()->Draw(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, &rec, ren);
-	SDL_RenderCopy(ren, tileSet.GetTileSetSprite()->GetImage(), &rec, &renderQuad);
-
-	if (tileMap[layer][row][col].GetIsHighlighted())
-		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
-		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
-}
-
 void TileMap::Update()
 {
 	if (hlTexture.isFadingOut)
@@ -188,7 +158,7 @@ void TileMap::Update()
 	hlTexture.sprite->SetAlpha(hlTexture.alpha);
 }
 
-void TileMap::DrawMap(SDL_Renderer *ren)
+void TileMap::Draw(SDL_Renderer *ren)
 {
 	for (unsigned a = 0; a < GetNumLayers(); a++)
 	{
@@ -200,6 +170,84 @@ void TileMap::DrawMap(SDL_Renderer *ren)
 			}
 		}
 	}
+}
+
+//Draw the map at a position different from the origin
+void TileMap::Draw(vec2 pos, SDL_Renderer *ren)
+{
+	for (unsigned a = 0; a < GetNumLayers(); a++)
+	{
+		for (unsigned b = 0; b< GetNumHeight(); b++)
+		{
+			for (unsigned c = 0; c < GetNumWidth(); c++)
+			{
+				DrawTile(pos, a, b, c, ren);
+			}
+		}
+	}
+}
+
+//Should be noted tiles numbered 0 are empty tiles.
+void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
+{
+	SDL_Rect rec;
+	int tileSetRowCol;
+
+	tileSetRowCol = (tileMap[layer][row][col].GetTileID() % tileSet->GetNumWidth());
+	if (tileSetRowCol == 0)
+		tileSetRowCol = tileSet->GetNumWidth();
+
+	//Clipping rectangle
+	rec.x = tileSetRowCol * tileSet->GetTileWidth() - tileSet->GetTileWidth();
+	rec.y = ((tileMap[layer][row][col].GetTileID() - tileSetRowCol) / tileSet->GetNumWidth()) * tileSet->GetTileHeight();
+	rec.w = tileSet->GetTileWidth();
+	rec.h = tileSet->GetTileHeight();
+
+	//Render destination
+	SDL_Rect renderQuad;
+	renderQuad.x = (int)tileMap[layer][row][col].GetPosition().x;
+	renderQuad.y = (int)tileMap[layer][row][col].GetPosition().y;
+	renderQuad.w = rec.w;
+	renderQuad.h = rec.h;
+
+	//tileSet.GetTileSetTexture()->Draw(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, &rec, ren);
+	SDL_RenderCopy(ren, tileSet->GetImage(), &rec, &renderQuad);
+
+	if (tileMap[layer][row][col].GetIsHighlighted())
+		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
+		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
+}
+
+//Draw a tile at a position different from its set position.
+void TileMap::DrawTile(vec2 pos, int layer, int row, int col, SDL_Renderer *ren)
+{
+	SDL_Rect rec;
+	int tileSetRowCol;
+
+	tileSetRowCol = (tileMap[layer][row][col].GetTileID() % tileSet->GetNumWidth());
+	if (tileSetRowCol == 0)
+		tileSetRowCol = tileSet->GetNumWidth();
+
+	//Clipping rectangle
+	rec.x = tileSetRowCol * tileSet->GetTileWidth() - tileSet->GetTileWidth();
+	rec.y = ((tileMap[layer][row][col].GetTileID() - tileSetRowCol) / tileSet->GetNumWidth()) * tileSet->GetTileHeight();
+	rec.w = tileSet->GetTileWidth();
+	rec.h = tileSet->GetTileHeight();
+
+	//Render destination
+	SDL_Rect renderQuad;
+	vec2 worldPos = ConvertTileToScreenCoordinate(pos, vec2(col, row));
+	worldPos.x -= tileWidth / 2;
+	renderQuad.x = (int)worldPos.x;
+	renderQuad.y = (int)worldPos.y;
+	renderQuad.w = rec.w;
+	renderQuad.h = rec.h;
+
+	SDL_RenderCopy(ren, tileSet->GetImage(), &rec, &renderQuad);
+
+	if (tileMap[layer][row][col].GetIsHighlighted())
+		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
+		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
 }
 
 //Conversion from Tile coordinates ie (1, 3) will be converted to a screen position ie (32, 64) on the screen
@@ -225,10 +273,37 @@ vec2 TileMap::ConvertScreenToTileCoordinates(vec2 screenCoord)
 	return vec2((int)temp.x, (int)temp.y);
 }  
 
+vec2 TileMap::ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord)
+{
+	vec2 temp;
+	temp.x = _origin.x + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2;
+	temp.y = _origin.y + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2;
+	return temp;
+}
+
+vec2 TileMap::ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord)
+{
+	//Might need to include changes with scale
+	vec2 temp;
+	temp.x = (screenCoord.x - _origin.x) / GetTileWidth() + (screenCoord.y - _origin.y) / GetTileHeight();
+	temp.y = (screenCoord.y - _origin.y) / GetTileHeight() - (screenCoord.x - _origin.x) / GetTileWidth();
+	return vec2((int)temp.x, (int)temp.y);
+}
+
 bool TileMap::IsPointOnMap(int mX, int mY)
 {
 	//Check to make sure TileID not = 0 
 	vec2 tileCoord = ConvertScreenToTileCoordinates(vec2(mX, mY));
+	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1)
+		return true;
+	else
+		return false;
+}
+
+bool TileMap::IsPointOnMap(vec2 _origin, int mX, int mY)
+{
+	//Check to make sure TileID not = 0 
+	vec2 tileCoord = ConvertScreenToTileCoordinates(_origin, vec2(mX, mY));
 	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1)
 		return true;
 	else
@@ -266,7 +341,7 @@ unsigned TileMap::GetTileHeight() const
 	return tileHeight;
 }
 
-TileSet TileMap::GetTileSet() const
+TileSet* TileMap::GetTileSet() const
 {
 	return tileSet;
 }
@@ -292,6 +367,7 @@ void TileMap::SetIsTileHighlighted(bool isHighlighted, int layer, int row, int c
 void TileMap::SetOrigin(vec2 pos)
 {
 	origin = pos;
+	Sprite::SetPosition(pos);
 
 	for (unsigned a = 0; a < GetNumLayers(); a++)
 	{
@@ -330,7 +406,7 @@ void TileMap::SetTileHeight(unsigned num)
 	tileHeight = num;
 }
 
-void TileMap::SetTileSet(TileSet _tileSet)
+void TileMap::SetTileSet(TileSet *_tileSet)
 {
 	tileSet = _tileSet;
 }

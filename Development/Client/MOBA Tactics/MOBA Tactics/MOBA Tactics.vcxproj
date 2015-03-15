@@ -73,6 +73,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonHandler.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="ClientAPI.cpp" />
@@ -102,6 +103,7 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonHandler.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="ClientAPI.h" />
     <ClInclude Include="EventManager.h" />

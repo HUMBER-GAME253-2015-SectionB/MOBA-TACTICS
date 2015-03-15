@@ -27,8 +27,7 @@ void Character::Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren)
 void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
-	sprite = new Sprite(spritePath, ren, vec2(0, 0));
-	SetPosition(vec2(0, 0)); //Change after
+	Sprite::Initialize(spritePath, ren, vec2(0, 0));
 
 	SetCurrentHealth(_maxHealth);
 	SetMaxHealth(_maxHealth);
@@ -88,24 +87,24 @@ void Character::Move(ITileMap *tileMap, ITile *toTile)
 		{
 			for (int i = 0; i < abs((int)gridDisplacement.y); i++)
 			{
-				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y + (i + 1) * increment.x, (int)tileGridPos.z));
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y + (i + 1) * (int)increment.x, (int)tileGridPos.z));
 			}
 
 			for (int i = 0; i < abs((int)gridDisplacement.z); i++)
 			{
-				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)toTile->GetGridPosition().y, (int)tileGridPos.z + (i + 1) * increment.y));
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)toTile->GetGridPosition().y, (int)tileGridPos.z + (i + 1) * (int)increment.y));
 			}
 		}
 		else
 		{
 			for (int i = 0; i < abs((int)gridDisplacement.z); i++)
 			{
-				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y, (int)tileGridPos.z + (i + 1) * increment.y));
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y, (int)tileGridPos.z + (i + 1) * (int)increment.y));
 			}
 
 			for (int i = 0; i < abs((int)gridDisplacement.y); i++)
 			{
-				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y + (i + 1) * increment.x, (int)toTile->GetGridPosition().z));
+				movementPath.push(tileMap->GetTileAt((int)tileGridPos.x, (int)tileGridPos.y + (i + 1) * (int)increment.x, (int)toTile->GetGridPosition().z));
 			}
 		}
 
@@ -139,8 +138,8 @@ void Character::Update()
 	{
 		vec2 vel = GetVelocity();
 		vec2 targetPos = GetTargetTile()->GetPosition();
-		targetPos.x += GetTargetTile()->GetTileWidth() / 2 - GetSprite()->GetWidth() / 2;
-		targetPos.y -= GetSprite()->GetHeight() / 2;
+		targetPos.x += GetTargetTile()->GetTileWidth() / 2 - GetWidth() / 2;
+		targetPos.y -= GetHeight() / 2;
 
 		vec2 tmp = GetPosition();
 		SetPosition(tmp += GetVelocity());
@@ -177,24 +176,8 @@ void Character::Update()
 	}
 }
 
-void Character::Draw(SDL_Renderer *ren)
-{
-	sprite->Draw(ren);
-}
-
 Character::~Character()
 {
-	delete sprite;
-}
-
-Sprite* Character::GetSprite()
-{
-	return sprite;
-}
-
-vec2 Character::GetPosition()
-{
-	return GetSprite()->GetPosition();
 }
 
 vec3 Character::GetTileGridPosition()
@@ -280,21 +263,11 @@ bool Character::GetIsMoving()
 void Character::SetOnTile(ITile *tile)
 {
 	vec2 temp;
-	temp.x = tile->GetPosition().x + tile->GetTileWidth() / 2 - GetSprite()->GetWidth() / 2;
-	temp.y = tile->GetPosition().y - GetSprite()->GetHeight() / 2;
+	temp.x = tile->GetPosition().x + tile->GetTileWidth() / 2 - GetWidth() / 2;
+	temp.y = tile->GetPosition().y - GetHeight() / 2;
 	SetPosition(temp);
 	onTile = tile;
 	tile->SetCharacter(this);
-}
-
-void Character::SetSprite(Sprite *_sprite)
-{
-	sprite = _sprite;
-}
-
-void Character::SetPosition(vec2 pos)
-{
-	GetSprite()->SetPosition(pos);
 }
 
 void Character::SetCurrentHealth(int num)
