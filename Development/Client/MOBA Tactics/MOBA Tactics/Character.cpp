@@ -1,5 +1,5 @@
-//Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH)
+//Author:	Nicholas Higa, Mathieu Violette
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV)
 #include "Character.h"
 #include <cstdlib>
 
@@ -43,6 +43,8 @@ void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int 
 	SetLevel(_level);
 	SetSkillPoints(_skillPoints);
 	SetOnTile(onTile);
+
+	isMoving = false;
 }
 
 void Character::MoveToAdjacentTile(ITile *toTile)

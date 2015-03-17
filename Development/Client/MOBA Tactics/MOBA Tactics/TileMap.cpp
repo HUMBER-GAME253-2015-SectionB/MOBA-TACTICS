@@ -1,5 +1,5 @@
-//Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH)
+//Author:	Nicholas Higa, Mathieu Violette
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/17/2015(MV)
 #include "TileMap.h"
 
 TileMap::TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
@@ -21,8 +21,6 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
 	XMLElement* layerElement;
 	numLayers = 0;
 
-	SetOrigin(_origin);
-	
 	try
 	{
 		XMLError error = doc.LoadFile(xmlFilePath);
@@ -44,7 +42,7 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
 		}
 
 		InitTileMap((unsigned)_numWidth, (unsigned)_numHeight, (unsigned)numLayers, (unsigned)mapTileWidth, (unsigned)mapTileHeight);
-
+		
 		element = doc.FirstChildElement("map")->FirstChildElement("tileset");
 		element->QueryIntAttribute("tilewidth", &tileSetWidth);
 		element->QueryIntAttribute("tileheight", &tileSetHeight);
@@ -98,6 +96,8 @@ bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
 
 			element = layerElement->FirstChildElement("data")->FirstChildElement("tile");
 		}
+
+		SetOrigin(_origin);
 
 		return true;
 	}
