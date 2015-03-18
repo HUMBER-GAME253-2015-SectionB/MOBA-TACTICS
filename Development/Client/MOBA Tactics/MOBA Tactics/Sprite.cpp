@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette, Nicholas Higa
-//Date:		3/30/2014(MV), 3/8/2014 (NH), 3/15/2015 (NH)
+//Author:	Mathieu Violette, Nicholas Higa ,Alejandro Zielinsky
+//Date:		3/30/2014(MV), 3/8/2014 (NH), 3/15/2015 (NH), 3/18/2015(AZ)
 
 #include "Sprite.h"
 
@@ -74,7 +74,7 @@ std::string& Sprite::GetText()
 	return label;
 }
 
-void Sprite::SetText(char* _text)
+void Sprite::SetText(const char* _text)
 {
 	label = _text;
 
@@ -117,7 +117,7 @@ void Sprite::SetTextScale(float scale)
 Sprite::Sprite() { }
 
 //Text Only Constructor
-Sprite::Sprite(char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
+Sprite::Sprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
 	//Make invisible background
 	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");

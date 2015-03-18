@@ -94,6 +94,7 @@
     <ClCompile Include="SceneHandler.cpp" />
     <ClCompile Include="SceneStateManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TextHandler.cpp" />
     <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="SceneStateManager.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="TextHandler.h" />
     <ClInclude Include="TextInput.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />

@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette, Nicholas Higa
-//Date:		3/30/2014(MV), 3/7/2015(NH), 3/15/2015 (NH)
+//Author:	Mathieu Violette, Nicholas Higa, Alejandro Zielinsky
+//Date:		3/30/2014(MV), 3/7/2015(NH), 3/15/2015 (NH), 3/18/2015(AZ)
 
 #ifndef __SPRITE_H_INCLUDED__
 #define __SPRITE_H_INCLUDED__
@@ -31,10 +31,10 @@ class Sprite
 		SDL_Texture* GetImage();
 		SDL_Point GetOrigin();
 		SDL_Color& GetTextColor();
-		void SetOrigin(SDL_Point&), SetPosition(vec2&), SetDimensions(vec2&), SetText(char*), SetTextColor(SDL_Color&), SetTextScale(float);
+		void SetOrigin(SDL_Point&), SetPosition(vec2&), SetDimensions(vec2&), SetText(const char*), SetTextColor(SDL_Color&), SetTextScale(float);
 
 		Sprite();
-		Sprite(char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
+		Sprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		Sprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		Sprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE); 
 		Sprite(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);

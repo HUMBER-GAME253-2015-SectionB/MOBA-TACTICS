@@ -1,10 +1,11 @@
-//Author:	Mathieu Violette
-//Date:		3/8/2015(MV)
+//Author:	Mathieu Violette, Alejandro Zielinsky
+//Date:		3/8/2015(MV),     3/18/2015
 
 #include "EventManager.h"
 
 ButtonHandler EventManager::buttonHandler = ButtonHandler::GetInstance();
 SceneHandler EventManager::sceneHandler = SceneHandler::GetInstance();
+TextHandler EventManager::textHandler = TextHandler::GetInstance();
 
 EventManager& EventManager::GetInstance()
 {
@@ -35,8 +36,10 @@ void EventManager::ManageEvents(SDL_Event *event)
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 			sceneHandler.HandleEventMouseDown(MouseX, MouseY);
 		else
+		{
 			buttonHandler.HandleEventMouseDown(MouseX, MouseY);
-		
+			textHandler.HandleEventMouseDown(MouseX,MouseY);
+		}
 	}
 
 	//Check for left button up
@@ -47,7 +50,10 @@ void EventManager::ManageEvents(SDL_Event *event)
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 			sceneHandler.HandleEventMouseUp(MouseX, MouseY);
 		else
-			buttonHandler.HandleEventMouseUp(MouseX, MouseY);
+		{
+		textHandler.HandleEventMouseUp(MouseX,MouseY);
+		buttonHandler.HandleEventMouseUp(MouseX, MouseY);
+		}
 	}
 
 	//Check for mouse movement
@@ -70,7 +76,17 @@ void EventManager::ManageEvents(SDL_Event *event)
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 		{
 			sceneHandler.HandleEventKeyUp(event);
+		
 		}
+	}
+
+	if(event->type == SDL_TEXTINPUT)
+	{
+		if(Game::gameStateManager.GetGameState() != GameState::SCENE)
+		{
+			textHandler.HandleTextInput(std::string(event->text.text));
+		}
+	
 	}
 
 	//Post-update: set previous mouse state
