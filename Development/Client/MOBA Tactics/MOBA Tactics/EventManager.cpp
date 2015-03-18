@@ -2,6 +2,7 @@
 //Date:		3/8/2015(MV),     3/18/2015
 
 #include "EventManager.h"
+#include "Game.h"
 
 ButtonHandler EventManager::buttonHandler = ButtonHandler::GetInstance();
 SceneHandler EventManager::sceneHandler = SceneHandler::GetInstance();
@@ -67,7 +68,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 	{
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 		{
-			sceneHandler.HandleEventKeyDown(event);
+			sceneHandler.HandleEventKeyDown(SDL_KEYDOWN);
 		}
 	}
 	
@@ -75,7 +76,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 	{
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 		{
-			sceneHandler.HandleEventKeyUp(event);
+			sceneHandler.HandleEventKeyUp(SDL_KEYUP);
 		
 		}
 	}

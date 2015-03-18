@@ -195,6 +195,12 @@
     <ClInclude Include="TextHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ICharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ICamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

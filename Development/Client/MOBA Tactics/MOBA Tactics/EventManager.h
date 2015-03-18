@@ -4,9 +4,6 @@
 #ifndef EVENT_MANAGER_H
 #define EVENT_MANAGER_H
 
-class SceneHandler;
-class ButtonHandler;
-
 #include <SDL.h>
 #include "ButtonHandler.h"
 #include "SceneHandler.h"

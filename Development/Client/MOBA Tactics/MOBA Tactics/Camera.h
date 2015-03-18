@@ -1,6 +1,7 @@
 //Author:	Nicholas Higa
 //Date:		3/15/2015 (NH)
 
+#include "ICamera.h"
 #include <SDL.h>
 #include <vector>
 #include <glm/glm.hpp>
@@ -9,7 +10,7 @@
 using namespace std;
 using namespace glm;
 
-class Camera
+class Camera : public ICamera
 {
 public:
 	Camera(SDL_Renderer *renderer, vec2 pos, int width, int height);

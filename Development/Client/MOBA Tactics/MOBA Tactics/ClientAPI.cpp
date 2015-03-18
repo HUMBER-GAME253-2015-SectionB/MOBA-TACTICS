@@ -1,7 +1,11 @@
 //Author:	David Vo, Mathieu Violette
-//Date:		2/23/2015(DV), 3/8/2015(MV)
+//Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV)
 
 #include "ClientAPI.h"
+
+#include "Character.h"
+#include "TileMap.h"
+#include "Camera.h"
 
 SDL_Window* ClientAPI::mainWindow = NULL;
 SDL_Renderer* ClientAPI::mainRenderer = NULL;
@@ -14,6 +18,10 @@ Mix_Chunk* ClientAPI::_audioChannel2 = NULL;
 Mix_Chunk* ClientAPI::_audioChannel3 = NULL;
 
 TTF_Font* ClientAPI::mainFont = NULL;
+
+ITileMap* ClientAPI::tileMap;
+ICamera* ClientAPI::camera;
+ICharacter* ClientAPI::character;
 
 Colors::Colors()
 {
@@ -105,24 +113,24 @@ SDL_Color& ClientAPI::createColor(int r, int g, int b, int a)
 	return color;
 }
 
-Camera* ClientAPI::createCamera(vec2 pos, int width, int height){
-	Camera* tempCamera = new Camera(mainRenderer, pos, width, height);
+ICamera* ClientAPI::createCamera(vec2 pos, int width, int height){
+	ICamera* tempCamera = new Camera(mainRenderer, pos, width, height);
 	return tempCamera;
 }
 
-TileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, string highlightTexturePath) {
-	TileMap* tempMap = new TileMap(_xmlFilePath, _origin, highlightTexturePath, mainRenderer);
+ITileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, string highlightTexturePath) {
+	ITileMap* tempMap = new TileMap(_xmlFilePath, _origin, highlightTexturePath, mainRenderer);
 	return tempMap;
 }
 
-Character* ClientAPI::createCharacter(char* spritePath, ITile* onTile) {
-	Character* tempCharacter = new Character(spritePath, onTile, mainRenderer);
+ICharacter* ClientAPI::createCharacter(char* spritePath, ITile* onTile) {
+	ICharacter* tempCharacter = new Character(spritePath, onTile, mainRenderer);
 	return tempCharacter;
 }
 
-Character* ClientAPI::createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
+ICharacter* ClientAPI::createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints) {
-	Character* tempCharacter = new Character(spritePath, onTile, _maxHealth, _actionPoints,
+	ICharacter* tempCharacter = new Character(spritePath, onTile, _maxHealth, _actionPoints,
 		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
 	return tempCharacter;
 }

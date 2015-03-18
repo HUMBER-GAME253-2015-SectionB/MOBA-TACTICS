@@ -3,6 +3,10 @@
 
 #include "Game.h"
 
+#include "Camera.h"
+#include "TileMap.h"
+#include "Character.h"
+
 //FOR DEBUGGING: SWITCH TO DIFFERENT STARTING STATE
 GameState startingState = GameState::LOGIN;
 //GameState startingState = GameState::SCENE;
@@ -47,7 +51,7 @@ void Game::Init()
 
 	ClientAPI::mainRenderer = ClientAPI::mainRenderer;
 	ClientAPI::mainWindow = ClientAPI::mainWindow;
-	camera = ClientAPI::createCamera(vec2(0, 0), 1024, 768);
+	ClientAPI::camera = ClientAPI::createCamera(vec2(0, 0), 1024, 768);
 	//camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
 
 	//Initialize random
@@ -59,25 +63,26 @@ void Game::LoadContent()
 {
 	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/lazy.ttf", 72);
 
-	tiles = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png");
+	ClientAPI::tileMap = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png");
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
-	tiles->SetHighlightColor(255, 0, 0);
+	TILEMAP->SetHighlightColor(255, 0, 0);
 
-	character = ClientAPI::createCharacter("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0));
+	ClientAPI::character = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 0, 0));
 	//character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
-	camera->AddToDrawList(tiles);
-	camera->AddToDrawList(character);
-	camera->SetPosition(vec2(100, 100));
+	CAMERA->AddToDrawList(TILEMAP);
+	CAMERA->AddToDrawList(CHARACTER);
+	CAMERA->SetPosition(vec2(100, 100));
 }
 
 void Game::UnloadContent()
 {
-	delete tiles;
-	delete character;
-	delete camera;
-
 	//End program
+
+	delete ClientAPI::tileMap;
+	delete ClientAPI::character;
+	delete ClientAPI::camera;
+
 	TTF_CloseFont(ClientAPI::mainFont);
 
 	Mix_FreeChunk(ClientAPI::_audioChannel);
@@ -97,10 +102,6 @@ void Game::UnloadContent()
 	SDL_DestroyWindow(ClientAPI::mainWindow);
 	ClientAPI::mainRenderer = NULL;
 	ClientAPI::mainWindow = NULL;
-
-	Mix_Quit();
-	IMG_Quit();
-	SDL_Quit();
 }
 
 void Game::Update()
@@ -112,8 +113,8 @@ void Game::Update()
 			gameStateManager.QueueChangeToGameState(startingState);
 			break;
 		case GameState::SCENE:
-			tiles->Update();
-			character->Update();
+			TILEMAP->Update();
+			CHARACTER->Update();
 			break;
 		default:
 			gameStateManager.GetCurrentMenu()->Update();
@@ -128,7 +129,7 @@ void Game::Draw()
 		case GameState::NONE:
 			break;
 		case GameState::SCENE:
-			camera->Draw(ClientAPI::mainRenderer);
+			CAMERA->Draw(ClientAPI::mainRenderer);
 			//tiles->Draw(vec2(0, 0), ClientAPI::mainRenderer);
 			//tiles->Draw(ClientAPI::mainRenderer);
 			//tiles->DrawTile(vec2(0, 0), 1, 5, 5, ClientAPI::mainRenderer);
@@ -143,14 +144,4 @@ void Game::Draw()
 void Game::Exit()
 {
 	GameIsRunning = false;
-}
-
-Character* Game::GetCharacter()
-{
-	return character;
-}
-
-TileMap* Game::GetTileMap()
-{
-	return tiles;
 }

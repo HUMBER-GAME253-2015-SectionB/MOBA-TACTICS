@@ -4,6 +4,7 @@
 
 #include "ITileMap.h"
 #include "ITile.h"
+#include "ICharacter.h"
 #include "Sprite.h"
 #include "glm/glm.hpp"
 #include <queue>
@@ -11,7 +12,7 @@
 using namespace glm;
 using namespace std;
 
-class Character : public Sprite
+class Character : public ICharacter, public Sprite
 {
 public:
 	Character();

@@ -3,23 +3,20 @@
 
 #pragma once
 
-class Game;
+#include "glm\glm.hpp"
 
-#include "Game.h"
+using namespace glm;
 
 class SceneHandler
 {
 private:
 	SceneHandler();
-	Game *game;
 	vec3 prevHighlightedTile;
 public:
 	static SceneHandler& GetInstance();
 	void HandleEventMouseDown(int x, int y);
 	void HandleEventMouseUp(int x, int y);
 	void HandleEventMouseHover(int x, int y);
-	void HandleEventKeyDown(SDL_Event *event);
-	void HandleEventKeyUp(SDL_Event *event);
-
-	void SetGame(Game *_game);
+	void HandleEventKeyDown(unsigned key);
+	void HandleEventKeyUp(unsigned key);
 };

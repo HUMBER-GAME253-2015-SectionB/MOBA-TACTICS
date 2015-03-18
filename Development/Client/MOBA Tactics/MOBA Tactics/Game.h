@@ -25,10 +25,6 @@ class Game : public IGame
 		static GameStateManager gameStateManager;
 		static EventManager eventManager;
 
-		TileMap *tiles;
-		Character *character;
-		Camera *camera;
-		
 		Game();
 		~Game();
 		void Init();
@@ -39,9 +35,6 @@ class Game : public IGame
 		void Update();
 		void Draw();
 		void Exit();	
-
-		Character* GetCharacter();
-		TileMap* GetTileMap();
 };
 
 #endif 
