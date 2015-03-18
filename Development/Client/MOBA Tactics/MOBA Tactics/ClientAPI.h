@@ -21,6 +21,11 @@
 #include <string>
 #include <sstream>
 
+//Classes
+#include "TileMap.h"
+#include "Character.h"
+#include "Camera.h"
+
 struct Colors
 {
 	SDL_Color White; 
@@ -62,7 +67,11 @@ public:
 	static TTF_Font* loadFont(std::string _fontURL, int _fontSize);
 	static int StringToInt(const std::string &Text); 
 
-
+	static Camera* createCamera(vec2 pos, int width, int height);
+	static TileMap* createMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath);
+	static Character* createCharacter(char* spritePath, ITile* onTile);
+	static Character* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
+		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
 	
 };
 #endif

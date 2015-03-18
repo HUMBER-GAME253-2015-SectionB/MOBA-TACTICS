@@ -47,7 +47,8 @@ void Game::Init()
 
 	ClientAPI::mainRenderer = ClientAPI::mainRenderer;
 	ClientAPI::mainWindow = ClientAPI::mainWindow;
-	camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
+	camera = ClientAPI::createCamera(vec2(0, 0), 1024, 768);
+	//camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
 
 	//Initialize random
 	srand(time(NULL));	
@@ -58,11 +59,13 @@ void Game::LoadContent()
 {
 	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/lazy.ttf", 72);
 
-	tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
+	tiles = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png");
+	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	tiles->SetHighlightColor(255, 0, 0);
 
-	character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
+	character = ClientAPI::createCharacter("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0));
+	//character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
 	camera->AddToDrawList(tiles);
 	camera->AddToDrawList(character);
 	camera->SetPosition(vec2(100, 100));

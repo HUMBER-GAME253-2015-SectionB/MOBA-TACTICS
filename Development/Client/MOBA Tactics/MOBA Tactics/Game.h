@@ -11,9 +11,6 @@ class TileMap;
 
 #include "IGame.h"
 #include "ClientAPI.h"
-#include "TileMap.h"
-#include "Character.h"
-#include "Camera.h"
 #include "GameStateManager.h"
 #include "EventManager.h"
 

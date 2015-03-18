@@ -104,3 +104,25 @@ SDL_Color& ClientAPI::createColor(int r, int g, int b, int a)
 	SDL_Color color = {r, g, b, a};
 	return color;
 }
+
+Camera* ClientAPI::createCamera(vec2 pos, int width, int height){
+	Camera* tempCamera = new Camera(mainRenderer, pos, width, height);
+	return tempCamera;
+}
+
+TileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, string highlightTexturePath) {
+	TileMap* tempMap = new TileMap(_xmlFilePath, _origin, highlightTexturePath, mainRenderer);
+	return tempMap;
+}
+
+Character* ClientAPI::createCharacter(char* spritePath, ITile* onTile) {
+	Character* tempCharacter = new Character(spritePath, onTile, mainRenderer);
+	return tempCharacter;
+}
+
+Character* ClientAPI::createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
+	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints) {
+	Character* tempCharacter = new Character(spritePath, onTile, _maxHealth, _actionPoints,
+		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
+	return tempCharacter;
+}
