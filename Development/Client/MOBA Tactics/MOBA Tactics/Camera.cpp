@@ -13,6 +13,7 @@ Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height)
 	rect->w = width;
 	rect->h = height;
 	SetCamera(rect);
+	SetBaseVelocity(vec2(20, 20)); //Change later
 }
 
 void Camera::Draw(SDL_Renderer *ren)
@@ -23,6 +24,16 @@ void Camera::Draw(SDL_Renderer *ren)
 
 void Camera::Update()
 {
+	if (GetIsMoving())
+	{
+		SetPosition(lerp(startPosition, targetPosition, increment));
+		increment += 0.02;
+
+		if (increment.x >= 1)
+		{
+			SetIsMoving(false);
+		}
+	}
 }
 
 void Camera::AddToDrawList(Sprite *item)
@@ -44,6 +55,17 @@ void Camera::RemoveFromDrawList(Sprite *item)
 		}
 	}
 }
+
+void Camera::CentreOn(vec2 _pos)
+{
+	if (!isMoving)
+	{
+		increment = vec2(0.02, 0.02);
+		SetIsMoving(true);
+		SetTargetPosition((GetPosition() + _pos) - vec2(GetWidth() / 2, GetHeight() / 2));
+		SetStartPosition(GetPosition());
+	}
+} 
 
 SDL_Rect* Camera::GetCamera()
 {
@@ -85,6 +107,13 @@ vec2 Camera::GetDrawablePosOnScreen(Sprite *item)
 			return drawList[i]->GetPosition() - GetPosition();
 		}
 	}
+
+	return vec2(-999999999, -999999999); //If sprite not found, return really negative value
+}
+
+vec2 Camera::GetBaseVelocity()
+{
+	return baseVelocity;
 }
 
 void Camera::SetCamera(SDL_Rect *cam)
@@ -113,12 +142,52 @@ void Camera::SetHeight(int h)
 	camera->h = h;
 }
 
+void Camera::SetBaseVelocity(vec2 vel)
+{
+	baseVelocity = vel;
+}
+
 void Camera::MoveCamera(vec2 displacement)
 {
 	SetPosition(GetPosition() + displacement);
 }
 
-void Camera::CenterAroundPosition(vec2 _pos)
+void Camera::SetIsMoving(bool _isMoving)
 {
+	isMoving = _isMoving;
+}
 
+bool Camera::GetIsMoving()
+{
+	return isMoving;
+}
+
+void Camera::SetCurrentVelocity(vec2 vel)
+{
+	currentVelocity = vel;
+}
+
+vec2 Camera::GetCurrentVelocity()
+{
+	return currentVelocity;
+}
+
+void Camera::SetTargetPosition(vec2 targetPos)
+{
+	targetPosition = targetPos;
+}
+
+vec2 Camera::GetTargetPosition()
+{
+	return targetPosition;
+}
+
+void Camera::SetStartPosition(vec2 pos)
+{
+	startPosition = pos;
+}
+
+vec2 Camera::GetStartPosition()
+{
+	return startPosition;
 }

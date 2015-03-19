@@ -19,6 +19,7 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 		printf("Clicked on (%f, %f)\n", temp.x, temp.y);
 		CHARACTER->Move(ClientAPI::tileMap, TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x));
 	}
+	CAMERA->CentreOn(vec2(x, y));
 }
 
 void SceneHandler::HandleEventMouseUp(int x, int y)

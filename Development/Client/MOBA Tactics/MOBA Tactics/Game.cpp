@@ -113,6 +113,7 @@ void Game::Update()
 			gameStateManager.QueueChangeToGameState(startingState);
 			break;
 		case GameState::SCENE:
+			CAMERA->Update();
 			TILEMAP->Update();
 			CHARACTER->Update();
 			break;
