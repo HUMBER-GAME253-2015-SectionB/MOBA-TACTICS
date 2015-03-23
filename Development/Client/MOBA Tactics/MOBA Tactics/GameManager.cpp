@@ -45,6 +45,7 @@ void GameManager::StartProgram()
 
 			lastUpdateTime = SDL_GetTicks();
 			newGame->elaspedTime = timeSincelastUpdate;
+			ClientAPI::elaspedTime = timeSincelastUpdate;
 			
 			SDL_PumpEvents();
 			

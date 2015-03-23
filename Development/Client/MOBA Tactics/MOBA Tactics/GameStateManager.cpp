@@ -76,6 +76,9 @@ IMenu* GameStateManager::GetNewMenu(GameState _newGameState)
 		case GameState::NONE:
 			return nullptr;
 			break;
+		case GameState::SPLASH:
+			return new SplashScreen();
+			break;
 		case GameState::LOGIN:
 			return new LoginScreen();
 			break;

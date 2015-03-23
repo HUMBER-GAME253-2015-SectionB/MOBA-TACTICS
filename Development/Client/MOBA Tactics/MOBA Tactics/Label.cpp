@@ -5,6 +5,7 @@
 
 Label::Label(char* _text, SDL_Rect& dimentions)
 {
+	isVisible = true;
 	text = _text;
 	this->dimentions = dimentions;
 	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
