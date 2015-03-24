@@ -14,7 +14,7 @@ using namespace glm;
 class Camera : public ICamera
 {
 public:
-	Camera(SDL_Renderer *renderer, vec2 pos, int width, int height);
+	Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary);
 	void Draw(SDL_Renderer *ren);
 	void Update();
 	void AddToDrawList(Sprite *item);
@@ -28,6 +28,8 @@ public:
 	int GetHeight();
 	vec2 GetDrawablePosOnScreen(Sprite *item);
 	vec2 GetBaseVelocity();
+	vec2 GetMinBounds();
+	vec2 GetMaxBounds();
 
 	void SetCamera(SDL_Rect *cam);
 	void SetRenderer(SDL_Renderer *renderer);
@@ -35,6 +37,8 @@ public:
 	void SetWidth(int w);
 	void SetHeight(int h);
 	void SetBaseVelocity(vec2);
+	void SetMinBounds(vec2);
+	void SetMaxBounds(vec2);
 
 	void MoveCamera(vec2 displacement);
 private:
@@ -49,6 +53,8 @@ private:
 	vec2 increment;
 	vec2 targetPosition;
 	vec2 startPosition;
+
+	vec2 minBounds, maxBounds; //Min and max of how far the camera can move off screen
 
 	void SetIsMoving(bool);
 	bool GetIsMoving();

@@ -267,6 +267,19 @@ bool Sprite::CollisionMouse(int mX, int mY)
 	return doesContain;
 }
 
+bool Sprite::CollisionMouse(vec2 _origin, int mX, int mY)
+{
+	bool doesContain = false;
+
+	if (mX >= _origin.x &&
+		mX <= _origin.x + rect.w &&
+		mY >= _origin.y &&
+		mY <= _origin.y + rect.h)
+		doesContain = true;
+
+	return doesContain;
+}
+
 bool Sprite::RectCollisionSprite(Sprite* sprite)
 {
 	bool doesIntersect = false;

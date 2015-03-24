@@ -51,7 +51,9 @@ void Game::Init()
 
 	ClientAPI::mainRenderer = ClientAPI::mainRenderer;
 	ClientAPI::mainWindow = ClientAPI::mainWindow;
-	ClientAPI::camera = ClientAPI::createCamera(vec2(0, 0), 1024, 768);
+	minBound = vec2(-100, -100);
+	maxBound = vec2(1524, 1268);
+	ClientAPI::camera = ClientAPI::createCamera(vec2(0, 0), 1024, 768, minBound, maxBound);
 	//camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
 
 	//Initialize random
@@ -73,6 +75,15 @@ void Game::LoadContent()
 	CAMERA->AddToDrawList(TILEMAP);
 	CAMERA->AddToDrawList(CHARACTER);
 	CAMERA->SetPosition(vec2(100, 100));
+
+	tmp1 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, minBound.y));
+	CAMERA->AddToDrawList(tmp1);
+	tmp2 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(minBound.x, minBound.y));
+	CAMERA->AddToDrawList(tmp2);
+	tmp3 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(minBound.x, maxBound.y - 37));
+	CAMERA->AddToDrawList(tmp3);
+	tmp4 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, maxBound.y - 37));
+	CAMERA->AddToDrawList(tmp4);
 }
 
 void Game::UnloadContent()
@@ -113,9 +124,30 @@ void Game::Update()
 			gameStateManager.QueueChangeToGameState(startingState);
 			break;
 		case GameState::SCENE:
+			int MouseX, MouseY;
+			SDL_GetMouseState(&MouseX, &MouseY);
+
 			CAMERA->Update();
 			TILEMAP->Update();
 			CHARACTER->Update();
+
+			//This block of code can not be used within Event Manager because the 
+			//Event manager does not handle cases where the mouse doesn't move. This
+			//is because an event is only called when the mouse has moved for example.
+			//This portion of code requires an update every tick instead of every 
+			//mouse event.
+			if (MouseX <= 30)
+				CAMERA->MoveCamera(vec2(-30, 0));
+
+			if (MouseX >= CAMERA->GetWidth() - 30)
+				CAMERA->MoveCamera(vec2(30, 0));
+
+			if (MouseY <= 30)
+				CAMERA->MoveCamera(vec2(0, -30));
+
+			if (MouseY >= CAMERA->GetHeight() - 30)
+				CAMERA->MoveCamera(vec2(0, 30));
+
 			break;
 		default:
 			gameStateManager.GetCurrentMenu()->Update();

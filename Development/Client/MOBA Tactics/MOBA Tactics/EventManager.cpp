@@ -68,7 +68,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 	{
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 		{
-			sceneHandler.HandleEventKeyDown(SDL_KEYDOWN);
+			sceneHandler.HandleEventKeyDown(event->key.keysym.sym);
 		}
 	}
 	
@@ -76,8 +76,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 	{
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 		{
-			sceneHandler.HandleEventKeyUp(SDL_KEYUP);
-		
+			sceneHandler.HandleEventKeyUp(event->key.keysym.sym);
 		}
 	}
 

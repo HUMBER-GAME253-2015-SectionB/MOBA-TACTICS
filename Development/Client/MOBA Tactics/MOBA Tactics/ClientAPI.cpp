@@ -113,8 +113,8 @@ SDL_Color& ClientAPI::createColor(int r, int g, int b, int a)
 	return color;
 }
 
-ICamera* ClientAPI::createCamera(vec2 pos, int width, int height){
-	ICamera* tempCamera = new Camera(mainRenderer, pos, width, height);
+ICamera* ClientAPI::createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary){
+	ICamera* tempCamera = new Camera(mainRenderer, pos, width, height, minBoundary, maxBoundary);
 	return tempCamera;
 }
 

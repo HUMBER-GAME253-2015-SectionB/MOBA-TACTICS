@@ -4,7 +4,7 @@
 #include "Camera.h"
 
 //Position refers to the top left of the camera
-Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height)
+Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary)
 {
 	SetRenderer(renderer);
 	SDL_Rect *rect = new SDL_Rect();
@@ -13,6 +13,8 @@ Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height)
 	rect->w = width;
 	rect->h = height;
 	SetCamera(rect);
+	SetMinBounds(minBoundary);
+	SetMaxBounds(maxBoundary);
 	SetBaseVelocity(vec2(20, 20)); //Change later
 }
 
@@ -116,6 +118,16 @@ vec2 Camera::GetBaseVelocity()
 	return baseVelocity;
 }
 
+vec2 Camera::GetMinBounds()
+{
+	return minBounds;
+}
+
+vec2 Camera::GetMaxBounds()
+{
+	return maxBounds;
+}
+
 void Camera::SetCamera(SDL_Rect *cam)
 {
 	camera = cam;
@@ -147,9 +159,41 @@ void Camera::SetBaseVelocity(vec2 vel)
 	baseVelocity = vel;
 }
 
+void Camera::SetMinBounds(vec2 val)
+{
+	minBounds = val;
+}
+
+void Camera::SetMaxBounds(vec2 val)
+{
+	maxBounds = val;
+}
+
 void Camera::MoveCamera(vec2 displacement)
 {
-	SetPosition(GetPosition() + displacement);
+	vec2 temp = GetPosition();
+	vec2 minBoundary = GetMinBounds();	
+	vec2 maxBoundary = GetMaxBounds();
+
+	if (displacement.x <= 0 && temp.x + displacement.x >= minBoundary.x)
+		SetPosition(vec2(temp.x + displacement.x, temp.y));
+	else if (displacement.x <= 0 && temp.x + displacement.x < minBoundary.x)
+		SetPosition(vec2(minBoundary.x, temp.y));
+
+	if (displacement.x > 0 && temp.x + displacement.x + GetWidth() <= maxBoundary.x)
+		SetPosition(vec2(temp.x + displacement.x, temp.y));
+	else if (displacement.x > 0 && temp.x + displacement.x + GetWidth() > maxBoundary.x)
+		SetPosition(vec2(maxBoundary.x - GetWidth(), temp.y));
+	
+	if (displacement.y <= 0 && temp.y + displacement.y >= minBoundary.y)
+		SetPosition(vec2(GetPosition().x, GetPosition().y + displacement.y));
+	else if (displacement.y <= 0 && temp.y + displacement.y < minBoundary.y)
+		SetPosition(vec2(temp.x, minBoundary.y));
+
+	if (displacement.y > 0 && temp.y + displacement.y + GetHeight() <= maxBoundary.y)
+		SetPosition(vec2(temp.x, temp.y + displacement.y));
+	else if (displacement.y > 0 && temp.y + displacement.y + GetHeight() > maxBoundary.y)
+		SetPosition(vec2(temp.x, maxBoundary.y - GetHeight()));
 }
 
 void Camera::SetIsMoving(bool _isMoving)

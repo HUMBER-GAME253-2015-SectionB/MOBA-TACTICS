@@ -75,7 +75,7 @@ public:
 	static TTF_Font* loadFont(std::string _fontURL, int _fontSize);
 	static int StringToInt(const std::string &Text); 
 
-	static ICamera* createCamera(vec2 pos, int width, int height);
+	static ICamera* createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary);
 	static ITileMap* createMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath);
 	static ICharacter* createCharacter(char* spritePath, ITile* onTile);
 	static ICharacter* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,

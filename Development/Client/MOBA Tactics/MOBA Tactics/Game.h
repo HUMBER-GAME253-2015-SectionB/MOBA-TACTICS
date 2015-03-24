@@ -24,6 +24,10 @@ class Game : public IGame
 		//SDL_Renderer *Renderer;
 		static GameStateManager gameStateManager;
 		static EventManager eventManager;
+		
+		//Delete after debug
+		vec2 minBound, maxBound;
+		Sprite *tmp1, *tmp2, *tmp3, *tmp4;
 
 		Game();
 		~Game();

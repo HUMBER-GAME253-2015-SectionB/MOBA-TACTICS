@@ -13,13 +13,22 @@ SceneHandler::SceneHandler()
 
 void SceneHandler::HandleEventMouseDown(int x, int y)
 {
-	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y))
+	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y) && CHARACTER->GetIsSelected())
 	{
 		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y));
 		printf("Clicked on (%f, %f)\n", temp.x, temp.y);
 		CHARACTER->Move(ClientAPI::tileMap, TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x));
+		CHARACTER->SetIsSelected(false);
 	}
-	CAMERA->CentreOn(vec2(x, y));
+
+	vec2 charPosition = CAMERA->GetDrawablePosOnScreen(CHARACTER);
+
+	if (!CHARACTER->GetIsSelected() && CHARACTER->CollisionMouse(charPosition, x, y))
+	{
+		printf("Character selected\n");
+		CHARACTER->SetIsSelected(true);
+		CAMERA->CentreOn(vec2(x, y));
+	}
 }
 
 void SceneHandler::HandleEventMouseUp(int x, int y)
@@ -48,23 +57,17 @@ void SceneHandler::HandleEventMouseHover(int x, int y)
 
 void SceneHandler::HandleEventKeyDown(unsigned key)
 {
-	switch (key)
-	{
-		case SDLK_UP:
-			CAMERA->MoveCamera(vec2(0, 5));
-			break;
-		case SDLK_DOWN:
-			CAMERA->MoveCamera(vec2(0, -5));
-			break;
-		case SDLK_LEFT:
-			CAMERA->MoveCamera(vec2(5, 0));
-			break;
-		case SDLK_RIGHT:
-			CAMERA->MoveCamera(vec2(-5, 0));
-			break;
-		default:
-			break;
-	}
+	if (key == SDLK_UP)
+		CAMERA->MoveCamera(vec2(0, 22));
+
+	if (key == SDLK_DOWN)
+		CAMERA->MoveCamera(vec2(0, -22));
+
+	if (key == SDLK_LEFT)
+		CAMERA->MoveCamera(vec2(22, 0));
+
+	if (key == SDLK_RIGHT)
+		CAMERA->MoveCamera(vec2(-22, 0));
 }
 
 void SceneHandler::HandleEventKeyUp(unsigned key)
