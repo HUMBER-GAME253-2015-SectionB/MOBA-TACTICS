@@ -7,7 +7,7 @@
 
 MainMenu::MainMenu()
 {
-	labels.push_front(new Label("Main Menu", ClientAPI::createRectangle(200, 50, 674, 100)));
+	//labels.push_front(new Label("Main Menu", ClientAPI::createRectangle(200, 50, 674, 100)));
 
 	buttons.push_front(new LogoutButton());
 	buttons.push_front(new PlayButton());

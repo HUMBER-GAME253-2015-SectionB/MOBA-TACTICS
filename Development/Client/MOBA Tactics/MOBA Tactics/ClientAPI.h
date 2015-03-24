@@ -49,6 +49,7 @@ class ClientAPI
 public:
 
 	static Colors Color;
+	static Uint32 elaspedTime;
 
 	static SDL_Color& createColor(int r, int g, int b, int a);
 

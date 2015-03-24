@@ -10,6 +10,7 @@
 #include "LoginScreen.h"
 #include "MainMenu.h"
 #include "Options.h"
+#include "SplashScreen.h"
 
 class GameStateManager
 {

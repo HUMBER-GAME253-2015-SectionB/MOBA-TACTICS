@@ -7,6 +7,7 @@
 enum GameState
 {
 	NONE,
+	SPLASH,
 	LOGIN,
 	REGISTER,
 	MAINMENU,

@@ -19,6 +19,8 @@ Mix_Chunk* ClientAPI::_audioChannel3 = NULL;
 
 TTF_Font* ClientAPI::mainFont = NULL;
 
+Uint32 ClientAPI::elaspedTime = 0;
+
 ITileMap* ClientAPI::tileMap;
 ICamera* ClientAPI::camera;
 ICharacter* ClientAPI::character;
