@@ -38,6 +38,10 @@ void Menu::Unload()
 	
 	//Remove buttons from SList
 	buttons.clear();
+
+	textInputs.clear();
+
+	labels.clear();
 }
 
 void Menu::Update()

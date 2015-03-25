@@ -8,7 +8,8 @@ TextInput::TextInput(SDL_Rect& dimentions)
 	text = "";
 	currentState = TIS_UNPRESSED;
 	this->dimentions = dimentions;
-	sprite = new Sprite("", dimentions, ClientAPI::mainRenderer);
+	sprite = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, dimentions);
+	sprite->SetTextScale(0.7f);
 }
 
 TextInput::~TextInput()
@@ -67,12 +68,13 @@ void TextInput::setFocus(bool newVal)
 void TextInput::SetText(const char* _text)
 {
 	text += _text;
+	
+	char* newText = new char[text.length() + 1];
+	strcpy_s(newText, text.length() + 1, text.c_str());
 
-	delete sprite;
-	sprite = nullptr;
+	sprite->SetText(newText);
 
-	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
-
+	delete[] newText;
 }
 
 std::string TextInput::GetText() const
