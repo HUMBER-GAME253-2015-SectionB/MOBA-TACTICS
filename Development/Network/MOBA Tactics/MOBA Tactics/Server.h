@@ -40,6 +40,6 @@ class Server
 		string storeActivity(unsigned int clientNumber);
 
 
-		void sendData(unsigned int clientNumber, string dataToSend);
+		void sendData(string dataToSend);
 
 };

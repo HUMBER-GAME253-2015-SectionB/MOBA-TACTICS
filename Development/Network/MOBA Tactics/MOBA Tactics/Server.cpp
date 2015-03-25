@@ -171,15 +171,13 @@ string Server::storeActivity(unsigned int clientNumber)
 	return dataRecieved; 
 }
 
-void Server::sendData(unsigned int clientNumber, string dataToSend)
+void Server::sendData(string dataToSend)
 {
 	// Send message to all other connected clients
 	for (unsigned int loop = 0; loop < maxClients; loop++)
 	{
-		if (clientNumber != loop){
-			strcpy(buffer, dataToSend.c_str());
+		strcpy(buffer, dataToSend.c_str());
 
-			SDLNet_TCP_Send(clientSocket[loop], buffer, bufferSize);
-		}
+		SDLNet_TCP_Send(clientSocket[loop], buffer, bufferSize);
 	}
 }
