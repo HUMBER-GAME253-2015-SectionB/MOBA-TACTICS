@@ -15,8 +15,6 @@ class GameManager
 		GameManager();
 		~GameManager();
 		void StartProgram();
-		static int SDL_UpdateThreadFunction(void*);
-		static int SDL_DrawThreadFunction(void*);
 };
 
 #endif 

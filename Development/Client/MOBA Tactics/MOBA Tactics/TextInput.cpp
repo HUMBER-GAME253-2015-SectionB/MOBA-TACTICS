@@ -46,8 +46,6 @@ void TextInput::Update()
 void TextInput::OnClick()
 {
 	setFocus(true);
-	
-
 }
 
 void TextInput::setFocus(bool newVal)
