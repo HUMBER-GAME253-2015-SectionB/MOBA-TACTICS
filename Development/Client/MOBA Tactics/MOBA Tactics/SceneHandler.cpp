@@ -22,6 +22,7 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 	}
 
 	vec2 charPosition = CAMERA->GetDrawablePosOnScreen(CHARACTER);
+	charPosition *= CAMERA->GetScale();
 
 	if (!CHARACTER->GetIsSelected() && CHARACTER->CollisionMouse(charPosition, x, y))
 	{
@@ -38,9 +39,9 @@ void SceneHandler::HandleEventMouseUp(int x, int y)
 
 void SceneHandler::HandleEventMouseHover(int x, int y)
 {
-	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y))
+	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale()))
 	{
-		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y));
+		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), CAMERA->GetScale());
 
 		if (prevHighlightedTile != vec3(1, temp.y, temp.x))
 		{
@@ -73,6 +74,14 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 void SceneHandler::HandleEventKeyUp(unsigned key)
 {
 
+}
+
+void SceneHandler::HandleEventMouseWheel(SDL_MouseWheelEvent mwheel)
+{
+	if (mwheel.y > 0)
+		CAMERA->SetScale(CAMERA->GetScale() + 0.3);
+	else if (mwheel.y < 0)
+		CAMERA->SetScale(CAMERA->GetScale() - 0.3);
 }
 
 SceneHandler& SceneHandler::GetInstance()

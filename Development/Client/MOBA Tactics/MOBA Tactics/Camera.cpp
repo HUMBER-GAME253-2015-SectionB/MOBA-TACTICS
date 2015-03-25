@@ -1,10 +1,13 @@
 //Author:	Nicholas Higa
-//Date:		3/15/2015 (NH)
+//Date:		3/15/2015 (NH), 3/24/2015(NH)
 
 #include "Camera.h"
 
 //Position refers to the top left of the camera
-Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary)
+
+Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary) : Camera(renderer, pos, width, height, minBoundary, maxBoundary, 0.8f, 2.0f) {}
+
+Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary, float minScale, float maxScale)
 {
 	SetRenderer(renderer);
 	SDL_Rect *rect = new SDL_Rect();
@@ -16,10 +19,14 @@ Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 min
 	SetMinBounds(minBoundary);
 	SetMaxBounds(maxBoundary);
 	SetBaseVelocity(vec2(20, 20)); //Change later
+	SetMinScale(minScale);
+	SetMaxScale(maxScale);
+	SetScale(1.0f);
 }
 
 void Camera::Draw(SDL_Renderer *ren)
 {
+	SDL_RenderSetScale(ren, scale, scale);
 	for (unsigned i = 0; i < drawList.size(); i++)
 		drawList[i]->Draw(drawList[i]->GetPosition() - GetPosition(), ren);
 }
@@ -128,6 +135,21 @@ vec2 Camera::GetMaxBounds()
 	return maxBounds;
 }
 
+float Camera::GetMinScale()
+{
+	return minScale;
+}
+
+float Camera::GetMaxScale()
+{
+	return maxScale;
+}
+
+float Camera::GetScale()
+{
+	return scale;
+}
+
 void Camera::SetCamera(SDL_Rect *cam)
 {
 	camera = cam;
@@ -167,6 +189,26 @@ void Camera::SetMinBounds(vec2 val)
 void Camera::SetMaxBounds(vec2 val)
 {
 	maxBounds = val;
+}
+
+void Camera::SetMinScale(float val)
+{
+	minScale = val;
+}
+
+void Camera::SetMaxScale(float val)
+{
+	maxScale = val;
+}
+
+void Camera::SetScale(float val)
+{
+	if (val < GetMaxScale() && val > GetMinScale())
+		scale = val;
+	else if (val > GetMaxScale())
+		scale = GetMaxScale();
+	else if (val < GetMinScale())
+		scale = GetMinScale();
 }
 
 void Camera::MoveCamera(vec2 displacement)

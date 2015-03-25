@@ -86,7 +86,12 @@ void EventManager::ManageEvents(SDL_Event *event)
 		{
 			textHandler.HandleTextInput(std::string(event->text.text));
 		}
-	
+	}
+
+	if (event->type == SDL_MOUSEWHEEL)
+	{
+		sceneHandler.HandleEventMouseWheel(event->wheel);
+		
 	}
 
 	//Post-update: set previous mouse state

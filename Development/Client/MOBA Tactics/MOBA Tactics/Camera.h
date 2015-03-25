@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/15/2015 (NH)
+//Date:		3/15/2015 (NH), 3/24/2015(NH)
 
 #include "ICamera.h"
 #include <SDL.h>
@@ -15,6 +15,7 @@ class Camera : public ICamera
 {
 public:
 	Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary);
+	Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary, float minScale, float maxScale);
 	void Draw(SDL_Renderer *ren);
 	void Update();
 	void AddToDrawList(Sprite *item);
@@ -30,6 +31,9 @@ public:
 	vec2 GetBaseVelocity();
 	vec2 GetMinBounds();
 	vec2 GetMaxBounds();
+	float GetMinScale();
+	float GetMaxScale();
+	float GetScale();
 
 	void SetCamera(SDL_Rect *cam);
 	void SetRenderer(SDL_Renderer *renderer);
@@ -39,6 +43,9 @@ public:
 	void SetBaseVelocity(vec2);
 	void SetMinBounds(vec2);
 	void SetMaxBounds(vec2);
+	void SetMinScale(float);
+	void SetMaxScale(float);
+	void SetScale(float);
 
 	void MoveCamera(vec2 displacement);
 private:
@@ -55,6 +62,9 @@ private:
 	vec2 startPosition;
 
 	vec2 minBounds, maxBounds; //Min and max of how far the camera can move off screen
+	float minScale;
+	float maxScale;
+	float scale;
 
 	void SetIsMoving(bool);
 	bool GetIsMoving();

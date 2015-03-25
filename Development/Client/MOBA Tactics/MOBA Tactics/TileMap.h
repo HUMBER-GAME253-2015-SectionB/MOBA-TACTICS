@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/24/2015(NH)
 #pragma once
 
 #include "tinyxml2.h"
@@ -39,6 +39,7 @@ public:
 	void DrawTile(vec2 pos, int layer, int row, int col, SDL_Renderer *ren);
 	bool IsPointOnMap(int mX, int mY);
 	bool IsPointOnMap(vec2 _origin, int mX, int mY);
+	bool IsPointOnMap(vec2 _origin, int mX, int mY, float scale);
 	void Update();
 	
 	vec2 ConvertTileToScreenCoordinate(vec2 tileCoord); //Conversion from Tile coordinates ie (1, 3) will be converted to a screen position ie (32, 64) on the screen
@@ -46,6 +47,9 @@ public:
 
 	vec2 ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord);
 	vec2 ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord);
+
+	vec2 ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord, float scale);
+	vec2 ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord, float scale);
 
 	void MoveMap(int x, int y); //Should not use in final project, works but not efficient.
 

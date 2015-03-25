@@ -1,5 +1,6 @@
 //Author:	Nicholas Higa, Mathieu Violette
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/17/2015(MV)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/17/2015(MV),
+//          3/24/2015(NH)
 #include "TileMap.h"
 
 TileMap::TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
@@ -290,6 +291,23 @@ vec2 TileMap::ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord)
 	return vec2((int)temp.x, (int)temp.y);
 }
 
+vec2 TileMap::ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord, float scale)
+{
+	vec2 temp;
+	temp.x = _origin.x * scale + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2 * scale;
+	temp.y = _origin.y * scale + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2 * scale;
+	return temp;
+}
+
+vec2 TileMap::ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord, float scale)
+{
+	//Might need to include changes with scale
+	vec2 temp;
+	temp.x = (screenCoord.x - _origin.x * scale) / (GetTileWidth() * scale) + (screenCoord.y - _origin.y * scale) / (GetTileHeight() * scale);
+	temp.y = (screenCoord.y - _origin.y * scale) / (GetTileHeight() * scale) - (screenCoord.x - _origin.x * scale) / (GetTileWidth() * scale);
+	return vec2((int)temp.x, (int)temp.y);
+}
+
 bool TileMap::IsPointOnMap(int mX, int mY)
 {
 	//Check to make sure TileID not = 0 
@@ -304,6 +322,15 @@ bool TileMap::IsPointOnMap(vec2 _origin, int mX, int mY)
 {
 	//Check to make sure TileID not = 0 
 	vec2 tileCoord = ConvertScreenToTileCoordinates(_origin, vec2(mX, mY));
+	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1)
+		return true;
+	else
+		return false;
+}
+
+bool TileMap::IsPointOnMap(vec2 _origin, int mX, int mY, float scale)
+{
+	vec2 tileCoord = ConvertScreenToTileCoordinates(_origin, vec2(mX, mY), scale);
 	if (tileCoord.x >= 0 && tileCoord.y >= 0 && tileCoord.x < GetNumWidth() - 1 && tileCoord.y < GetNumHeight() - 1)
 		return true;
 	else

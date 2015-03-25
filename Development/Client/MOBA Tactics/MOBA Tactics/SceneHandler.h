@@ -3,6 +3,8 @@
 
 #pragma once
 
+class SDL_MouseWheelEvent;
+
 #include "glm\glm.hpp"
 
 using namespace glm;
@@ -19,4 +21,5 @@ public:
 	void HandleEventMouseHover(int x, int y);
 	void HandleEventKeyDown(unsigned key);
 	void HandleEventKeyUp(unsigned key);
+	void HandleEventMouseWheel(SDL_MouseWheelEvent mwheel);
 };
