@@ -66,7 +66,7 @@ void TextInput::setFocus(bool newVal)
 
 void TextInput::SetText(const char* _text)
 {
-	text = _text;
+	text += _text;
 
 	delete sprite;
 	sprite = nullptr;

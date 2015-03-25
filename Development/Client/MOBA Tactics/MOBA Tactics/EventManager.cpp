@@ -8,6 +8,8 @@ ButtonHandler EventManager::buttonHandler = ButtonHandler::GetInstance();
 SceneHandler EventManager::sceneHandler = SceneHandler::GetInstance();
 TextHandler EventManager::textHandler = TextHandler::GetInstance();
 
+class TextInput;
+
 EventManager& EventManager::GetInstance()
 {
 	static EventManager instance;
@@ -113,20 +115,30 @@ void EventManager::UpdateHoverState()
 void EventManager::RegisterMenu(const Menu& menu)
 {
 	//Register buttons to button handler
-
 	for (SList<Button*>::Iterator i = menu.GetButtons().begin(); i != menu.GetButtons().end(); i++)
 	{
 		buttonHandler.SubscribeButton(*(*i));
+	}
+
+	//Register TextInputs to TextInput handler
+	for (SList<TextInput*>::Iterator i = menu.GetTextInputs().begin(); i != menu.GetTextInputs().end(); i++)
+	{
+		textHandler.SubscribeTextInput(*(*i));
 	}
 }
 
 void EventManager::UnregisterMenu(const Menu& menu)
 {
 	//Unregister buttons to button handler
-
 	for (SList<Button*>::Iterator i = menu.GetButtons().begin(); i != menu.GetButtons().end(); i++)
 	{
 		buttonHandler.RemoveButton(*(*i));
+	}
+
+	//Unregister TextInputs to TextInput handler
+	for (SList<TextInput*>::Iterator i = menu.GetTextInputs().begin(); i != menu.GetTextInputs().end(); i++)
+	{
+		textHandler.RemoveTextInput(*(*i));
 	}
 }
 

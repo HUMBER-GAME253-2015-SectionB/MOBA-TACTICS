@@ -1,4 +1,4 @@
-//Author:	Mathieu Violette Kees Vermeulen
+//Author:	Mathieu Violette, Kees Vermeulen
 //Date:		3/5/2015(MV), 3/8/2015(MV), 3/10/2015
 
 #include "Menu.h"
@@ -91,4 +91,9 @@ void Menu::Draw(SDL_Renderer* ren) const
 const SList<Button*>& Menu::GetButtons() const
 {
 	return buttons;
+}
+
+const SList<TextInput*>& Menu::GetTextInputs() const
+{
+	return textInputs;
 }

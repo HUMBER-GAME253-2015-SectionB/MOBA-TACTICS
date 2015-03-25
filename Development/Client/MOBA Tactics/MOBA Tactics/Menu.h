@@ -28,7 +28,7 @@ public:
 	void Draw(SDL_Renderer* ren) const;
 	
 	const SList<Button*>& GetButtons() const;
-
+	const SList<TextInput*>& GetTextInputs() const;
 };
 
 #endif
