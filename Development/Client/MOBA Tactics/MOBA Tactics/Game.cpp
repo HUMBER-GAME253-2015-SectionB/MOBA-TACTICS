@@ -8,8 +8,8 @@
 #include "Character.h"
 
 //FOR DEBUGGING: SWITCH TO DIFFERENT STARTING STATE
-//GameState startingState = GameState::SPLASH;
-GameState startingState = GameState::SCENE;
+GameState startingState = GameState::SPLASH;
+//GameState startingState = GameState::SCENE;
 
 Game::Game()
 {

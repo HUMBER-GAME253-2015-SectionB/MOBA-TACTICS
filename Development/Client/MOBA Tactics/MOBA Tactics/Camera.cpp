@@ -5,7 +5,10 @@
 
 //Position refers to the top left of the camera
 
-Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary) : Camera(renderer, pos, width, height, minBoundary, maxBoundary, 0.8f, 2.0f) {}
+Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary) 
+{
+	new (this) Camera(renderer, pos, width, height, minBoundary, maxBoundary, 0.8f, 2.0f);
+}
 
 Camera::Camera(SDL_Renderer *renderer, vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary, float minScale, float maxScale)
 {
