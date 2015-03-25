@@ -34,9 +34,12 @@ class Server
 		void connectionThread(); 
 
 		// Checks for number of active clients or -1 if no clients with activity to process
-		void checkForActivity(); 
+		int checkForActivity(); 
 
 		// Do something when client is detected, accepting a client to do the activity with.
-		void dealWithActivity(unsigned int clientNumber);
+		string storeActivity(unsigned int clientNumber);
+
+
+		void sendData(unsigned int clientNumber, string dataToSend);
 
 };

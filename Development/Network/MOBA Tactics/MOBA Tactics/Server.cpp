@@ -120,18 +120,66 @@ void Server::connectionThread()
 			//Now we close their connection
 			SDLNet_TCP_Close(tempClient);
 		}
-
 	}
-	
-
 }
 
-void Server::checkForActivity()
+int Server::checkForActivity()
 {
+	// Loop through the client sockets for activity
+	// This also gives the clientNumber to the Sockets activity.
+	for (unsigned int clientNumber = 0; clientNumber < maxClients; clientNumber++) 
+	{
+		// returns non-zero for activity. 0 means there is no activity!
+		// If no activity nothing is happening. 
+		// Activity can signify a disconnect as well.
+		int checkSocketActivity = SDLNet_SocketReady(clientSocket[clientNumber]);
+		
+		// If there is activity
+		if (checkSocketActivity != 0)
+		{
+			// Check if the client has sent any data over.
+			int bytesReceived = SDLNet_TCP_Recv(clientSocket[clientNumber], buffer, bufferSize);
 
+			// If nothing was receieved the activity is a disconnection.
+			if (bytesReceived <= 0)
+			{
+				// Remove the socket from the set. 
+				SDLNet_TCP_DelSocket(socketSet, clientSocket[clientNumber]);
+
+				// Close and reset it to be reused.
+				SDLNet_TCP_Close(clientSocket[clientNumber]);
+				clientSocket[clientNumber] = NULL;
+				socketIsFree[clientNumber] = true;
+
+				clientCount--;
+			}
+			else
+			{
+				return clientNumber;
+			}
+		}
+	}
+	return -1;
 }
 
-void Server::dealWithActivity(unsigned int clientNumber)
+string Server::storeActivity(unsigned int clientNumber)
 {
+	//get the data that was send from client and store it.
+	string dataRecieved = buffer;
 
+	//return it so the server can use the data received.
+	return dataRecieved; 
+}
+
+void Server::sendData(unsigned int clientNumber, string dataToSend)
+{
+	// Send message to all other connected clients
+	for (unsigned int loop = 0; loop < maxClients; loop++)
+	{
+		if (clientNumber != loop){
+			strcpy(buffer, dataToSend.c_str());
+
+			SDLNet_TCP_Send(clientSocket[loop], buffer, bufferSize);
+		}
+	}
 }
