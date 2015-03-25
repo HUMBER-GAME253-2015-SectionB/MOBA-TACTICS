@@ -2,7 +2,7 @@
 //Date:		3/4/2015(AZ), 3/6/2015(KV)
 
 #pragma once
-#include "GUIElement.h";
+#include "GUIElement.h"
 #include "Sprite.h"
 #include <string>
 

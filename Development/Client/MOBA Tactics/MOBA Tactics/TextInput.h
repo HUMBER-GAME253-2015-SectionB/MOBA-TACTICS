@@ -3,8 +3,7 @@
 
 #ifndef TEXTINPUT_H
 #define TEXTINPUT_H
-
-#include "GUIElement.h";
+#include "GUIElement.h"
 #include "Sprite.h"
 #include <string>
 

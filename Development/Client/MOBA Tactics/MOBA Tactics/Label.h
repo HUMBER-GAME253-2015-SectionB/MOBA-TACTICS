@@ -3,8 +3,7 @@
 
 #ifndef LABEL_H
 #define LABEL_H
-
-#include "GUIElement.h";
+#include "GUIElement.h"
 #include "Sprite.h"
 #include <string>
 

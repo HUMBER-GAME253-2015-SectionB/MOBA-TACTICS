@@ -79,9 +79,9 @@ void SceneHandler::HandleEventKeyUp(unsigned key)
 void SceneHandler::HandleEventMouseWheel(SDL_MouseWheelEvent mwheel)
 {
 	if (mwheel.y > 0)
-		CAMERA->SetScale(CAMERA->GetScale() + 0.3);
+		CAMERA->SetScale(CAMERA->GetScale() + 0.3f);
 	else if (mwheel.y < 0)
-		CAMERA->SetScale(CAMERA->GetScale() - 0.3);
+		CAMERA->SetScale(CAMERA->GetScale() - 0.3f);
 }
 
 SceneHandler& SceneHandler::GetInstance()

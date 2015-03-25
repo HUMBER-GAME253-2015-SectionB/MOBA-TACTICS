@@ -48,6 +48,12 @@ void Menu::Update()
 		(*i)->Update();
 	}
 
+	//Call Update Of Each TextInput
+	for (SList<TextInput*>::Iterator i = textInputs.begin(); i != textInputs.end(); i++)
+	{
+		(*i)->Update();
+	}
+
 	//Call Update Of Each Button
 	for (SList<Button*>::Iterator i = buttons.begin(); i != buttons.end(); i++)
 	{
@@ -63,6 +69,12 @@ void Menu::Draw(SDL_Renderer* ren) const
 		title->Draw(ren);
 	//Draw Labels
 	for (SList<Label*>::Iterator i = labels.begin(); i != labels.end(); i++)
+	{
+		(*i)->Draw();
+	}
+
+	//Draw TextInputs
+	for (SList<TextInput*>::Iterator i = textInputs.begin(); i != textInputs.end(); i++)
 	{
 		(*i)->Draw();
 	}
