@@ -36,31 +36,25 @@ void TextHandler::RemoveAll()
 
 bool TextHandler::HandleEventMouseDown(int x, int y)
 {
-	for(SList<TextInput*>::Iterator i = registeredTextInputs->begin(); i != registeredTextInputs->end(); ++i)
-	{
-		if((*i)->CheckMouseCollision(x, y))
-		{
-			(*i)->currentState = TIS_PRESSED;
-			return true;
-		}
-	}
-	return false;
-}
-
-bool TextHandler::HandleEventMouseUp(int x, int y)
-{
 	bool succeess = false;
 	SList<TextInput*>::Iterator target = registeredTextInputs->begin();
 
 	for (SList<TextInput*>::Iterator i = registeredTextInputs->begin(); i != registeredTextInputs->end(); ++i)
 	{
-		if ((*i)->CheckMouseCollision(x, y) && (*i)->currentState == TIS_PRESSED)
+		if ((*i)->CheckMouseCollision(x, y))
 		{
 			target = i;
 			succeess = true;
-		}
 
-		(*i)->currentState = TIS_UNPRESSED;
+			if ((*i)->currentState == UNFOCUSED)
+			{				
+				(*i)->currentState = FOCUSED;
+			}
+		}
+		else if ((*i)->currentState == FOCUSED)
+		{
+			(*i)->currentState = UNFOCUSED;
+		}
 	}
 
 	if (succeess)
@@ -72,8 +66,9 @@ bool TextHandler::HandleEventMouseUp(int x, int y)
 	else
 	{
 		if(activeTextbox)
-		activeTextbox->setFocus(false);
-		activeTextbox = NULL;
+			activeTextbox->setFocus(false);
+
+		activeTextbox = nullptr;
 		
 	}
 	return succeess;
@@ -88,6 +83,19 @@ bool TextHandler::HandleTextInput(std::string& txt)
 	return true;
 }
 
+bool TextHandler::HandleTextInput(SDL_Scancode& scan)
+{
+	if (activeTextbox)
+	{
+		switch (scan)
+		{
+			case SDL_SCANCODE_BACKSPACE:
+
+				break;
+		}
+	}
+	return true;
+}
 
 TextHandler& TextHandler::GetInstance()
 {

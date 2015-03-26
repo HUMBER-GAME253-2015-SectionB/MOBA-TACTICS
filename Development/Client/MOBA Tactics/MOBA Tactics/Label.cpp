@@ -8,7 +8,7 @@ Label::Label(char* _text, SDL_Rect& dimentions)
 	isVisible = true;
 	text = _text;
 	this->dimentions = dimentions;
-	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
+	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer);
 }
 
 
@@ -31,7 +31,7 @@ void Label::Hide()
 void Label::Draw()
 {
 	if (isVisible)
-		sprite->Draw(ClientAPI::mainRenderer);
+		((TextSprite*)sprite)->Draw(ClientAPI::mainRenderer);
 }
 
 bool Label::CheckMouseCollision(int x, int y)
@@ -51,7 +51,7 @@ void Label::SetText(char* _text)
 	delete sprite;
 	sprite = nullptr;
 
-	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
+	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer);
 
 }
 

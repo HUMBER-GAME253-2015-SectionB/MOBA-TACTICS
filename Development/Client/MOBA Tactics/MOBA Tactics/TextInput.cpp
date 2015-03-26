@@ -6,16 +6,24 @@
 TextInput::TextInput(SDL_Rect& dimentions)
 {
 	text = "";
-	currentState = TIS_UNPRESSED;
+	currentState = UNFOCUSED;
 	this->dimentions = dimentions;
-	sprite = new Sprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, dimentions);
-	sprite->SetTextScale(0.7f);
+
+	spriteUnfocused = new TextSprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, dimentions);
+	((TextSprite*)spriteUnfocused)->SetTextScale(0.7f);
+
+	spriteFocused = new TextSprite(ClientAPI::Color.Red, ClientAPI::mainRenderer, dimentions);
+	((TextSprite*)spriteUnfocused)->SetTextScale(0.7f);
+
+	SelectSprite();
 }
 
 TextInput::~TextInput()
 {
-	if (sprite != NULL)
-		delete sprite;
+	if (spriteUnfocused != NULL)
+		delete spriteUnfocused;
+	if (spriteFocused != NULL)
+		delete spriteFocused;
 }
 
 void TextInput::Show()
@@ -31,7 +39,7 @@ void TextInput::Hide()
 void TextInput::Draw()
 {
 	if (isVisible)
-		sprite->Draw(ClientAPI::mainRenderer);
+		((TextSprite*)sprite)->Draw(ClientAPI::mainRenderer);
 }
 
 bool TextInput::CheckMouseCollision(int x, int y)
@@ -41,7 +49,7 @@ bool TextInput::CheckMouseCollision(int x, int y)
 
 void TextInput::Update()
 {
-	
+	SelectSprite();
 }
 
 void TextInput::OnClick()
@@ -72,7 +80,8 @@ void TextInput::SetText(const char* _text)
 	char* newText = new char[text.length() + 1];
 	strcpy_s(newText, text.length() + 1, text.c_str());
 
-	sprite->SetText(newText);
+	((TextSprite*)spriteFocused)->SetText(newText);
+	((TextSprite*)spriteUnfocused)->SetText(newText);
 
 	delete[] newText;
 }
@@ -80,4 +89,21 @@ void TextInput::SetText(const char* _text)
 std::string TextInput::GetText() const
 {
 	return text;
+}
+
+void TextInput::SetSprite(Sprite* sprite)
+{
+	this->sprite = sprite;
+}
+
+void TextInput::SelectSprite()
+{
+	if (currentState == FOCUSED)
+	{
+		SetSprite(spriteFocused);
+	}
+	else if (currentState == UNFOCUSED)
+	{
+		SetSprite(spriteUnfocused);
+	}
 }

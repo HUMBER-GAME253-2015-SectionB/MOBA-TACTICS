@@ -1,5 +1,5 @@
 //Author:	Mathieu Violette, Alejandro Zielinsky
-//Date:		3/8/2015(MV),     3/18/2015
+//Date:		3/8/2015(MV), 3/18/2015(AZ)
 
 #include "EventManager.h"
 #include "Game.h"
@@ -54,8 +54,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 			sceneHandler.HandleEventMouseUp(MouseX, MouseY);
 		else
 		{
-		textHandler.HandleEventMouseUp(MouseX,MouseY);
-		buttonHandler.HandleEventMouseUp(MouseX, MouseY);
+			buttonHandler.HandleEventMouseUp(MouseX, MouseY);
 		}
 	}
 
@@ -71,6 +70,10 @@ void EventManager::ManageEvents(SDL_Event *event)
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 		{
 			sceneHandler.HandleEventKeyDown(event->key.keysym.sym);
+		}
+		else
+		{
+			textHandler.HandleTextInput(event->key.keysym.scancode);			
 		}
 	}
 	
@@ -89,7 +92,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 			textHandler.HandleTextInput(std::string(event->text.text));
 		}
 	}
-
+	
 	if (event->type == SDL_MOUSEWHEEL)
 	{
 		sceneHandler.HandleEventMouseWheel(event->wheel);

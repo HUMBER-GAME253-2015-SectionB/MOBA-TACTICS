@@ -15,32 +15,25 @@ class Sprite
 		vec2 position, dimensions;
 		SDL_Point origin;
 		SDL_Rect rect;
-		std::string label;
-		SDL_Color labelColor;
-		float labelScale;
 	public:
 		bool UseOrigin;
 		float Rotation, Scale, InitialScale;
-		SDL_Texture *Image, *Text;
+		SDL_Texture *Image;
 		SDL_RendererFlip SpriteEffect;
 
-		std::string& GetText();
 		vec2 GetPosition(), GetDimensions();
 		int GetWidth(), GetHeight();
-		float GetTextScale();
 		SDL_Texture* GetImage();
 		SDL_Point GetOrigin();
-		SDL_Color& GetTextColor();
-		void SetOrigin(SDL_Point&), SetPosition(vec2&), SetDimensions(vec2&), SetText(const char*), SetTextColor(SDL_Color&), SetTextScale(float);
+		void SetOrigin(SDL_Point&), SetPosition(vec2&), SetDimensions(vec2&);
 
 		Sprite();
-		Sprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		Sprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		Sprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE); 
 		Sprite(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		void Initialize(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin = false, float scale = 1.0f, SDL_RendererFlip spriteEffect = SDL_FLIP_NONE);
 		void Initialize(int width, int height, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect);
-		~Sprite();
+		virtual ~Sprite();
 		virtual void Draw(vec2 pos, SDL_Renderer *ren);
 		virtual void Draw(SDL_Renderer*);
 		virtual void Update(Uint32);

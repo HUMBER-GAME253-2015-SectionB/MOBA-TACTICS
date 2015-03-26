@@ -69,45 +69,6 @@ void Sprite::SetImage(SDL_Texture* _image)
 	Image = _image;
 }
 
-std::string& Sprite::GetText()
-{
-	return label;
-}
-
-void Sprite::SetText(const char* _text)
-{
-	label = _text;
-
-	if (Text != nullptr)
-		SDL_DestroyTexture(Text);
-
-	SDL_Surface* textSurface = TTF_RenderText_Solid(ClientAPI::mainFont, label.c_str(), labelColor); 
-
-	Text = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, textSurface);
-
-	SDL_FreeSurface(textSurface);
-}
-
-SDL_Color& Sprite::GetTextColor()
-{
-	return labelColor;
-}
-
-void Sprite::SetTextColor(SDL_Color& colour)
-{
-	labelColor = colour;
-}
-
-float Sprite::GetTextScale()
-{
-	return labelScale;
-}
-
-void Sprite::SetTextScale(float scale)
-{
-	labelScale = scale;
-}
-
 //===========================
 //  CONSTRUCTOR / DESTRUCTOR
 //===========================
@@ -115,23 +76,6 @@ void Sprite::SetTextScale(float scale)
 //No parameter constructor, used for inheritance purposes.
 //Assumes programmer will use Initialize method manually
 Sprite::Sprite() { }
-
-//Text Only Constructor
-Sprite::Sprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
-{
-	//Make invisible background
-	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
-	SetAlpha(0);
-	SetBlendMode(SDL_BLENDMODE_BLEND);
-
-	Initialize(dimensions.w, dimensions.h, vec2(dimensions.x, dimensions.y), useOrigin, scale, spriteEffect);
-
-	SetTextScale(0.75f);
-	SetText(text);
-	
-	SDL_FreeSurface(loadedSurface);
-}
 
 Sprite::Sprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
@@ -177,9 +121,6 @@ void Sprite::Initialize(std::string path, SDL_Renderer* ren, vec2 pos, bool useO
 
 void Sprite::Initialize(int width, int height, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	label = "";
-	labelColor = ClientAPI::Color.Black;
-
 	UseOrigin = useOrigin;
 	InitialScale = scale;
 	SetPosition(pos);
@@ -217,19 +158,6 @@ void Sprite::Draw(SDL_Renderer* ren)
 {
 	if (Image != nullptr)
 		SDL_RenderCopyEx(ren, Image, NULL, &rect, Rotation, &origin, SpriteEffect);
-
-	if (Text != nullptr)
-	{
-		float scale = Scale * labelScale;
-		int x = rect.x + ((rect.w / 2.0f) - (rect.w * scale * 0.5f));
-		int y = rect.y + ((rect.h / 2.0f) - (rect.h * scale * 0.5f));
-
-		int w = rect.w * scale;
-		int h = rect.h * scale;
-
-		SDL_Rect textRect = {x, y, w, h};
-		SDL_RenderCopyEx(ren, Text, NULL, &textRect, Rotation, &origin, SpriteEffect);
-	}
 }
 
 //Draw at different position than its set position

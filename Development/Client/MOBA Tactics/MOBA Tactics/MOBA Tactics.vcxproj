@@ -97,6 +97,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextHandler.cpp" />
     <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="TextSprite.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextHandler.h" />
     <ClInclude Include="TextInput.h" />
+    <ClInclude Include="TextSprite.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />

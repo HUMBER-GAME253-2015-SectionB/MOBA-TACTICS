@@ -63,7 +63,7 @@ void Game::Init()
 
 void Game::LoadContent()
 {
-	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/lazy.ttf", 72);
+	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/ostrich-regular.ttf", 72);
 
 	ClientAPI::tileMap = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png");
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);

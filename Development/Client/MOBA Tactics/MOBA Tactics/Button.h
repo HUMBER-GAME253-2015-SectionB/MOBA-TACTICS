@@ -3,7 +3,7 @@
 
 #pragma once
 #include "GUIElement.h"
-#include "Sprite.h"
+#include "TextSprite.h"
 #include <string>
 
 enum ButtonState{UNPRESSED, PRESSED, HOVER};
@@ -13,6 +13,7 @@ class Button : public GUIElement
 private:
 protected:
 	Sprite *sprite, *spriteUnpressed, *spritePressed, *spriteHover;
+	void SetSprite(Sprite* sprite);
 public:
 	Button();
 	~Button();
@@ -27,7 +28,5 @@ public:
 	void Hide();
 	void SelectSprite();
 	bool CheckMouseCollision(int x, int y);
-	void SetSprite(Sprite* sprite);
-
 };
 

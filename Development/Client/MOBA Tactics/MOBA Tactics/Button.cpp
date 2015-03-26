@@ -35,7 +35,7 @@ void Button::Draw()
 	if (isVisible)
 	{
 		SelectSprite();
-		sprite->Draw(ClientAPI::mainRenderer);
+		((TextSprite*)sprite)->Draw(ClientAPI::mainRenderer);
 	}
 }
 
