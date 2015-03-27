@@ -3,17 +3,15 @@
 
 #include "TextInput.h"
 
-TextInput::TextInput(SDL_Rect& dimentions)
+TextInput::TextInput(SDL_Rect& dimentions, TTF_Font* _font)
 {
+	font = _font;
 	text = "";
 	currentState = UNFOCUSED;
 	this->dimentions = dimentions;
 
-	spriteUnfocused = new TextSprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, dimentions);
-	((TextSprite*)spriteUnfocused)->SetTextScale(0.7f);
-
-	spriteFocused = new TextSprite(ClientAPI::Color.Red, ClientAPI::mainRenderer, dimentions);
-	((TextSprite*)spriteUnfocused)->SetTextScale(0.7f);
+	spriteUnfocused = new TextSprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, dimentions, font);
+	spriteFocused = new TextSprite(ClientAPI::Color.Red, ClientAPI::mainRenderer, dimentions, font);
 
 	SelectSprite();
 }
@@ -24,6 +22,8 @@ TextInput::~TextInput()
 		delete spriteUnfocused;
 	if (spriteFocused != NULL)
 		delete spriteFocused;
+
+	font = nullptr;
 }
 
 void TextInput::Show()
@@ -72,11 +72,8 @@ void TextInput::setFocus(bool newVal)
 
 }
 
-
-void TextInput::SetText(const char* _text)
+void TextInput::RedrawText()
 {
-	text += _text;
-	
 	char* newText = new char[text.length() + 1];
 	strcpy_s(newText, text.length() + 1, text.c_str());
 
@@ -84,6 +81,21 @@ void TextInput::SetText(const char* _text)
 	((TextSprite*)spriteUnfocused)->SetText(newText);
 
 	delete[] newText;
+}
+
+void TextInput::SetText(const char* _text)
+{
+	text += _text;
+	RedrawText();
+}
+
+void TextInput::TextAction_Backspace()
+{
+	if (text.length() > 0)
+	{
+		text = text.substr(0, text.length() - 1);
+		RedrawText();
+	}
 }
 
 std::string TextInput::GetText() const

@@ -85,16 +85,20 @@ bool TextHandler::HandleTextInput(std::string& txt)
 
 bool TextHandler::HandleTextInput(SDL_Scancode& scan)
 {
+	bool success = false;
+
 	if (activeTextbox)
 	{
 		switch (scan)
 		{
 			case SDL_SCANCODE_BACKSPACE:
-
+				activeTextbox->TextAction_Backspace();
 				break;
 		}
+
+		success = true;
 	}
-	return true;
+	return success;
 }
 
 TextHandler& TextHandler::GetInstance()

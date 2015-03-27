@@ -17,7 +17,6 @@ protected:
 public:
 	Button();
 	~Button();
-
 	ButtonState buttonState;
 	bool isBeingHovered;
 	virtual void OnClick() = 0;

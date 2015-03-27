@@ -43,12 +43,22 @@ struct Colors
 	Colors();
 };
 
+struct Fonts
+{
+	TTF_Font *Ostrich_Regular_20, *Ostrich_Regular_36, *Ostrich_Regular_72, *Ostrich_Regular_100, *Ostrich_Regular_200;
+	TTF_Font *Ostrich_Bold_20, *Ostrich_Bold_36, *Ostrich_Bold_72, *Ostrich_Bold_100, *Ostrich_Bold_200;
+
+	void Init_Fonts();
+	void Close_Fonts();
+};
+
 class ClientAPI
 {
 
 public:
 
 	static Colors Color;
+	static Fonts Font;
 	static Uint32 elaspedTime;
 
 	static SDL_Color& createColor(int r, int g, int b, int a);
@@ -67,9 +77,8 @@ public:
 	static Mix_Chunk* _audioChannel2;
 	static Mix_Chunk* _audioChannel3;
 
-	static TTF_Font* mainFont;
-
 	static SDL_Texture* createTexture(std::string _imgURL);
+	static TTF_Font* createFont(std::string path, int size);
 	static SDL_Rect createRectangle(int _x, int _y, int _width, int _height);
 	static Mix_Music* loadMusic(std::string _musicURL);
 	static Mix_Chunk* loadSFX(std::string _sfxURL);

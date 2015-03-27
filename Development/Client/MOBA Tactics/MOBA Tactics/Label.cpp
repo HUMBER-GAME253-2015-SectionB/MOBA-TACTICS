@@ -3,12 +3,13 @@
 
 #include "Label.h"
 
-Label::Label(char* _text, SDL_Rect& dimentions)
+Label::Label(char* _text, SDL_Rect& dimentions, TTF_Font* _font)
 {
+	font = _font;
 	isVisible = true;
 	text = _text;
 	this->dimentions = dimentions;
-	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer);
+	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer, font);
 }
 
 
@@ -16,6 +17,8 @@ Label::~Label()
 {
 	if (sprite != NULL)
 		delete sprite;
+
+	font = nullptr;
 }
 
 void Label::Show()
@@ -51,7 +54,7 @@ void Label::SetText(char* _text)
 	delete sprite;
 	sprite = nullptr;
 
-	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer);
+	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer, font);
 
 }
 

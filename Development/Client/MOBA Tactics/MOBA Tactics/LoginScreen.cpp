@@ -6,9 +6,9 @@
 
 LoginScreen::LoginScreen()
 {
-	labels.push_front(new Label("Login Screen", ClientAPI::createRectangle(200, 50, 674, 100)));
+	labels.push_front(new Label("Login Screen", ClientAPI::createRectangle(200, 50, 674, 100), ClientAPI::Font.Ostrich_Bold_100));
 
-	textInputs.push_front(new TextInput(ClientAPI::createRectangle(200, 250, 674, 100)));
+	textInputs.push_front(new TextInput(ClientAPI::createRectangle(200, 350, 674, 100), ClientAPI::Font.Ostrich_Regular_72));
 
 	buttons.push_front(new LoginButton());
 	title = new Sprite("../Assets/Images/TitleLogo.png", ClientAPI::mainRenderer, vec2(100,20), false, 1.0f, SDL_FLIP_NONE);

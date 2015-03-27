@@ -19,26 +19,10 @@ Game::Game()
 	eventManager.KeyState = SDL_GetKeyboardState(NULL);
 }
 
-Game::~Game()
-{
-	SDL_DestroyRenderer(ClientAPI::mainRenderer);
-	SDL_DestroyWindow(ClientAPI::mainWindow);
-	Mix_Quit();
-	TTF_Quit();
-	IMG_Quit();
-	SDLNet_Quit();
-	SDL_Quit();
-}
+Game::~Game(){}
 
 void Game::Init()
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	SDLNet_Init();
-	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-	TTF_Init();
-	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
-	SDL_Init(SDL_INIT_AUDIO);
-	
 	ClientAPI::mainWindow = nullptr;
 	ClientAPI::mainWindow = SDL_CreateWindow("MOBA-Tactics", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_SHOWN);
 
@@ -56,15 +40,14 @@ void Game::Init()
 	ClientAPI::camera = ClientAPI::createCamera(vec2(0, 0), 1024, 768, minBound, maxBound);
 	//camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
 
+	ClientAPI::Font.Init_Fonts();
+
 	//Initialize random
 	srand(time(NULL));	
-
 }
 
 void Game::LoadContent()
 {
-	ClientAPI::mainFont = TTF_OpenFont("../Assets/Font/ostrich-regular.ttf", 72);
-
 	ClientAPI::tileMap = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png");
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
@@ -93,9 +76,7 @@ void Game::UnloadContent()
 	delete ClientAPI::tileMap;
 	delete ClientAPI::character;
 	delete ClientAPI::camera;
-
-	TTF_CloseFont(ClientAPI::mainFont);
-
+	
 	Mix_FreeChunk(ClientAPI::_audioChannel);
 	Mix_FreeChunk(ClientAPI::_audioChannel1);
 	Mix_FreeChunk(ClientAPI::_audioChannel2);

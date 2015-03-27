@@ -17,8 +17,6 @@ Mix_Chunk* ClientAPI::_audioChannel1 = NULL;
 Mix_Chunk* ClientAPI::_audioChannel2 = NULL;
 Mix_Chunk* ClientAPI::_audioChannel3 = NULL;
 
-TTF_Font* ClientAPI::mainFont = NULL;
-
 Uint32 ClientAPI::elaspedTime = 0;
 
 ITileMap* ClientAPI::tileMap;
@@ -35,9 +33,38 @@ Colors::Colors()
 	Purple = ClientAPI::createColor(51, 0, 102, 255);
 	Grey = ClientAPI::createColor(50, 50, 50, 255);
 }
-
 Colors ClientAPI::Color = Colors();
 
+void Fonts::Init_Fonts()
+{
+	Ostrich_Regular_20 = ClientAPI::createFont("../Assets/Font/ostrich-regular.ttf", 20);
+	Ostrich_Regular_36 = ClientAPI::createFont("../Assets/Font/ostrich-regular.ttf", 36);
+	Ostrich_Regular_72 = ClientAPI::createFont("../Assets/Font/ostrich-regular.ttf", 72);
+	Ostrich_Regular_100 = ClientAPI::createFont("../Assets/Font/ostrich-regular.ttf", 100);
+	Ostrich_Regular_200 = ClientAPI::createFont("../Assets/Font/ostrich-regular.ttf", 200);
+
+	Ostrich_Bold_20 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 20);
+	Ostrich_Bold_36 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 36);
+	Ostrich_Bold_72 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 72);
+	Ostrich_Bold_100 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 100);
+	Ostrich_Bold_200 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 200);
+}
+
+void Fonts::Close_Fonts()
+{
+	TTF_CloseFont(Ostrich_Regular_20);
+	TTF_CloseFont(Ostrich_Regular_36);
+	TTF_CloseFont(Ostrich_Regular_72);
+	TTF_CloseFont(Ostrich_Regular_100);
+	TTF_CloseFont(Ostrich_Regular_200);
+
+	TTF_CloseFont(Ostrich_Bold_20);
+	TTF_CloseFont(Ostrich_Bold_36);
+	TTF_CloseFont(Ostrich_Bold_72);
+	TTF_CloseFont(Ostrich_Bold_100);
+	TTF_CloseFont(Ostrich_Bold_200);
+}
+Fonts ClientAPI::Font = Fonts();
 
 SDL_Texture* ClientAPI::createTexture(std::string _imgURL) {
 	SDL_Surface* optimizedSurface = NULL;
@@ -63,6 +90,11 @@ SDL_Texture* ClientAPI::createTexture(std::string _imgURL) {
 	}
 
 	return tempTexture;
+}
+
+TTF_Font* ClientAPI::createFont(std::string path, int size)
+{
+	return TTF_OpenFont(path.c_str(), size);
 }
 
 SDL_Rect ClientAPI::createRectangle(int _x, int _y, int _width, int _height) {

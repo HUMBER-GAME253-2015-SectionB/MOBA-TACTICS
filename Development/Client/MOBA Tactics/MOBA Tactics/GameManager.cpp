@@ -9,6 +9,13 @@ EventManager Game::eventManager = EventManager::GetInstance();
 
 GameManager::GameManager()
 {
+	SDL_Init(SDL_INIT_EVERYTHING);
+	SDLNet_Init();
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+	TTF_Init();
+	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
+	SDL_Init(SDL_INIT_AUDIO);
+
 	lastUpdateTime = 0, timeSincelastUpdate = 0;
 
 	newGame = new Game();
@@ -17,6 +24,15 @@ GameManager::GameManager()
 GameManager::~GameManager()
 {
 	delete newGame;
+
+	ClientAPI::Font.Close_Fonts();
+	SDL_DestroyRenderer(ClientAPI::mainRenderer);
+	SDL_DestroyWindow(ClientAPI::mainWindow);
+	Mix_Quit();
+	TTF_Quit();
+	IMG_Quit();
+	SDLNet_Quit();
+	SDL_Quit();
 }
 
 void GameManager::StartProgram()

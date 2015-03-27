@@ -13,8 +13,9 @@ protected:
 	Sprite *sprite;
 	std::string text;
 	SDL_Rect dimentions;
+	TTF_Font* font;
 public:
-	Label(char* _text, SDL_Rect& dimentions);
+	Label(char* _text, SDL_Rect& dimentions, TTF_Font* _font);
 	~Label();
 	void OnClick();
 	void OnHover();
