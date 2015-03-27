@@ -29,9 +29,11 @@ Colors::Colors()
 	Red = ClientAPI::createColor(255, 0, 0, 255);
 	Black = ClientAPI::createColor(0, 0, 0, 255);
 	Blue = ClientAPI::createColor(0, 0, 255, 255);
+	Light_Blue = ClientAPI::createColor(0, 0, 155, 255);
 	Green = ClientAPI::createColor(0, 255, 0, 255);
 	Purple = ClientAPI::createColor(51, 0, 102, 255);
 	Grey = ClientAPI::createColor(50, 50, 50, 255);
+	Light_Grey = ClientAPI::createColor(150, 150, 150, 255);
 }
 Colors ClientAPI::Color = Colors();
 

@@ -10,8 +10,8 @@ TextInput::TextInput(SDL_Rect& dimentions, TTF_Font* _font)
 	currentState = UNFOCUSED;
 	this->dimentions = dimentions;
 
-	spriteUnfocused = new TextSprite(ClientAPI::Color.Grey, ClientAPI::mainRenderer, dimentions, font);
-	spriteFocused = new TextSprite(ClientAPI::Color.Red, ClientAPI::mainRenderer, dimentions, font);
+	spriteUnfocused = new TextSprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, dimentions, font);
+	spriteFocused = new TextSprite(ClientAPI::Color.Blue, ClientAPI::mainRenderer, dimentions, font);
 
 	SelectSprite();
 }

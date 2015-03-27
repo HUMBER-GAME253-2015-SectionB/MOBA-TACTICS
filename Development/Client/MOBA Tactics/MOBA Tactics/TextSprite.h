@@ -14,6 +14,7 @@ protected:
 	float labelScale;
 	SDL_Rect textDimensions;
 	void ResizeTextDimensions();
+	void ReCreateTexture();
 	TTF_Font* font;
 public:	
 	SDL_Texture *Text;

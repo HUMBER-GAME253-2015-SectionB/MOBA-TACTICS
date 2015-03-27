@@ -19,6 +19,7 @@ protected:
 	void SetSprite(Sprite* sprite);
 	TTF_Font* font;
 public:
+	//Enter -1 into dimentions' x or y to center on that axis.
 	TextInput(SDL_Rect& dimentions, TTF_Font* _font);
 	~TextInput();
 	TextInputState currentState;

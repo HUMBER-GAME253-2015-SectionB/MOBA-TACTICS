@@ -14,7 +14,9 @@ protected:
 	std::string text;
 	SDL_Rect dimentions;
 	TTF_Font* font;
-public:
+	SDL_Color textColor;
+public:	
+	//Enter -1 into dimentions' x or y to center on that axis.
 	Label(char* _text, SDL_Rect& dimentions, TTF_Font* _font);
 	~Label();
 	void OnClick();
@@ -24,6 +26,8 @@ public:
 	void Show();
 	void Hide();
 	bool CheckMouseCollision(int x, int y);
+
+	void SetTextColor(SDL_Color color);
 
 	void SetText(char* _text);
 	std::string GetText() const;

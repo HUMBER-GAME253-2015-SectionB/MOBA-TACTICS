@@ -16,14 +16,7 @@ void TextSprite::SetText(const char* _text)
 {
 	label = _text;
 
-	if (Text != nullptr)
-		SDL_DestroyTexture(Text);
-
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, label.c_str(), labelColor);
-
-	Text = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, textSurface);
-
-	SDL_FreeSurface(textSurface);
+	ReCreateTexture();
 
 	ResizeTextDimensions();
 }
@@ -36,6 +29,7 @@ SDL_Color& TextSprite::GetTextColor()
 void TextSprite::SetTextColor(SDL_Color& colour)
 {
 	labelColor = colour;
+	ReCreateTexture();
 }
 
 float TextSprite::GetTextScale()
@@ -46,6 +40,7 @@ float TextSprite::GetTextScale()
 void TextSprite::SetTextScale(float scale)
 {
 	labelScale = scale;
+	ReCreateTexture();
 }
 
 //===========================
@@ -132,15 +127,39 @@ void TextSprite::Draw(SDL_Renderer* ren)
 void TextSprite::ResizeTextDimensions()
 {
 	//Text width & height
-	int w, h;
+	int w, h, x, y;
 
+	//Get width & height of text
 	TTF_SizeText(font, label.c_str(), &w, &h);
 
 	float scale = Scale * labelScale;
-	int x = rect.x + ((dimensions.x * .5f) - (dimensions.x * scale * .5f));
-	int y = rect.y + (rect.h - h)*.5f + rect.h*.05f;
-	//int w = rect.w * scale;
-	//int h = rect.h * scale;
+	int windowWidth, windowHeight;
+
+	if (rect.x < 0 || rect.y < 0)
+		SDL_GetWindowSize(ClientAPI::mainWindow, &windowWidth, &windowHeight);
+
+	//if less than 0, center.
+	if (rect.x < 0)
+		x = (windowWidth - w)*.5f;
+	else
+		x = rect.x + ((dimensions.x * .5f) - (dimensions.x * scale * .5f));
+
+	if (rect.y < 0)
+		y = (windowHeight - h)*.5f;
+	else
+		y = rect.y + (dimensions.y - h)*.5f + dimensions.y*.05f;
 	
 	textDimensions = ClientAPI::createRectangle(x, y, w, h);
+}
+
+void TextSprite::ReCreateTexture()
+{
+	if (Text != nullptr)
+		SDL_DestroyTexture(Text);
+
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, label.c_str(), labelColor);
+
+	Text = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, textSurface);
+
+	SDL_FreeSurface(textSurface);
 }

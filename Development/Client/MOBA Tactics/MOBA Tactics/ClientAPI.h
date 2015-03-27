@@ -36,9 +36,11 @@ struct Colors
 	SDL_Color Red; 
 	SDL_Color Black; 
 	SDL_Color Blue; 
+	SDL_Color Light_Blue;
 	SDL_Color Green; 
 	SDL_Color Purple;
 	SDL_Color Grey;
+	SDL_Color Light_Grey;
 
 	Colors();
 };

@@ -5,13 +5,14 @@
 
 Label::Label(char* _text, SDL_Rect& dimentions, TTF_Font* _font)
 {
+	textColor = ClientAPI::Color.Black;
 	font = _font;
 	isVisible = true;
 	text = _text;
 	this->dimentions = dimentions;
 	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer, font);
+	((TextSprite*)sprite)->SetTextScale(1.f);
 }
-
 
 Label::~Label()
 {
@@ -45,6 +46,12 @@ bool Label::CheckMouseCollision(int x, int y)
 void Label::Update()
 {
 			
+}
+
+void Label::SetTextColor(SDL_Color color)
+{
+	textColor = color;
+	((TextSprite*)sprite)->SetTextColor(textColor);
 }
 
 void Label::SetText(char* _text)
