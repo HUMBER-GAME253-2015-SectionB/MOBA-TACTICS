@@ -79,44 +79,38 @@ Sprite::Sprite() { }
 
 Sprite::Sprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
+	imgSurface = IMG_Load("..\\Assets\\Images\\white1x1.png");
+	Image = SDL_CreateTextureFromSurface(ren, imgSurface);
 
-	SetColor(colour.r, colour.g, colour.b);
-	SetAlpha(colour.a);
+	SDL_SetTextureBlendMode(Image, SDL_BlendMode::SDL_BLENDMODE_NONE);
+	SDL_SetTextureAlphaMod(Image, colour.a);	
+	SDL_SetTextureColorMod(Image, colour.r, colour.g, colour.b);
 
 	Initialize(dimensions.w, dimensions.h, vec2(dimensions.x, dimensions.y), useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(loadedSurface);
 }
 
 Sprite::Sprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
+	imgSurface = image;
 	Image = SDL_CreateTextureFromSurface(ren, image);
 
 	Initialize(image->w, image->h, pos, useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(image);
 }
 
 Sprite::Sprite(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
+	imgSurface = IMG_Load(path.c_str());
+	Image = SDL_CreateTextureFromSurface(ren, imgSurface);
 
-	Initialize(loadedSurface->w, loadedSurface->h, pos, useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(loadedSurface);
+	Initialize(imgSurface->w, imgSurface->h, pos, useOrigin, scale, spriteEffect);
 }
 
 void Sprite::Initialize(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
+	imgSurface = IMG_Load(path.c_str());
+	Image = SDL_CreateTextureFromSurface(ren, imgSurface);
 
-	Initialize(loadedSurface->w, loadedSurface->h, pos, useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(loadedSurface);
+	Initialize(imgSurface->w, imgSurface->h, pos, useOrigin, scale, spriteEffect);
 }
 
 void Sprite::Initialize(int width, int height, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
@@ -146,8 +140,11 @@ void Sprite::Initialize(int width, int height, vec2 pos, bool useOrigin, float s
 
 Sprite::~Sprite()
 {
-	if (Image != NULL)
+	if (Image != nullptr)
 		SDL_DestroyTexture(Image);
+
+	if (imgSurface != nullptr)
+		SDL_FreeSurface(imgSurface);
 }
 
 //===========================
@@ -317,4 +314,12 @@ void Sprite::SetAlpha(Uint8 alpha)
 {
 	//Modulate texture alpha
 	SDL_SetTextureAlphaMod(Image, alpha);
+}
+
+void Sprite::ReCreateTexture()
+{
+	if (Image != nullptr)
+		SDL_DestroyTexture(Image);
+
+	Image = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, imgSurface);
 }

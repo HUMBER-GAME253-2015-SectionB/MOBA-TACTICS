@@ -15,10 +15,12 @@ class Sprite
 		vec2 position, dimensions;
 		SDL_Point origin;
 		SDL_Rect rect;
+		void ReCreateTexture();
 	public:
 		bool UseOrigin;
 		float Rotation, Scale, InitialScale;
 		SDL_Texture *Image;
+		SDL_Surface *imgSurface;
 		SDL_RendererFlip SpriteEffect;
 
 		vec2 GetPosition(), GetDimensions();

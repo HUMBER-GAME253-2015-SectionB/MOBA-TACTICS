@@ -16,7 +16,7 @@ void TextSprite::SetText(const char* _text)
 {
 	label = _text;
 
-	ReCreateTexture();
+	ReCreateTextTexture();
 
 	ResizeTextDimensions();
 }
@@ -29,7 +29,7 @@ SDL_Color& TextSprite::GetTextColor()
 void TextSprite::SetTextColor(SDL_Color& colour)
 {
 	labelColor = colour;
-	ReCreateTexture();
+	ReCreateTextTexture();
 }
 
 float TextSprite::GetTextScale()
@@ -40,7 +40,7 @@ float TextSprite::GetTextScale()
 void TextSprite::SetTextScale(float scale)
 {
 	labelScale = scale;
-	ReCreateTexture();
+	ReCreateTextTexture();
 }
 
 //===========================
@@ -54,8 +54,8 @@ TextSprite::TextSprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren
 	//Make invisible background
 	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
 	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
-	SetAlpha(0);
-	SetBlendMode(SDL_BLENDMODE_BLEND);
+	SDL_SetTextureAlphaMod(Image, 0);
+	SDL_SetTextureBlendMode(Image, SDL_BlendMode::SDL_BLENDMODE_BLEND);
 
 	Initialize(dimensions.w, dimensions.h, vec2(dimensions.x, dimensions.y), useOrigin, scale, spriteEffect);
 
@@ -71,8 +71,9 @@ TextSprite::TextSprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimension
 	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
 	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
 
-	SetColor(colour.r, colour.g, colour.b);
-	SetAlpha(colour.a);
+	SDL_SetTextureColorMod(Image, colour.r, colour.g, colour.b);
+	SDL_SetTextureAlphaMod(Image, colour.a);
+	SDL_SetTextureBlendMode(Image, SDL_BlendMode::SDL_BLENDMODE_NONE);
 
 	Initialize(dimensions.w, dimensions.h, vec2(dimensions.x, dimensions.y), useOrigin, scale, spriteEffect);
 
@@ -152,7 +153,7 @@ void TextSprite::ResizeTextDimensions()
 	textDimensions = ClientAPI::createRectangle(x, y, w, h);
 }
 
-void TextSprite::ReCreateTexture()
+void TextSprite::ReCreateTextTexture()
 {
 	if (Text != nullptr)
 		SDL_DestroyTexture(Text);

@@ -94,6 +94,9 @@
     <ClCompile Include="TextSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SplashButton.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -212,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="TextSprite.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashButton.h">
+      <Filter>Header Files\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

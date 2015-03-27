@@ -95,8 +95,8 @@ void EventManager::ManageEvents(SDL_Event *event)
 	
 	if (event->type == SDL_MOUSEWHEEL)
 	{
-		sceneHandler.HandleEventMouseWheel(event->wheel);
-		
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+			sceneHandler.HandleEventMouseWheel(event->wheel);		
 	}
 
 	//Post-update: set previous mouse state

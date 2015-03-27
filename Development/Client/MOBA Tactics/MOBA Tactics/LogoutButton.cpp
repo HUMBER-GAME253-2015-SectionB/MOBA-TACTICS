@@ -5,6 +5,7 @@
 
 //To use static members of game class. MUST BE IN CPP FILE.
 #include "Game.h"
+#include "LoginScreen.h"
 
 LogoutButton::LogoutButton()
 	: Button()

@@ -30,6 +30,12 @@ LoginButton::LoginButton()
 
 void LoginButton::OnClick()
 {
+	printf("Username: ");
+	printf(LoginScreen::userName->GetText().c_str());
+	printf("\nPassword: ");
+	printf (LoginScreen::passWord->GetText().c_str());
+	printf("\n");
+
 	Game::gameStateManager.QueueChangeToGameState(GameState::MAINMENU);
 }
 
