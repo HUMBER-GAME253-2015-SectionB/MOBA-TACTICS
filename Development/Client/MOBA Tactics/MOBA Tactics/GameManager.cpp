@@ -4,6 +4,7 @@
 #include "GameManager.h"
 
 Game* GameManager::newGame = nullptr;
+Profile* Game::userProfile = nullptr;
 GameStateManager Game::gameStateManager = GameStateManager::GetInstance();
 EventManager Game::eventManager = EventManager::GetInstance();
 

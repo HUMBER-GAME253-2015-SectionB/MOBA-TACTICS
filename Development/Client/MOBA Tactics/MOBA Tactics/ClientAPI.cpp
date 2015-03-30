@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "TileMap.h"
 #include "Camera.h"
+#include "Profile.h"
 
 SDL_Window* ClientAPI::mainWindow = NULL;
 SDL_Renderer* ClientAPI::mainRenderer = NULL;
@@ -50,6 +51,18 @@ void Fonts::Init_Fonts()
 	Ostrich_Bold_72 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 72);
 	Ostrich_Bold_100 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 100);
 	Ostrich_Bold_200 = ClientAPI::createFont("../Assets/Font/ostrich-black.ttf", 200);
+
+	Droid_Regular_20 = ClientAPI::createFont("../Assets/Font/DroidSans.ttf", 20);
+	Droid_Regular_36 = ClientAPI::createFont("../Assets/Font/DroidSans.ttf", 36);
+	Droid_Regular_72 = ClientAPI::createFont("../Assets/Font/DroidSans.ttf", 72);
+	Droid_Regular_100 = ClientAPI::createFont("../Assets/Font/DroidSans.ttf", 100);
+	Droid_Regular_200 = ClientAPI::createFont("../Assets/Font/DroidSans.ttf", 200);
+
+	Droid_Bold_20 = ClientAPI::createFont("../Assets/Font/DroidSans-Bold.ttf", 20);
+	Droid_Bold_36 = ClientAPI::createFont("../Assets/Font/DroidSans-Bold.ttf", 36);
+	Droid_Bold_72 = ClientAPI::createFont("../Assets/Font/DroidSans-Bold.ttf", 72);
+	Droid_Bold_100 = ClientAPI::createFont("../Assets/Font/DroidSans-Bold.ttf", 100);
+	Droid_Bold_200 = ClientAPI::createFont("../Assets/Font/DroidSans-Bold.ttf", 200);
 }
 
 void Fonts::Close_Fonts()
@@ -65,6 +78,19 @@ void Fonts::Close_Fonts()
 	TTF_CloseFont(Ostrich_Bold_72);
 	TTF_CloseFont(Ostrich_Bold_100);
 	TTF_CloseFont(Ostrich_Bold_200);
+
+
+	TTF_CloseFont(Droid_Regular_20);
+	TTF_CloseFont(Droid_Regular_36);
+	TTF_CloseFont(Droid_Regular_72);
+	TTF_CloseFont(Droid_Regular_100);
+	TTF_CloseFont(Droid_Regular_200);
+
+	TTF_CloseFont(Droid_Bold_20);
+	TTF_CloseFont(Droid_Bold_36);
+	TTF_CloseFont(Droid_Bold_72);
+	TTF_CloseFont(Droid_Bold_100);
+	TTF_CloseFont(Droid_Bold_200);
 }
 Fonts ClientAPI::Font = Fonts();
 
@@ -169,4 +195,20 @@ ICharacter* ClientAPI::createCharacterStats(char* spritePath, ITile* onTile, int
 	ICharacter* tempCharacter = new Character(spritePath, onTile, _maxHealth, _actionPoints,
 		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
 	return tempCharacter;
+}
+
+Profile* ClientAPI::Login(std::string userName, std::string passWord)
+{
+	//talk to server
+	//pass username & password
+	if (userName != "" && passWord != "")
+	{
+		//on success
+		//build profile
+		//and return
+		return new Profile(userName, SList<Character*>());
+	}
+	else
+		//on fail, return nullptr
+		return nullptr;
 }

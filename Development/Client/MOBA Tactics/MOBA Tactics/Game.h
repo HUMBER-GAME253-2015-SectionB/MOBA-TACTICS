@@ -13,6 +13,7 @@ class TileMap;
 #include "ClientAPI.h"
 #include "GameStateManager.h"
 #include "EventManager.h"
+#include "Profile.h"
 
 class Game : public IGame
 {
@@ -24,7 +25,8 @@ class Game : public IGame
 		//SDL_Renderer *Renderer;
 		static GameStateManager gameStateManager;
 		static EventManager eventManager;
-		
+		static Profile* userProfile;
+
 		//Delete after debug
 		vec2 minBound, maxBound;
 		Sprite *tmp1, *tmp2, *tmp3, *tmp4;

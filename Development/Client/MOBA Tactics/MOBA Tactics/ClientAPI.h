@@ -29,6 +29,7 @@
 #include "ITileMap.h"
 #include "ICharacter.h"
 #include "ICamera.h"
+class Profile;
 
 struct Colors
 {
@@ -50,6 +51,9 @@ struct Fonts
 	TTF_Font *Ostrich_Regular_20, *Ostrich_Regular_36, *Ostrich_Regular_72, *Ostrich_Regular_100, *Ostrich_Regular_200;
 	TTF_Font *Ostrich_Bold_20, *Ostrich_Bold_36, *Ostrich_Bold_72, *Ostrich_Bold_100, *Ostrich_Bold_200;
 
+	TTF_Font *Droid_Regular_20, *Droid_Regular_36, *Droid_Regular_72, *Droid_Regular_100, *Droid_Regular_200;
+	TTF_Font *Droid_Bold_20, *Droid_Bold_36, *Droid_Bold_72, *Droid_Bold_100, *Droid_Bold_200;
+	
 	void Init_Fonts();
 	void Close_Fonts();
 };
@@ -93,5 +97,7 @@ public:
 	static ICharacter* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
 	
+	static Profile* Login(std::string userName, std::string passWord);
+
 };
 #endif

@@ -30,13 +30,20 @@ LoginButton::LoginButton()
 
 void LoginButton::OnClick()
 {
-	printf("Username: ");
-	printf(LoginScreen::userName->GetText().c_str());
-	printf("\nPassword: ");
-	printf (LoginScreen::passWord->GetText().c_str());
-	printf("\n");
+	
+	Game::userProfile = ClientAPI::Login(LoginScreen::userName->GetText(), LoginScreen::passWord->GetText());
 
-	Game::gameStateManager.QueueChangeToGameState(GameState::MAINMENU);
+	if (Game::userProfile != nullptr)
+		Game::gameStateManager.QueueChangeToGameState(GameState::MAINMENU);
+	else
+	{
+		if (((Menu*)Game::gameStateManager.GetCurrentMenu())->ErrorLabel == nullptr)
+			((Menu*)Game::gameStateManager.GetCurrentMenu())->ErrorLabel = new Label("Wrong Username/Password.", ClientAPI::createRectangle(-1, 550, -1, 50), ClientAPI::Font.Ostrich_Bold_36);
+		else
+			((Menu*)Game::gameStateManager.GetCurrentMenu())->ErrorLabel->SetText("Wrong Username/Password.");
+		((Menu*)Game::gameStateManager.GetCurrentMenu())->ErrorLabel->SetTextColor(ClientAPI::Color.Red);
+	}
+	
 }
 
 void LoginButton::OnHover()

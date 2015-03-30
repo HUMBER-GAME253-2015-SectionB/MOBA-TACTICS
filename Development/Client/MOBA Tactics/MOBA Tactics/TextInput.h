@@ -18,9 +18,10 @@ protected:
 	SDL_Rect dimentions;
 	void SetSprite(Sprite* sprite);
 	TTF_Font* font;
+	int maxCharacters;
 public:
 	//Enter -1 into dimentions' x or y to center on that axis.
-	TextInput(SDL_Rect& dimentions, TTF_Font* _font);
+	TextInput(SDL_Rect& dimentions, TTF_Font* _font, int _maxCharacters);
 	~TextInput();
 	TextInputState currentState;
 	void OnClick();
@@ -35,6 +36,8 @@ public:
 	void TextAction_Backspace();
 	std::string GetText() const;
 	void SelectSprite();
+	int GetMaxCharacters() const;
+	void SetMaxCharacters(int newMax);
 };
 
 #endif

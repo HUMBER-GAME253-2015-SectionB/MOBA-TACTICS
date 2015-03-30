@@ -3,15 +3,16 @@
 
 #include "TextInput.h"
 
-TextInput::TextInput(SDL_Rect& dimentions, TTF_Font* _font)
+TextInput::TextInput(SDL_Rect& dimentions, TTF_Font* _font, int _maxCharacters)
 {
 	font = _font;
 	text = "";
+	maxCharacters = _maxCharacters;
 	currentState = UNFOCUSED;
 	this->dimentions = dimentions;
 
-	spriteUnfocused = new TextSprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, dimentions, font);
-	spriteFocused = new TextSprite(ClientAPI::Color.Blue, ClientAPI::mainRenderer, dimentions, font);
+	spriteUnfocused = new TextSprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, dimentions, font, false);
+	spriteFocused = new TextSprite(ClientAPI::Color.Blue, ClientAPI::mainRenderer, dimentions, font, false);
 
 	SelectSprite();
 }
@@ -85,8 +86,11 @@ void TextInput::RedrawText()
 
 void TextInput::SetText(const char* _text)
 {
-	text += _text;
-	RedrawText();
+	if (text.length() < maxCharacters)
+	{
+		text += _text;
+		RedrawText();
+	}
 }
 
 void TextInput::TextAction_Backspace()
@@ -118,4 +122,19 @@ void TextInput::SelectSprite()
 	{
 		SetSprite(spriteUnfocused);
 	}
+}
+
+int TextInput::GetMaxCharacters() const
+{
+	return maxCharacters;
+}
+
+void TextInput::SetMaxCharacters(int newMax)
+{
+	if (text.length() > newMax)
+	{
+		text = text.substr(0, newMax);
+		RedrawText();
+	}
+	maxCharacters = newMax;
 }

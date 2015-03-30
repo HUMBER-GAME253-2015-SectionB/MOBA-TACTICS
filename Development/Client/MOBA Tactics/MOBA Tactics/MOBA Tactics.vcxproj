@@ -90,6 +90,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="PlayButton.cpp" />
+    <ClCompile Include="Profile.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneHandler.cpp" />
     <ClCompile Include="SceneStateManager.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="PlayButton.h" />
+    <ClInclude Include="Profile.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneHandler.h" />
     <ClInclude Include="SceneStateManager.h" />

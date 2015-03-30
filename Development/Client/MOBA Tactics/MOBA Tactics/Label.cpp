@@ -3,7 +3,7 @@
 
 #include "Label.h"
 
-Label::Label(char* _text, SDL_Rect& dimentions, TTF_Font* _font)
+Label::Label(const char* _text, SDL_Rect& dimentions, TTF_Font* _font)
 {
 	textColor = ClientAPI::Color.Black;
 	font = _font;

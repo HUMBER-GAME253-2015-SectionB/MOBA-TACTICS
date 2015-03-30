@@ -29,6 +29,8 @@ public:
 	
 	const SList<Button*>& GetButtons() const;
 	const SList<TextInput*>& GetTextInputs() const;
+
+	Label* ErrorLabel;
 };
 
 #endif

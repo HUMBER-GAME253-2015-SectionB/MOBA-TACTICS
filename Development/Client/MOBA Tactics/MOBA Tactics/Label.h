@@ -17,7 +17,7 @@ protected:
 	SDL_Color textColor;
 public:	
 	//Enter -1 into dimentions' x or y to center on that axis.
-	Label(char* _text, SDL_Rect& dimentions, TTF_Font* _font);
+	Label(const char* _text, SDL_Rect& dimentions, TTF_Font* _font);
 	~Label();
 	void OnClick();
 	void OnHover();

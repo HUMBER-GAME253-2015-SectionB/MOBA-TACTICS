@@ -42,6 +42,12 @@ void Menu::Unload()
 	textInputs.clear();
 
 	labels.clear();
+
+	if (ErrorLabel != nullptr)
+	{
+		delete ErrorLabel;
+		ErrorLabel = nullptr;
+	}
 }
 
 void Menu::Update()
@@ -51,6 +57,10 @@ void Menu::Update()
 	{
 		(*i)->Update();
 	}
+
+	//Error Message
+	if (ErrorLabel != nullptr)
+		ErrorLabel->Update();
 
 	//Call Update Of Each TextInput
 	for (SList<TextInput*>::Iterator i = textInputs.begin(); i != textInputs.end(); i++)
@@ -76,6 +86,10 @@ void Menu::Draw(SDL_Renderer* ren) const
 	{
 		(*i)->Draw();
 	}
+
+	//Error Message
+	if (ErrorLabel != nullptr)
+		ErrorLabel->Draw();
 
 	//Draw TextInputs
 	for (SList<TextInput*>::Iterator i = textInputs.begin(); i != textInputs.end(); i++)

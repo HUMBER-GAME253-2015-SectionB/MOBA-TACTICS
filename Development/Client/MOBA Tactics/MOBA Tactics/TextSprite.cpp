@@ -47,10 +47,11 @@ void TextSprite::SetTextScale(float scale)
 //  CONSTRUCTOR / DESTRUCTOR
 //===========================
 
-TextSprite::TextSprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren, TTF_Font* _font, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
+TextSprite::TextSprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren, TTF_Font* _font, bool _hasShadow, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
 	font = _font;
-	
+	hasShadow = _hasShadow;
+
 	//Make invisible background
 	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
 	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
@@ -64,9 +65,10 @@ TextSprite::TextSprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren
 	SDL_FreeSurface(loadedSurface);
 }
 
-TextSprite::TextSprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, TTF_Font* _font, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
+TextSprite::TextSprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, TTF_Font* _font, bool _hasShadow, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
 	font = _font;
+	hasShadow = _hasShadow;
 
 	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
 	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
@@ -80,9 +82,10 @@ TextSprite::TextSprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimension
 	SDL_FreeSurface(loadedSurface);
 }
 
-TextSprite::TextSprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, TTF_Font* _font, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
+TextSprite::TextSprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, TTF_Font* _font, bool _hasShadow, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
 	font = _font;
+	hasShadow = _hasShadow;
 
 	Image = SDL_CreateTextureFromSurface(ren, image);
 
@@ -95,6 +98,7 @@ void TextSprite::Initialize(int width, int height, vec2 pos, bool useOrigin, flo
 {
 	label = "";
 	labelColor = ClientAPI::Color.Black;
+	shadowColor = ClientAPI::Color.Black;
 	SetTextScale(0.925f);
 
 	Sprite::Initialize(width, height, pos, useOrigin, scale, spriteEffect);
@@ -114,6 +118,11 @@ TextSprite::~TextSprite()
 void TextSprite::Draw(SDL_Renderer* ren)
 {
 	Sprite::Draw(ren);
+
+	if (hasShadow && Shadow != nullptr)
+	{
+		SDL_RenderCopyEx(ren, Shadow, NULL, GetShadowRect(), Rotation, &origin, SpriteEffect);
+	}
 
 	if (Text != nullptr)
 	{
@@ -158,9 +167,32 @@ void TextSprite::ReCreateTextTexture()
 	if (Text != nullptr)
 		SDL_DestroyTexture(Text);
 
+	if (hasShadow && Shadow != nullptr)
+		SDL_DestroyTexture(Shadow);
+	
 	SDL_Surface* textSurface = TTF_RenderText_Solid(font, label.c_str(), labelColor);
-
 	Text = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, textSurface);
-
 	SDL_FreeSurface(textSurface);
+
+	if (hasShadow)
+	{
+		SDL_Surface* shadowSurface = TTF_RenderText_Solid(font, label.c_str(), shadowColor);
+		Shadow = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, shadowSurface);
+		SDL_FreeSurface(shadowSurface);
+	}
+}
+
+void TextSprite::SetShadow(bool useShadow)
+{
+	if (hasShadow != useShadow)
+	{
+		hasShadow = useShadow;
+
+		ReCreateTextTexture();
+	}
+}
+
+SDL_Rect* TextSprite::GetShadowRect()
+{
+	return &ClientAPI::createRectangle(textDimensions.x + 2, textDimensions.y + 2, textDimensions.w, textDimensions.h);
 }
