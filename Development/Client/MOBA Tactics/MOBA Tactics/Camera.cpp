@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/15/2015 (NH), 3/24/2015(NH)
+//Date:		3/15/2015 (NH), 3/24/2015(NH), 3/30/2015(NH)
 
 #include "Camera.h"
 
@@ -74,7 +74,13 @@ void Camera::CentreOn(vec2 _pos)
 	{
 		increment = vec2(0.02, 0.02);
 		SetIsMoving(true);
-		SetTargetPosition((GetPosition() + _pos) - vec2(GetWidth() / 2, GetHeight() / 2));
+		//SetTargetPosition((GetPosition() + _pos) - vec2(GetWidth() / 2, GetHeight() / 2));
+		vec2 st = GetPosition();
+		vec2 temp = (GetPosition() + _pos) - vec2(GetWidth() / 2, GetHeight() / 2);
+		SetTargetPosition((GetPosition() + _pos) - vec2(GetWidth() / 2.0f, GetHeight() / 2.0f));
+		printf("Start: (%f, %f)\n", st.x, st.y);
+		printf("Center coord: (%f, %f)\n", _pos.x, _pos.y);
+		printf("Target: (%f, %f)\n", temp.x, temp.y);
 		SetStartPosition(GetPosition());
 	}
 } 

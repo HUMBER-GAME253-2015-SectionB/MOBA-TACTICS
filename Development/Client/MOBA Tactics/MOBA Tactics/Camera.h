@@ -1,6 +1,8 @@
 //Author:	Nicholas Higa
 //Date:		3/15/2015 (NH), 3/24/2015(NH)
 
+#pragma once
+
 #include "ICamera.h"
 #include <SDL.h>
 #include <vector>

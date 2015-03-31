@@ -24,7 +24,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -90,6 +90,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="PlayButton.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Profile.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneHandler.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="ICamera.h" />
     <ClInclude Include="ICharacter.h" />
     <ClInclude Include="IGame.h" />
+    <ClInclude Include="IScene.h" />
     <ClInclude Include="ITileMap.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="LobbyList.h" />
@@ -132,6 +134,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="PlayButton.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Profile.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneHandler.h" />

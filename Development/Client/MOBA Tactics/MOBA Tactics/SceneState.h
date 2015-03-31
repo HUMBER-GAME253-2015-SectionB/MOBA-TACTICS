@@ -4,7 +4,7 @@
 #ifndef SCENESTATE_H
 #define SCENESTATE_H
 
-enum SceneState
+enum class SceneState
 {
 	NONE,
 	WAITING,

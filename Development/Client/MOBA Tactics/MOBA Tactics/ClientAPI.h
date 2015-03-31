@@ -1,5 +1,5 @@
-//Author:	David Vo, Mathieu Violette
-//Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV)
+//Author:	David Vo, Mathieu Violette, Nicholas Higa
+//Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
@@ -9,6 +9,7 @@
 #define CAMERA ((Camera*)ClientAPI::camera)
 #define TILEMAP ((TileMap*)ClientAPI::tileMap)
 #define CHARACTER ((Character*)ClientAPI::character)
+//#define PLAYERS ((vector<Player*>)ClientAPI::players)
 
 #include <ctime>
 #include <SDL.h>
@@ -24,6 +25,7 @@
 #include <stdlib.h>
 #include <string>
 #include <sstream>
+#include <vector>
 
 //Classes
 #include "ITileMap.h"

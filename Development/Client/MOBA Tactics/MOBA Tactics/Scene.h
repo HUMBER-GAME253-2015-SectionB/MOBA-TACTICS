@@ -1,12 +1,32 @@
-//Author:	David Vo
-//Date:		2/23/2015(DV)
+//Author:	David Vo, Nicholas Higa
+//Date:		2/23/2015(DV), 3/30/2015(NH)
 
-class Scene
+#pragma once
+
+#include "IScene.h"
+#include "ClientAPI.h"
+#include "SceneStateManager.h"
+#include "EventManager.h"
+
+class Scene : public IScene
 {
 public:
 	Scene();
 	~Scene();
 
-private:
+	void Init();
+	void LoadContent();
+	void UnloadContent();
+	void OnEvent(SDL_Event *event);
+	void UpdateInput(SDL_Event *event);
+	void Update();
+	void Draw();
+	void Exit();
 
+	//Delete after debug
+	vec2 minBound, maxBound;
+	Sprite *tmp1, *tmp2, *tmp3, *tmp4;
+
+private:
+	static SceneStateManager sceneStateManager;
 };

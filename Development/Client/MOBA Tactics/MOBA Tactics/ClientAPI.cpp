@@ -1,5 +1,5 @@
-//Author:	David Vo, Mathieu Violette
-//Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV)
+//Author:	David Vo, Mathieu Violette, Nicholas Higa
+//Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
 
 #include "ClientAPI.h"
 
@@ -7,6 +7,7 @@
 #include "TileMap.h"
 #include "Camera.h"
 #include "Profile.h"
+#include "Player.h"
 
 SDL_Window* ClientAPI::mainWindow = NULL;
 SDL_Renderer* ClientAPI::mainRenderer = NULL;
@@ -23,6 +24,7 @@ Uint32 ClientAPI::elaspedTime = 0;
 ITileMap* ClientAPI::tileMap;
 ICamera* ClientAPI::camera;
 ICharacter* ClientAPI::character;
+//vector<Player*> ClientAPI::players;
 
 Colors::Colors()
 {

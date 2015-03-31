@@ -42,6 +42,7 @@ class Sprite
 		virtual void Update(Uint32, SDL_Renderer*);
 		virtual bool CollisionMouse(vec2 _origin, int mX, int mY); //When sprite is drawn at a position differen than its field
 		virtual bool CollisionMouse(int mX, int mY);
+		virtual bool CollisionMouse(vec2 _origin, int mX, int mY, float scale);
 		virtual bool RectCollisionSprite(Sprite*);
 		virtual bool CircleCollisionSprite(Sprite*);
 		void SetScale(float);

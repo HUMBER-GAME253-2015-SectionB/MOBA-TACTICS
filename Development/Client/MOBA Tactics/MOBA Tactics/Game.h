@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette
-//Date:		3/22/2014(MV), 3/4/2015(MV)
+//Author:	Mathieu Violette, Nicholas Higa
+//Date:		3/22/2014(MV), 3/4/2015(MV), 3/30/2015(NH)
 
 #ifndef __GAME_H_INCLUDED__
 #define __GAME_H_INCLUDED__
@@ -10,10 +10,13 @@ class Character;
 class TileMap;
 
 #include "IGame.h"
+#include "Scene.h"
 #include "ClientAPI.h"
 #include "GameStateManager.h"
 #include "EventManager.h"
 #include "Profile.h"
+#include "Player.h"
+#include <vector>
 
 class Game : public IGame
 {
@@ -26,10 +29,7 @@ class Game : public IGame
 		static GameStateManager gameStateManager;
 		static EventManager eventManager;
 		static Profile* userProfile;
-
-		//Delete after debug
-		vec2 minBound, maxBound;
-		Sprite *tmp1, *tmp2, *tmp3, *tmp4;
+		Scene* scene;
 
 		Game();
 		~Game();
