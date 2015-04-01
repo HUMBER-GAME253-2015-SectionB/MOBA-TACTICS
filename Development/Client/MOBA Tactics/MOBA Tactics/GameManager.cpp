@@ -25,7 +25,6 @@ void GameManager::StartProgram()
 	newGame->LoadContent();
 
 	SDL_Event evt;
-
 	//Game Loop
 	while(newGame->GameIsRunning)
 	{

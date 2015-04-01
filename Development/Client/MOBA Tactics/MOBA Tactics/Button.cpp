@@ -34,7 +34,6 @@ void Button::Draw()
 {
 	if (isVisible)
 	{
-		SelectSprite();
 		sprite->Draw(ClientAPI::mainRenderer);
 	}
 }
@@ -51,7 +50,7 @@ void Button::SetSprite(Sprite* sprite)
 
 void Button::Update()
 {
-	SelectSprite();	
+
 }
 
 void Button::SelectSprite()

@@ -91,6 +91,9 @@
     <ClCompile Include="SplashScreen.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="ServerButton.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -206,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="SplashScreen.h">
       <Filter>Header Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerButton.h">
+      <Filter>Header Files\Buttons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

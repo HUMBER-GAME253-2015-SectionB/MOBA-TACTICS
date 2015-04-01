@@ -93,6 +93,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneHandler.cpp" />
     <ClCompile Include="SceneStateManager.cpp" />
+    <ClCompile Include="ServerButton.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextHandler.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneHandler.h" />
     <ClInclude Include="SceneStateManager.h" />
+    <ClInclude Include="ServerButton.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="Sprite.h" />
