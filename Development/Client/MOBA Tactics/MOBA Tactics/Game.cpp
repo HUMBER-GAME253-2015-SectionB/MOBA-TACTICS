@@ -4,13 +4,9 @@
 #include "Game.h"
 
 //FOR DEBUGGING: SWITCH TO DIFFERENT STARTING STATE
-<<<<<<< HEAD
-GameState startingState = GameState::LOBBY_LIST;
-//GameState startingState = GameState::LOGIN;
-=======
 GameState startingState = GameState::SPLASH;
 //GameState startingState = GameState::SCENE;
->>>>>>> origin/Client
+
 
 Game::Game()
 {

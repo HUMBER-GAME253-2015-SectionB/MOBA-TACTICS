@@ -95,11 +95,8 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneHandler.cpp" />
     <ClCompile Include="SceneStateManager.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="ServerButton.cpp" />
-=======
     <ClCompile Include="SplashButton.cpp" />
->>>>>>> origin/Client
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextHandler.cpp" />

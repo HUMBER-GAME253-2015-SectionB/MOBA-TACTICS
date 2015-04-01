@@ -34,12 +34,8 @@ void Button::Draw()
 {
 	if (isVisible)
 	{
-<<<<<<< HEAD
-		sprite->Draw(ClientAPI::mainRenderer);
-=======
 		SelectSprite();
 		((TextSprite*)sprite)->Draw(ClientAPI::mainRenderer);
->>>>>>> origin/Client
 	}
 }
 
