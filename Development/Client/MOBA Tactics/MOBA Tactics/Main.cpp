@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 {
 	GameManager *newGame = new GameManager();
 	newGame->StartProgram();
+	
 	delete newGame;
 
 	return 0;

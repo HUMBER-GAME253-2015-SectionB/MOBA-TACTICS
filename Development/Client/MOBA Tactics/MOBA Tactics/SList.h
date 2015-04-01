@@ -205,8 +205,6 @@ public:
 	// insert, find, and erase elements
 	class Iterator
 	{
-
-	public:
 		// the iterator holds a pointer to the "current" list node
 		Node *node;
 
@@ -215,6 +213,8 @@ public:
 
 		// private parameterized constructor: used by SList::begin() method
 		Iterator(Node *n) : node(n) { }
+
+	public:
 
 		// default constructor: iterator not valid until initialized
 		Iterator() : node(NULL) { }
