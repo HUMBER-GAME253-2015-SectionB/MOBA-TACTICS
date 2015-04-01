@@ -1,5 +1,5 @@
-//Author:	Mathieu Violette
-//Date:		3/5/2015(MV)
+//Author:	Mathieu Violette, Alejandro Zielinsky
+//Date:		3/5/2015(MV), 4/1/2015(AZ)
 
 #include "LoginScreen.h"
 #include "LoginButton.h"
@@ -22,7 +22,7 @@ LoginScreen::LoginScreen()
 	label = new Label("Username:", ClientAPI::createRectangle(123, 248, -1, 100), ClientAPI::Font.Ostrich_Bold_72);
 	label->SetTextColor(ClientAPI::Color.Light_Grey);
 	labels.push_back(label);
-	textInputs.push_front(userName = new TextInput(ClientAPI::createRectangle(400, 250, 474, 100), ClientAPI::Font.Droid_Regular_36, 14));
+	textInputs.push_front(userName = new TextInput(ClientAPI::createRectangle(400, 260, 474, 70), ClientAPI::Font.Droid_Regular_36, 14));
 
 	//Label with Shadow effect
 	label = new Label("Password:", ClientAPI::createRectangle(125, 400, -1, 100), ClientAPI::Font.Ostrich_Bold_72);
@@ -30,11 +30,11 @@ LoginScreen::LoginScreen()
 	label = new Label("Password:", ClientAPI::createRectangle(123, 398, -1, 100), ClientAPI::Font.Ostrich_Bold_72);
 	labels.push_back(label);
 	label->SetTextColor(ClientAPI::Color.Light_Grey);
-	textInputs.push_front(passWord = new TextInput(ClientAPI::createRectangle(400, 400, 474, 100), ClientAPI::Font.Droid_Regular_36, 14));
+	textInputs.push_front(passWord = new TextInput(ClientAPI::createRectangle(400, 410, 474, 70), ClientAPI::Font.Droid_Regular_36, 14));
 
 	buttons.push_front(new LoginButton());
-	title = new Sprite("../Assets/Images/TitleLogo.png", ClientAPI::mainRenderer, vec2(100,20), false, 1.0f, SDL_FLIP_NONE);
-	background = new Sprite("../Assets/Images/Background.png", ClientAPI::mainRenderer, vec2(0,170), false, 1.0f, SDL_FLIP_NONE);
+	//title = new Sprite("../Assets/Images/TitleLogo.png", ClientAPI::mainRenderer, vec2(100,20), false, 1.0f, SDL_FLIP_NONE);
+	background = new Sprite("../Assets/Images/whiteBackground.png", ClientAPI::mainRenderer, vec2(0,170), false, 1.0f, SDL_FLIP_NONE);
 }
 
 
