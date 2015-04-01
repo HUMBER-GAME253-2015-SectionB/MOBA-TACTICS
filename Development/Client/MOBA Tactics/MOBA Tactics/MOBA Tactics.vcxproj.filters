@@ -91,9 +91,24 @@
     <ClCompile Include="SplashScreen.cpp">
       <Filter>Source Files\Menus</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="ServerButton.cpp">
       <Filter>Source Files\Buttons</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="TextSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashButton.cpp">
+      <Filter>Source Files\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Profile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+>>>>>>> origin/Client
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -210,9 +225,27 @@
     <ClInclude Include="SplashScreen.h">
       <Filter>Header Files\Menus</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="ServerButton.h">
       <Filter>Header Files\Buttons</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="TextSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SplashButton.h">
+      <Filter>Header Files\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Profile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+>>>>>>> origin/Client
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

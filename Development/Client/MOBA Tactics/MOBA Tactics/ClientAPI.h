@@ -1,5 +1,5 @@
-//Author:	David Vo, Mathieu Violette
-//Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV)
+//Author:	David Vo, Mathieu Violette, Nicholas Higa
+//Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
@@ -9,6 +9,7 @@
 #define CAMERA ((Camera*)ClientAPI::camera)
 #define TILEMAP ((TileMap*)ClientAPI::tileMap)
 #define CHARACTER ((Character*)ClientAPI::character)
+//#define PLAYERS ((vector<Player*>)ClientAPI::players)
 
 #include <ctime>
 #include <SDL.h>
@@ -24,11 +25,13 @@
 #include <stdlib.h>
 #include <string>
 #include <sstream>
+#include <vector>
 
 //Classes
 #include "ITileMap.h"
 #include "ICharacter.h"
 #include "ICamera.h"
+class Profile;
 
 struct Colors
 {
@@ -36,11 +39,25 @@ struct Colors
 	SDL_Color Red; 
 	SDL_Color Black; 
 	SDL_Color Blue; 
+	SDL_Color Light_Blue;
 	SDL_Color Green; 
 	SDL_Color Purple;
 	SDL_Color Grey;
+	SDL_Color Light_Grey;
 
 	Colors();
+};
+
+struct Fonts
+{
+	TTF_Font *Ostrich_Regular_20, *Ostrich_Regular_36, *Ostrich_Regular_72, *Ostrich_Regular_100, *Ostrich_Regular_200;
+	TTF_Font *Ostrich_Bold_20, *Ostrich_Bold_36, *Ostrich_Bold_72, *Ostrich_Bold_100, *Ostrich_Bold_200;
+
+	TTF_Font *Droid_Regular_20, *Droid_Regular_36, *Droid_Regular_72, *Droid_Regular_100, *Droid_Regular_200;
+	TTF_Font *Droid_Bold_20, *Droid_Bold_36, *Droid_Bold_72, *Droid_Bold_100, *Droid_Bold_200;
+	
+	void Init_Fonts();
+	void Close_Fonts();
 };
 
 class ClientAPI
@@ -49,6 +66,7 @@ class ClientAPI
 public:
 
 	static Colors Color;
+	static Fonts Font;
 	static Uint32 elaspedTime;
 
 	static SDL_Color& createColor(int r, int g, int b, int a);
@@ -67,9 +85,8 @@ public:
 	static Mix_Chunk* _audioChannel2;
 	static Mix_Chunk* _audioChannel3;
 
-	static TTF_Font* mainFont;
-
 	static SDL_Texture* createTexture(std::string _imgURL);
+	static TTF_Font* createFont(std::string path, int size);
 	static SDL_Rect createRectangle(int _x, int _y, int _width, int _height);
 	static Mix_Music* loadMusic(std::string _musicURL);
 	static Mix_Chunk* loadSFX(std::string _sfxURL);
@@ -82,5 +99,7 @@ public:
 	static ICharacter* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
 	
+	static Profile* Login(std::string userName, std::string passWord);
+
 };
 #endif

@@ -19,7 +19,10 @@ GameStateManager::GameStateManager()
 GameStateManager::~GameStateManager()
 {
 	if (currentMenu != nullptr)
+	{
 		delete currentMenu;
+		currentMenu = nullptr;
+	}		
 }
 
 GameState GameStateManager::GetGameState() const

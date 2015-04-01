@@ -3,19 +3,23 @@
 
 #include "Label.h"
 
-Label::Label(char* _text, SDL_Rect& dimentions)
+Label::Label(const char* _text, SDL_Rect& dimentions, TTF_Font* _font)
 {
+	textColor = ClientAPI::Color.Black;
+	font = _font;
 	isVisible = true;
 	text = _text;
 	this->dimentions = dimentions;
-	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
+	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer, font);
+	((TextSprite*)sprite)->SetTextScale(1.f);
 }
-
 
 Label::~Label()
 {
 	if (sprite != NULL)
 		delete sprite;
+
+	font = nullptr;
 }
 
 void Label::Show()
@@ -31,7 +35,7 @@ void Label::Hide()
 void Label::Draw()
 {
 	if (isVisible)
-		sprite->Draw(ClientAPI::mainRenderer);
+		((TextSprite*)sprite)->Draw(ClientAPI::mainRenderer);
 }
 
 bool Label::CheckMouseCollision(int x, int y)
@@ -44,6 +48,12 @@ void Label::Update()
 			
 }
 
+void Label::SetTextColor(SDL_Color color)
+{
+	textColor = color;
+	((TextSprite*)sprite)->SetTextColor(textColor);
+}
+
 void Label::SetText(char* _text)
 {
 	text = _text;
@@ -51,7 +61,7 @@ void Label::SetText(char* _text)
 	delete sprite;
 	sprite = nullptr;
 
-	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
+	sprite = new TextSprite(_text, dimentions, ClientAPI::mainRenderer, font);
 
 }
 

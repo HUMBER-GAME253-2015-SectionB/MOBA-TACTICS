@@ -69,45 +69,6 @@ void Sprite::SetImage(SDL_Texture* _image)
 	Image = _image;
 }
 
-std::string& Sprite::GetText()
-{
-	return label;
-}
-
-void Sprite::SetText(const char* _text)
-{
-	label = _text;
-
-	if (Text != nullptr)
-		SDL_DestroyTexture(Text);
-
-	SDL_Surface* textSurface = TTF_RenderText_Solid(ClientAPI::mainFont, label.c_str(), labelColor); 
-
-	Text = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, textSurface);
-
-	SDL_FreeSurface(textSurface);
-}
-
-SDL_Color& Sprite::GetTextColor()
-{
-	return labelColor;
-}
-
-void Sprite::SetTextColor(SDL_Color& colour)
-{
-	labelColor = colour;
-}
-
-float Sprite::GetTextScale()
-{
-	return labelScale;
-}
-
-void Sprite::SetTextScale(float scale)
-{
-	labelScale = scale;
-}
-
 //===========================
 //  CONSTRUCTOR / DESTRUCTOR
 //===========================
@@ -116,70 +77,44 @@ void Sprite::SetTextScale(float scale)
 //Assumes programmer will use Initialize method manually
 Sprite::Sprite() { }
 
-//Text Only Constructor
-Sprite::Sprite(const char* text, SDL_Rect& dimensions, SDL_Renderer* ren, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
-{
-	//Make invisible background
-	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
-	SetAlpha(0);
-	SetBlendMode(SDL_BLENDMODE_BLEND);
-
-	Initialize(dimensions.w, dimensions.h, vec2(dimensions.x, dimensions.y), useOrigin, scale, spriteEffect);
-
-	SetTextScale(0.75f);
-	SetText(text);
-	
-	SDL_FreeSurface(loadedSurface);
-}
-
 Sprite::Sprite(SDL_Color& colour, SDL_Renderer* ren, SDL_Rect& dimensions, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	SDL_Surface* loadedSurface = IMG_Load("../Assets/Images/white1x1.png");
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
+	imgSurface = IMG_Load("..\\Assets\\Images\\white1x1.png");
+	Image = SDL_CreateTextureFromSurface(ren, imgSurface);
 
-	SetColor(colour.r, colour.g, colour.b);
-	SetAlpha(colour.a);
+	SDL_SetTextureBlendMode(Image, SDL_BlendMode::SDL_BLENDMODE_NONE);
+	SDL_SetTextureAlphaMod(Image, colour.a);	
+	SDL_SetTextureColorMod(Image, colour.r, colour.g, colour.b);
 
 	Initialize(dimensions.w, dimensions.h, vec2(dimensions.x, dimensions.y), useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(loadedSurface);
 }
 
 Sprite::Sprite(SDL_Surface *image, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
+	imgSurface = image;
 	Image = SDL_CreateTextureFromSurface(ren, image);
 
 	Initialize(image->w, image->h, pos, useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(image);
 }
 
 Sprite::Sprite(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
+	imgSurface = IMG_Load(path.c_str());
+	Image = SDL_CreateTextureFromSurface(ren, imgSurface);
 
-	Initialize(loadedSurface->w, loadedSurface->h, pos, useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(loadedSurface);
+	Initialize(imgSurface->w, imgSurface->h, pos, useOrigin, scale, spriteEffect);
 }
 
 void Sprite::Initialize(std::string path, SDL_Renderer* ren, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	Image = SDL_CreateTextureFromSurface(ren, loadedSurface);
+	imgSurface = IMG_Load(path.c_str());
+	Image = SDL_CreateTextureFromSurface(ren, imgSurface);
 
-	Initialize(loadedSurface->w, loadedSurface->h, pos, useOrigin, scale, spriteEffect);
-
-	SDL_FreeSurface(loadedSurface);
+	Initialize(imgSurface->w, imgSurface->h, pos, useOrigin, scale, spriteEffect);
 }
 
 void Sprite::Initialize(int width, int height, vec2 pos, bool useOrigin, float scale, SDL_RendererFlip spriteEffect)
 {
-	label = "";
-	labelColor = ClientAPI::Color.Black;
-
 	UseOrigin = useOrigin;
 	InitialScale = scale;
 	SetPosition(pos);
@@ -205,8 +140,11 @@ void Sprite::Initialize(int width, int height, vec2 pos, bool useOrigin, float s
 
 Sprite::~Sprite()
 {
-	if (Image != NULL)
+	if (Image != nullptr)
 		SDL_DestroyTexture(Image);
+
+	if (imgSurface != nullptr)
+		SDL_FreeSurface(imgSurface);
 }
 
 //===========================
@@ -217,19 +155,6 @@ void Sprite::Draw(SDL_Renderer* ren)
 {
 	if (Image != nullptr)
 		SDL_RenderCopyEx(ren, Image, NULL, &rect, Rotation, &origin, SpriteEffect);
-
-	if (Text != nullptr)
-	{
-		float scale = Scale * labelScale;
-		int x = rect.x + ((rect.w / 2.0f) - (rect.w * scale * 0.5f));
-		int y = rect.y + ((rect.h / 2.0f) - (rect.h * scale * 0.5f));
-
-		int w = rect.w * scale;
-		int h = rect.h * scale;
-
-		SDL_Rect textRect = {x, y, w, h};
-		SDL_RenderCopyEx(ren, Text, NULL, &textRect, Rotation, &origin, SpriteEffect);
-	}
 }
 
 //Draw at different position than its set position
@@ -275,6 +200,19 @@ bool Sprite::CollisionMouse(vec2 _origin, int mX, int mY)
 		mX <= _origin.x + rect.w &&
 		mY >= _origin.y &&
 		mY <= _origin.y + rect.h)
+		doesContain = true;
+
+	return doesContain;
+}
+
+bool Sprite::CollisionMouse(vec2 _origin, int mX, int mY, float scale)
+{
+	bool doesContain = false;
+
+	if (mX >= _origin.x &&
+		mX <= _origin.x + rect.w * scale &&
+		mY >= _origin.y &&
+		mY <= _origin.y + rect.h * scale)
 		doesContain = true;
 
 	return doesContain;
@@ -389,4 +327,12 @@ void Sprite::SetAlpha(Uint8 alpha)
 {
 	//Modulate texture alpha
 	SDL_SetTextureAlphaMod(Image, alpha);
+}
+
+void Sprite::ReCreateTexture()
+{
+	if (Image != nullptr)
+		SDL_DestroyTexture(Image);
+
+	Image = SDL_CreateTextureFromSurface(ClientAPI::mainRenderer, imgSurface);
 }

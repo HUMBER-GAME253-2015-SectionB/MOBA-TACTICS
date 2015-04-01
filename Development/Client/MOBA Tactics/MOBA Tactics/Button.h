@@ -2,8 +2,8 @@
 //Date:		3/4/2015(AZ), 3/6/2015(KV)
 
 #pragma once
-#include "GUIElement.h";
-#include "Sprite.h"
+#include "GUIElement.h"
+#include "TextSprite.h"
 #include <string>
 
 enum ButtonState{UNPRESSED, PRESSED, HOVER};
@@ -13,10 +13,10 @@ class Button : public GUIElement
 private:
 protected:
 	Sprite *sprite, *spriteUnpressed, *spritePressed, *spriteHover;
+	void SetSprite(Sprite* sprite);
 public:
 	Button();
 	~Button();
-
 	ButtonState buttonState;
 	bool isBeingHovered;
 	virtual void OnClick() = 0;
@@ -27,7 +27,5 @@ public:
 	void Hide();
 	void SelectSprite();
 	bool CheckMouseCollision(int x, int y);
-	void SetSprite(Sprite* sprite);
-
 };
 

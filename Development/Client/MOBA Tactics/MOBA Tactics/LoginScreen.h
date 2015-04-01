@@ -9,8 +9,8 @@
 class LoginScreen : public Menu
 {
 public:
+	static TextInput *userName, *passWord;
 	LoginScreen();
-
 };
 
 #endif

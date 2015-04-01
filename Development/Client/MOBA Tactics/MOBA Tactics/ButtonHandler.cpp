@@ -55,7 +55,7 @@ bool ButtonHandler::HandleEventMouseUp(int x, int y)
 			target = i;
 			succeess = true;
 		}
-
+		
 		(*i)->buttonState = UNPRESSED;
 	}
 

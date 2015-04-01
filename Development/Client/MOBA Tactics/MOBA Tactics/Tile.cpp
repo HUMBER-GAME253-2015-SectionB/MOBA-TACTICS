@@ -65,7 +65,7 @@ Character* Tile::GetCharacter() const
 
 bool Tile::GetIsOccupied() const
 {
-	return GetCharacter() == NULL;
+	return GetCharacter() != NULL;
 }
 
 bool Tile::GetIsHighlighted() const

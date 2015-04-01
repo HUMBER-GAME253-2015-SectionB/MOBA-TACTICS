@@ -7,6 +7,7 @@
 #include "IMenu.h"
 #include "Button.h"
 #include "Label.h"
+#include "TextInput.h"
 #include "SList.h"
 
 class Menu : public IMenu
@@ -16,6 +17,7 @@ protected:
 	Sprite *background;
 	Sprite *title;
 	SList<Label*> labels;
+	SList<TextInput*> textInputs;
 public:
 	Menu();
 	~Menu();
@@ -26,7 +28,9 @@ public:
 	void Draw(SDL_Renderer* ren) const;
 	
 	const SList<Button*>& GetButtons() const;
+	const SList<TextInput*>& GetTextInputs() const;
 
+	Label* ErrorLabel;
 };
 
 #endif

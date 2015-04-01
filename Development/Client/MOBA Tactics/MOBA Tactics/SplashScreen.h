@@ -5,6 +5,7 @@
 #define SPLASHSCREEN_H
 
 #include "Menu.h"
+#include "SplashButton.h"
 
 class SplashScreen : public Menu
 {

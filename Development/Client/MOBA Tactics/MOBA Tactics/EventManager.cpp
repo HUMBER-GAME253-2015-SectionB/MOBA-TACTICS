@@ -1,5 +1,5 @@
 //Author:	Mathieu Violette, Alejandro Zielinsky
-//Date:		3/8/2015(MV),     3/18/2015
+//Date:		3/8/2015(MV), 3/18/2015(AZ)
 
 #include "EventManager.h"
 #include "Game.h"
@@ -7,6 +7,8 @@
 ButtonHandler EventManager::buttonHandler = ButtonHandler::GetInstance();
 SceneHandler EventManager::sceneHandler = SceneHandler::GetInstance();
 TextHandler EventManager::textHandler = TextHandler::GetInstance();
+
+class TextInput;
 
 EventManager& EventManager::GetInstance()
 {
@@ -52,8 +54,7 @@ void EventManager::ManageEvents(SDL_Event *event)
 			sceneHandler.HandleEventMouseUp(MouseX, MouseY);
 		else
 		{
-		textHandler.HandleEventMouseUp(MouseX,MouseY);
-		buttonHandler.HandleEventMouseUp(MouseX, MouseY);
+			buttonHandler.HandleEventMouseUp(MouseX, MouseY);
 		}
 	}
 
@@ -69,6 +70,10 @@ void EventManager::ManageEvents(SDL_Event *event)
 		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
 		{
 			sceneHandler.HandleEventKeyDown(event->key.keysym.sym);
+		}
+		else
+		{
+			textHandler.HandleTextInput(event->key.keysym.scancode);			
 		}
 	}
 	
@@ -87,11 +92,11 @@ void EventManager::ManageEvents(SDL_Event *event)
 			textHandler.HandleTextInput(std::string(event->text.text));
 		}
 	}
-
+	
 	if (event->type == SDL_MOUSEWHEEL)
 	{
-		sceneHandler.HandleEventMouseWheel(event->wheel);
-		
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+			sceneHandler.HandleEventMouseWheel(event->wheel);		
 	}
 
 	//Post-update: set previous mouse state
@@ -113,20 +118,30 @@ void EventManager::UpdateHoverState()
 void EventManager::RegisterMenu(const Menu& menu)
 {
 	//Register buttons to button handler
-
 	for (SList<Button*>::Iterator i = menu.GetButtons().begin(); i != menu.GetButtons().end(); i++)
 	{
 		buttonHandler.SubscribeButton(*(*i));
+	}
+
+	//Register TextInputs to TextInput handler
+	for (SList<TextInput*>::Iterator i = menu.GetTextInputs().begin(); i != menu.GetTextInputs().end(); i++)
+	{
+		textHandler.SubscribeTextInput(*(*i));
 	}
 }
 
 void EventManager::UnregisterMenu(const Menu& menu)
 {
 	//Unregister buttons to button handler
-
 	for (SList<Button*>::Iterator i = menu.GetButtons().begin(); i != menu.GetButtons().end(); i++)
 	{
 		buttonHandler.RemoveButton(*(*i));
+	}
+
+	//Unregister TextInputs to TextInput handler
+	for (SList<TextInput*>::Iterator i = menu.GetTextInputs().begin(); i != menu.GetTextInputs().end(); i++)
+	{
+		textHandler.RemoveTextInput(*(*i));
 	}
 }
 

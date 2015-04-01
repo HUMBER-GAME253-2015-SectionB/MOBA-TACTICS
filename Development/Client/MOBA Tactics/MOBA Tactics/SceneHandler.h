@@ -3,7 +3,7 @@
 
 #pragma once
 
-class SDL_MouseWheelEvent;
+struct SDL_MouseWheelEvent;
 
 #include "glm\glm.hpp"
 

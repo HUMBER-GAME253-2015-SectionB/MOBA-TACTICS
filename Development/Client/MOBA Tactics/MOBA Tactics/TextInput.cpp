@@ -3,18 +3,28 @@
 
 #include "TextInput.h"
 
-TextInput::TextInput(SDL_Rect& dimentions)
+TextInput::TextInput(SDL_Rect& dimentions, TTF_Font* _font, int _maxCharacters)
 {
+	font = _font;
 	text = "";
-	currentState = TIS_UNPRESSED;
+	maxCharacters = _maxCharacters;
+	currentState = UNFOCUSED;
 	this->dimentions = dimentions;
-	sprite = new Sprite("", dimentions, ClientAPI::mainRenderer);
+
+	spriteUnfocused = new TextSprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, dimentions, font, false);
+	spriteFocused = new TextSprite(ClientAPI::Color.Blue, ClientAPI::mainRenderer, dimentions, font, false);
+
+	SelectSprite();
 }
 
 TextInput::~TextInput()
 {
-	if (sprite != NULL)
-		delete sprite;
+	if (spriteUnfocused != NULL)
+		delete spriteUnfocused;
+	if (spriteFocused != NULL)
+		delete spriteFocused;
+
+	font = nullptr;
 }
 
 void TextInput::Show()
@@ -30,7 +40,7 @@ void TextInput::Hide()
 void TextInput::Draw()
 {
 	if (isVisible)
-		sprite->Draw(ClientAPI::mainRenderer);
+		((TextSprite*)sprite)->Draw(ClientAPI::mainRenderer);
 }
 
 bool TextInput::CheckMouseCollision(int x, int y)
@@ -40,14 +50,12 @@ bool TextInput::CheckMouseCollision(int x, int y)
 
 void TextInput::Update()
 {
-	
+	SelectSprite();
 }
 
 void TextInput::OnClick()
 {
 	setFocus(true);
-	
-
 }
 
 void TextInput::setFocus(bool newVal)
@@ -65,19 +73,68 @@ void TextInput::setFocus(bool newVal)
 
 }
 
+void TextInput::RedrawText()
+{
+	char* newText = new char[text.length() + 1];
+	strcpy_s(newText, text.length() + 1, text.c_str());
+
+	((TextSprite*)spriteFocused)->SetText(newText);
+	((TextSprite*)spriteUnfocused)->SetText(newText);
+
+	delete[] newText;
+}
 
 void TextInput::SetText(const char* _text)
 {
-	text = _text;
+	if (text.length() < maxCharacters)
+	{
+		text += _text;
+		RedrawText();
+	}
+}
 
-	delete sprite;
-	sprite = nullptr;
-
-	sprite = new Sprite(_text, dimentions, ClientAPI::mainRenderer);
-
+void TextInput::TextAction_Backspace()
+{
+	if (text.length() > 0)
+	{
+		text = text.substr(0, text.length() - 1);
+		RedrawText();
+	}
 }
 
 std::string TextInput::GetText() const
 {
 	return text;
+}
+
+void TextInput::SetSprite(Sprite* sprite)
+{
+	this->sprite = sprite;
+}
+
+void TextInput::SelectSprite()
+{
+	if (currentState == FOCUSED)
+	{
+		SetSprite(spriteFocused);
+	}
+	else if (currentState == UNFOCUSED)
+	{
+		SetSprite(spriteUnfocused);
+	}
+}
+
+int TextInput::GetMaxCharacters() const
+{
+	return maxCharacters;
+}
+
+void TextInput::SetMaxCharacters(int newMax)
+{
+	if (text.length() > newMax)
+	{
+		text = text.substr(0, newMax);
+		RedrawText();
+	}
+	maxCharacters = newMax;
 }
