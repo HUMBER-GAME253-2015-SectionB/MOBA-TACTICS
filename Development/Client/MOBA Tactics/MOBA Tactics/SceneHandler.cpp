@@ -15,7 +15,7 @@ SceneHandler::SceneHandler()
 void SceneHandler::HandleEventMouseDown(int x, int y)
 {
 	float scale = CAMERA->GetScale();
-	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) && CHARACTER->GetIsSelected())
+	/*if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) && CHARACTER->GetIsSelected())
 	{
 		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), scale);
 		//printf("Clicked on (%f, %f)\n", temp.x, temp.y);
@@ -24,9 +24,9 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 	}
 
 	vec2 charPosition = CAMERA->GetDrawablePosOnScreen(CHARACTER);
-	charPosition *= CAMERA->GetScale();
+	charPosition *= CAMERA->GetScale();*/
 
-	if (!CHARACTER->GetIsSelected() && CHARACTER->CollisionMouse(charPosition, x, y))
+	/*if (!CHARACTER->GetIsSelected() && CHARACTER->CollisionMouse(charPosition, x, y))
 	{
 		//printf("Character selected\n");
 		CHARACTER->SetIsSelected(true);
@@ -41,7 +41,7 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 			CHARACTER->SetIsSelected(true);
 			CAMERA->CentreOn(vec2(x, y));
 		}
-	}
+	}*/
 
 	vec2 camPos = CAMERA->GetPosition();
 	printf("(%f, %f)\n", camPos.x, camPos.y);

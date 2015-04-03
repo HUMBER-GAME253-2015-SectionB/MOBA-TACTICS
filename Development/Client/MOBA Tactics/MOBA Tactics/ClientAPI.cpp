@@ -21,10 +21,9 @@ Mix_Chunk* ClientAPI::_audioChannel3 = NULL;
 
 Uint32 ClientAPI::elaspedTime = 0;
 
-ITileMap* ClientAPI::tileMap;
-ICamera* ClientAPI::camera;
-ICharacter* ClientAPI::character;
-//vector<Player*> ClientAPI::players;
+TileMap* ClientAPI::tileMap;
+Camera* ClientAPI::camera;
+vector<Player*> ClientAPI::players;
 
 Colors::Colors()
 {
@@ -177,26 +176,43 @@ SDL_Color& ClientAPI::createColor(int r, int g, int b, int a)
 	return color;
 }
 
-ICamera* ClientAPI::createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary){
-	ICamera* tempCamera = new Camera(mainRenderer, pos, width, height, minBoundary, maxBoundary);
+Camera* ClientAPI::createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary){
+	Camera* tempCamera = new Camera(mainRenderer, pos, width, height, minBoundary, maxBoundary);
 	return tempCamera;
 }
 
-ITileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, string highlightTexturePath) {
-	ITileMap* tempMap = new TileMap(_xmlFilePath, _origin, highlightTexturePath, mainRenderer);
+TileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, string highlightTexturePath) {
+	TileMap* tempMap = new TileMap(_xmlFilePath, _origin, highlightTexturePath, mainRenderer);
 	return tempMap;
 }
 
-ICharacter* ClientAPI::createCharacter(char* spritePath, ITile* onTile) {
+/*Character* ClientAPI::createICharacter(char* spritePath, ITile* onTile) {
 	ICharacter* tempCharacter = new Character(spritePath, onTile, mainRenderer);
+	return tempCharacter;
+}*/
+
+Character* ClientAPI::createCharacter(char* spritePath, ITile* onTile)
+{
+	Character* tempCharacter = new Character(spritePath, onTile, mainRenderer);
 	return tempCharacter;
 }
 
-ICharacter* ClientAPI::createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
+Character* ClientAPI::createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints) {
-	ICharacter* tempCharacter = new Character(spritePath, onTile, _maxHealth, _actionPoints,
+	Character* tempCharacter = new Character(spritePath, onTile, _maxHealth, _actionPoints,
 		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
 	return tempCharacter;
+}
+
+void ClientAPI::addPlayer()
+{
+	PLAYERS.push_back(new Player());
+}
+
+void ClientAPI::addCharacter(Character* _character, int _playerIndex)
+{
+	PLAYERS[_playerIndex]->AddCharacter(_character);
+	CAMERA->AddToDrawList(_character);
 }
 
 Profile* ClientAPI::Login(std::string userName, std::string passWord)

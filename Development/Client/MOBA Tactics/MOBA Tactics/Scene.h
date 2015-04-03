@@ -7,6 +7,7 @@
 #include "ClientAPI.h"
 #include "SceneStateManager.h"
 #include "EventManager.h"
+#include "PlayerState.h"
 
 class Scene : public IScene
 {
@@ -27,6 +28,14 @@ public:
 	vec2 minBound, maxBound;
 	Sprite *tmp1, *tmp2, *tmp3, *tmp4;
 
+	int GetCurrentPlayer();
+	void SetCurrentPlayer(int);
+
+	int GetNumPlayers();
+	void SetNumPlayers(int);
+
 private:
 	static SceneStateManager sceneStateManager;
+	int currentPlayer;
+	int numPlayers;
 };

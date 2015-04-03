@@ -45,7 +45,7 @@ void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int 
 	SetOnTile(onTile);
 	SetIsSelected(false);
 
-	isMoving = false;
+	SetIsMoving(false);
 }
 
 void Character::MoveToAdjacentTile(ITile *toTile)

@@ -8,8 +8,7 @@
 
 #define CAMERA ((Camera*)ClientAPI::camera)
 #define TILEMAP ((TileMap*)ClientAPI::tileMap)
-#define CHARACTER ((Character*)ClientAPI::character)
-//#define PLAYERS ((vector<Player*>)ClientAPI::players)
+#define PLAYERS ClientAPI::players
 
 #include <ctime>
 #include <SDL.h>
@@ -31,7 +30,12 @@
 #include "ITileMap.h"
 #include "ICharacter.h"
 #include "ICamera.h"
+
 class Profile;
+class Player;
+class Character;
+class Camera;
+class TileMap;
 
 struct Colors
 {
@@ -71,9 +75,9 @@ public:
 
 	static SDL_Color& createColor(int r, int g, int b, int a);
 
-	static ITileMap* tileMap;
-	static ICamera *camera;
-	static ICharacter* character;
+	static TileMap* tileMap;
+	static Camera *camera;
+	static vector<Player*> players;
 
 	static SDL_Window *mainWindow;
 	static SDL_Renderer *mainRenderer;
@@ -93,12 +97,14 @@ public:
 	static TTF_Font* loadFont(std::string _fontURL, int _fontSize);
 	static int StringToInt(const std::string &Text); 
 
-	static ICamera* createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary);
-	static ITileMap* createMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath);
-	static ICharacter* createCharacter(char* spritePath, ITile* onTile);
-	static ICharacter* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
+	static Camera* createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary);
+	static TileMap* createMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath);
+	static Character* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
-	
+	static Character* createCharacter(char* spritePath, ITile* onTile);
+	static void addPlayer();
+	static void addCharacter(Character*, int);
+
 	static Profile* Login(std::string userName, std::string passWord);
 
 };

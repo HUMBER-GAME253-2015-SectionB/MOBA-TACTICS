@@ -1,5 +1,7 @@
 #include "Player.h"
 
+Player::Player() {}
+
 void Player::AddCharacter(Character* character)
 {
 	characters.push_back(character);
@@ -7,13 +9,11 @@ void Player::AddCharacter(Character* character)
 
 void Player::StartTurn()
 {
-	SetIsActive(true);
 	SetIsCharacterSelected(false);
 }
 
 void Player::EndTurn()
 {
-	SetIsActive(false);
 	SetIsCharacterSelected(false);
 }
 
@@ -33,11 +33,6 @@ bool Player::GetIsCharacterSelected()
 	return isCharacterSelected;
 }
 
-bool Player::GetIsActive()
-{
-	return isActive;
-}
-
 vector<Character *> Player::GetCharacterList()
 {
 	return characters;
@@ -51,11 +46,6 @@ int Player::GetCurrentActiveChar()
 void Player::SetIsCharacterSelected(bool val)
 {
 	isCharacterSelected = val;
-}
-
-void Player::SetIsActive(bool val)
-{
-	isActive = val;
 }
 
 void Player::SetCurrentActiveChar(int val)

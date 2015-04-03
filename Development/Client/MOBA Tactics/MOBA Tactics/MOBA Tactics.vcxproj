@@ -75,8 +75,8 @@
     <ClCompile Include="ButtonHandler.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="ClientAPI.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
@@ -136,9 +136,11 @@
     <ClInclude Include="Options.h" />
     <ClInclude Include="PlayButton.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Profile.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneHandler.h" />
+    <ClInclude Include="SceneState.h" />
     <ClInclude Include="SceneStateManager.h" />
     <ClInclude Include="ServerButton.h" />
     <ClInclude Include="SList.h" />

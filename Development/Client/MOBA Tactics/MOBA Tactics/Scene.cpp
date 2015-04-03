@@ -17,6 +17,10 @@ void Scene::Init()
 	maxBound = vec2(1524, 1268);
 	ClientAPI::camera = ClientAPI::createCamera(vec2(0, 0), 1024, 768, minBound, maxBound);
 	//camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
+	SetNumPlayers(2);
+	ClientAPI::addPlayer();
+	ClientAPI::addPlayer();
+	SetCurrentPlayer((int)PlayerState::PLAYER_ONE);
 }
 
 void Scene::LoadContent()
@@ -26,11 +30,25 @@ void Scene::LoadContent()
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	TILEMAP->SetHighlightColor(255, 0, 0);
 
-	ClientAPI::character = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 0, 0));
+	//	ClientAPI::character = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 0, 0));
 	//character = new Character("../Assets/Images/Character.png", tiles->GetTileAt(1, 0, 0), ClientAPI::mainRenderer);
 	CAMERA->AddToDrawList(TILEMAP);
-	CAMERA->AddToDrawList(CHARACTER);
 	CAMERA->SetPosition(vec2(100, 100));
+
+	Character *tmpChar0, *tmpChar1, *tmpChar2, *tmpChar3, *tmpChar4, *tmpChar5;
+	tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 0, 0));
+	ClientAPI::addCharacter(tmpChar0, 0);
+	tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 0, 1));
+	ClientAPI::addCharacter(tmpChar1, 0);
+	tmpChar2 = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 1, 0));
+	ClientAPI::addCharacter(tmpChar2, 0);
+
+	tmpChar3 = ClientAPI::createCharacter("../Assets/Images/Character2.png", ClientAPI::tileMap->GetTileAt(1, 8, 8));
+	ClientAPI::addCharacter(tmpChar3, 1);
+	tmpChar4 = ClientAPI::createCharacter("../Assets/Images/Character2.png", ClientAPI::tileMap->GetTileAt(1, 8, 7));
+	ClientAPI::addCharacter(tmpChar4, 1);
+	tmpChar5 = ClientAPI::createCharacter("../Assets/Images/Character2.png", ClientAPI::tileMap->GetTileAt(1, 7, 8));
+	ClientAPI::addCharacter(tmpChar5, 1);
 
 	tmp1 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, minBound.y));
 	CAMERA->AddToDrawList(tmp1);
@@ -45,7 +63,6 @@ void Scene::LoadContent()
 void Scene::UnloadContent()
 {
 	delete ClientAPI::tileMap;
-	delete ClientAPI::character;
 	delete ClientAPI::camera;
 }
 
@@ -56,7 +73,6 @@ void Scene::Update()
 
 	CAMERA->Update();
 	TILEMAP->Update();
-	CHARACTER->Update();
 
 	//This block of code can not be used within Event Manager because the 
 	//Event manager does not handle cases where the mouse doesn't move. This
@@ -79,4 +95,24 @@ void Scene::Update()
 void Scene::Draw()
 {
 	CAMERA->Draw(ClientAPI::mainRenderer);
+}
+
+int Scene::GetCurrentPlayer()
+{
+	return currentPlayer;
+}
+
+void Scene::SetCurrentPlayer(int val)
+{
+	currentPlayer = val;
+}
+
+int Scene::GetNumPlayers()
+{
+	return numPlayers;
+}
+
+void Scene::SetNumPlayers(int val)
+{
+	numPlayers = val;
 }
