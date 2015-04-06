@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 4/6/2015(NH)
 #pragma once
 
 #include "Character.h"
@@ -25,6 +25,7 @@ public:
 	unsigned GetTileHeight() const;
 	bool GetIsOccupied() const;
 	bool GetIsHighlighted() const;
+	bool GetIsSelected() const;
 	Character* GetCharacter() const;
 
 	void SetTileID(int num);
@@ -33,6 +34,7 @@ public:
 	void SetTileWidth(unsigned num);
 	void SetTileHeight(unsigned num);
 	void SetIsHighlighted(bool value);
+	void SetIsSelected(bool value);
 	void SetCharacter(void* _character);
 
 private:
@@ -44,4 +46,5 @@ private:
 	Character* character;
 
 	bool isHighlighted;
+	bool isSelected;
 };

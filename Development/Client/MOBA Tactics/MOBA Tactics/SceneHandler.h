@@ -5,6 +5,7 @@
 
 struct SDL_MouseWheelEvent;
 
+#include "ClientAPI.h"
 #include "glm\glm.hpp"
 
 using namespace glm;
@@ -14,6 +15,7 @@ class SceneHandler
 private:
 	SceneHandler();
 	vec3 prevHighlightedTile;
+	vec3 prevSelectedTile;
 public:
 	static SceneHandler& GetInstance();
 	void HandleEventMouseDown(int x, int y);

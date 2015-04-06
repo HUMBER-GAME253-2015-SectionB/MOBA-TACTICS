@@ -32,6 +32,7 @@ public:
 	void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight);
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
 	void InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
+	void SetIsTileSelected(bool isSelected, int layer, int row, int col);
 	void SetIsTileHighlighted(bool isHighlighted, int layer, int row, int col);
 	void Draw(vec2 pos, SDL_Renderer *ren);
 	void Draw(SDL_Renderer *ren);

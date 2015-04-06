@@ -1,5 +1,5 @@
 //Author:	David Vo, Nicholas Higa
-//Date:		2/23/2015(DV), 3/30/2015(NH)
+//Date:		2/23/2015(DV), 3/30/2015(NH), 4/6/2015(NH)
 
 #pragma once
 
@@ -28,14 +28,6 @@ public:
 	vec2 minBound, maxBound;
 	Sprite *tmp1, *tmp2, *tmp3, *tmp4;
 
-	int GetCurrentPlayer();
-	void SetCurrentPlayer(int);
-
-	int GetNumPlayers();
-	void SetNumPlayers(int);
-
 private:
 	static SceneStateManager sceneStateManager;
-	int currentPlayer;
-	int numPlayers;
 };

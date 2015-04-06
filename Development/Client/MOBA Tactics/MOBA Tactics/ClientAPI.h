@@ -1,14 +1,11 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
+//			4/6/2015 (NH)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
 
 #define WIN32_LEAN_AND_MEAN
-
-#define CAMERA ((Camera*)ClientAPI::camera)
-#define TILEMAP ((TileMap*)ClientAPI::tileMap)
-#define PLAYERS ClientAPI::players
 
 #include <ctime>
 #include <SDL.h>
@@ -36,6 +33,10 @@ class Player;
 class Character;
 class Camera;
 class TileMap;
+
+#define CAMERA ((Camera*)ClientAPI::camera)
+#define TILEMAP ((TileMap*)ClientAPI::tileMap)
+#define PLAYERS ClientAPI::players
 
 struct Colors
 {
@@ -102,10 +103,18 @@ public:
 	static Character* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
 	static Character* createCharacter(char* spritePath, ITile* onTile);
+
 	static void addPlayer();
 	static void addCharacter(Character*, int);
+
+	static int currentPlayer;
+	static int GetNumPlayers();
+	static int GetCurrentPlayer();
+	static void SetCurrentPlayer(int);
+	static void CycleToNextPlayer();
 
 	static Profile* Login(std::string userName, std::string passWord);
 
 };
+
 #endif

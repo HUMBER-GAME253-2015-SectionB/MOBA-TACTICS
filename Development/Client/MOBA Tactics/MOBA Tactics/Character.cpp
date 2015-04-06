@@ -64,8 +64,9 @@ void Character::MoveToAdjacentTile(ITile *toTile)
 //Needs to be improved later on assuming obstacle tiles are required later.
 void Character::Move(ITileMap *tileMap, ITile *toTile)
 {
-	if (!GetIsMoving() && toTile->GetGridPosition() != GetTileGridPosition())
+	if (!GetIsMoving() && toTile->GetGridPosition() != GetTileGridPosition() && !toTile->GetIsOccupied())
 	{
+		GetOnTile()->SetCharacter(NULL);
 		vec3 gridDisplacement;
 		vec3 tileGridPos = GetTileGridPosition();
 		gridDisplacement = toTile->GetGridPosition() - tileGridPos;

@@ -1,5 +1,6 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
+//			4/6/2015 (NH)
 
 #include "ClientAPI.h"
 
@@ -24,6 +25,8 @@ Uint32 ClientAPI::elaspedTime = 0;
 TileMap* ClientAPI::tileMap;
 Camera* ClientAPI::camera;
 vector<Player*> ClientAPI::players;
+
+int ClientAPI::currentPlayer;
 
 Colors::Colors()
 {
@@ -213,6 +216,26 @@ void ClientAPI::addCharacter(Character* _character, int _playerIndex)
 {
 	PLAYERS[_playerIndex]->AddCharacter(_character);
 	CAMERA->AddToDrawList(_character);
+}
+
+int ClientAPI::GetNumPlayers()
+{
+	return PLAYERS.size();
+}
+
+int ClientAPI::GetCurrentPlayer()
+{
+	return currentPlayer;
+}
+
+void ClientAPI::SetCurrentPlayer(int val)
+{
+	currentPlayer = val;
+}
+
+void ClientAPI::CycleToNextPlayer()
+{
+	SetCurrentPlayer((GetCurrentPlayer() + 1) % GetNumPlayers());
 }
 
 Profile* ClientAPI::Login(std::string userName, std::string passWord)

@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa, Mathieu Violette
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/17/2015(MV),
-//          3/24/2015(NH)
+//          3/24/2015(NH), 4/6/2015(NH)
 #include "TileMap.h"
 
 TileMap::TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
@@ -214,7 +214,7 @@ void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 	//tileSet.GetTileSetTexture()->Draw(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, &rec, ren);
 	SDL_RenderCopy(ren, tileSet->GetImage(), &rec, &renderQuad);
 
-	if (tileMap[layer][row][col].GetIsHighlighted())
+	if (tileMap[layer][row][col].GetIsHighlighted() || tileMap[layer][row][col].GetIsSelected())
 		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
 		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
 }
@@ -246,7 +246,7 @@ void TileMap::DrawTile(vec2 pos, int layer, int row, int col, SDL_Renderer *ren)
 
 	SDL_RenderCopy(ren, tileSet->GetImage(), &rec, &renderQuad);
 
-	if (tileMap[layer][row][col].GetIsHighlighted())
+	if (tileMap[layer][row][col].GetIsHighlighted() || tileMap[layer][row][col].GetIsSelected())
 		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
 		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
 }
@@ -389,6 +389,11 @@ vector<vector<vector<Tile>>>* TileMap::GetTileMap()
 void TileMap::SetIsTileHighlighted(bool isHighlighted, int layer, int row, int col)
 {
 	GetTileMap()->at(layer).at(row).at(col).SetIsHighlighted(isHighlighted);
+}
+
+void TileMap::SetIsTileSelected(bool isSelected, int layer, int row, int col)
+{
+	GetTileMap()->at(layer).at(row).at(col).SetIsSelected(isSelected);
 }
 
 void TileMap::SetOrigin(vec2 pos)

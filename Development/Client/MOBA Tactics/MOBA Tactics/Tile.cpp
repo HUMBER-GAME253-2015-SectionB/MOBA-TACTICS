@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/10/2015(NH)
+//Date:		3/4/2015(NH), 3/10/2015(NH), 4/6/2015(NH)
 #include "Tile.h"
 
 Tile::Tile()
@@ -73,6 +73,11 @@ bool Tile::GetIsHighlighted() const
 	return isHighlighted;
 }
 
+bool Tile::GetIsSelected() const
+{
+	return isSelected;
+}
+
 void Tile::SetTileID(int num)
 {
 	tileID = num;
@@ -112,6 +117,11 @@ void Tile::SetTileHeight(unsigned num)
 void Tile::SetIsHighlighted(bool value)
 {
 	isHighlighted = value;
+}
+
+void Tile::SetIsSelected(bool value)
+{
+	isSelected = value;
 }
 
 //This is probably bad practice to make it a void* instead of a 
