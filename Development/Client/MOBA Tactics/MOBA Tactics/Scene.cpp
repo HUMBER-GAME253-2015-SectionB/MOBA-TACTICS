@@ -20,6 +20,7 @@ void Scene::Init()
 	ClientAPI::addPlayer();
 	ClientAPI::addPlayer();
 	ClientAPI::SetCurrentPlayer((int)PlayerState::PLAYER_ONE);
+	printf("Press E to end the current players turn\n");
 }
 
 void Scene::LoadContent()

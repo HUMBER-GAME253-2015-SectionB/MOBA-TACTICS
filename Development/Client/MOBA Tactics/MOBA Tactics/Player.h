@@ -12,10 +12,11 @@ public:
 	void StartTurn();
 	void EndTurn();
 	void CycleToNextCharacter();
+	void RemoveCurrentActiveChar();
 
 	bool GetIsCharacterSelected();
 	vector<Character *> GetCharacterList();
-	int GetCurrentActiveChar();
+	Character* GetCurrentActiveChar();
 
 	void SetIsCharacterSelected(bool);
 	void SetCurrentActiveChar(int);

@@ -21,11 +21,15 @@ void Player::CycleToNextCharacter()
 {
 	if (GetIsCharacterSelected())
 	{
-		characters[currentActiveChar]->SetIsSelected(false);
 		currentActiveChar++;
 		currentActiveChar %= characters.size();
-		characters[currentActiveChar]->SetIsSelected(true);
 	}	
+}
+
+void Player::RemoveCurrentActiveChar()
+{
+	currentActiveChar = -1;
+	SetIsCharacterSelected(false);
 }
 
 bool Player::GetIsCharacterSelected()
@@ -38,9 +42,9 @@ vector<Character *> Player::GetCharacterList()
 	return characters;
 }
 
-int Player::GetCurrentActiveChar()
+Character* Player::GetCurrentActiveChar()
 {
-	return currentActiveChar;
+	return GetCharacterList()[currentActiveChar];
 }
 
 void Player::SetIsCharacterSelected(bool val)
@@ -54,15 +58,22 @@ void Player::SetCurrentActiveChar(int val)
 	SetIsCharacterSelected(true);
 }
 
-//Test
 void Player::SetCurrentActiveChar(Character* character)
 {
-	int i = 0;
-	while (GetCharacterList()[i] != character)
-		i++;
+	if (character == NULL)
+	{
+		currentActiveChar = -1;
+		SetIsCharacterSelected(false);
+	}
+	else
+	{
+		int i = 0;
+		while (GetCharacterList()[i] != character)
+			i++;
 
-	currentActiveChar = i;
-	SetIsCharacterSelected(true);
+		currentActiveChar = i;
+		SetIsCharacterSelected(true);
+	}
 }
 
 void Player::SetCharacterList(vector <Character *> val)

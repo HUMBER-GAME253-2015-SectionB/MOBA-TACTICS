@@ -43,7 +43,6 @@ void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int 
 	SetLevel(_level);
 	SetSkillPoints(_skillPoints);
 	SetOnTile(onTile);
-	SetIsSelected(false);
 
 	SetIsMoving(false);
 }
@@ -264,11 +263,6 @@ bool Character::GetIsMoving()
 	return isMoving;
 }
 
-bool Character::GetIsSelected()
-{
-	return isSelected;
-}
-
 void Character::SetOnTile(ITile *tile)
 {
 	vec2 temp;
@@ -349,11 +343,6 @@ void Character::SetIsMoving(bool _isMoving)
 	isMoving = _isMoving;
 }
 
-void Character::SetIsSelected(bool val)
-{
-	isSelected = val;
-}
-
 //Private methods
 ITile* Character::GetTargetTile()
 {
@@ -382,6 +371,7 @@ void Character::MoveToNextTile()
 
 	if (!GetMovementPath()->empty())
 	{
+		GetOnTile()->SetCharacter(NULL);
 		MoveToAdjacentTile(movementPath.front());
 		movementPath.pop();
 	}

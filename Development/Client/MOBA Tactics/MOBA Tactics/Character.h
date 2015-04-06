@@ -70,9 +70,6 @@ public:
 	void SetIsMoving(bool _isMoving);
 	
 	void SetOnTile(ITile *tile);
-	
-	void SetIsSelected(bool);
-	bool GetIsSelected();
 
 private:
 	ITile* onTile;
@@ -90,9 +87,6 @@ private:
 	int experience;
 	int level;
 	int skillPoints;
-
-	//Boolean to keep track of selection
-	bool isSelected;
 
 	//Methods and fields only related to moving
 	ITile* GetTargetTile();

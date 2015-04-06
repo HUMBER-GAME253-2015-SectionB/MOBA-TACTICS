@@ -17,48 +17,40 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 {
 	float scale = CAMERA->GetScale();
 
-	vector<Character*> chars = PLAYERS[ClientAPI::GetCurrentPlayer()]->GetCharacterList();
 	vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), CAMERA->GetScale());
+	Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
+	vector<Character*> chars = currentPlayer->GetCharacterList();
 
 	for (int i = 0; i < chars.size(); i++)
 	{
-		//If character is already selected, and a tile is clicked; move to the clicked tile
-		if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) && chars[i]->GetIsSelected())
-		{
-			vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), scale);
-			//printf("Clicked on (%f, %f)\n", temp.x, temp.y);
-			chars[i]->Move(ClientAPI::tileMap, TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x));
-			chars[i]->SetIsSelected(false);
-			TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y, prevSelectedTile.z);
-		}
-
 		vec2 charPosition = CAMERA->GetDrawablePosOnScreen(chars[i]);
-		charPosition *= CAMERA->GetScale(); 
+		charPosition *= CAMERA->GetScale();
+		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), scale);
 
-		//If player clicks on a character and the character is not selected already, select the character
-		if (!chars[i]->GetIsSelected() && chars[i]->CollisionMouse(charPosition, x, y))
+		//If mouse clicked on character OR mouse clicked on tile with a character
+		//Set a character to be selected
+		if (chars[i]->CollisionMouse(charPosition, x, y) ||
+			(TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) && TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x)->GetCharacter() == chars[i]))
 		{
-			printf("Character selected by character click\n");
-			chars[i]->SetIsSelected(true);
-			CAMERA->CentreOn(vec2(x, y));
+			currentPlayer->SetCurrentActiveChar(chars[i]);
 			TILEMAP->SetIsTileSelected(true, 1, (int)temp.y, (int)temp.x);
+
+			if (currentPlayer->GetIsCharacterSelected())
+				TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y, prevSelectedTile.z);
+
 			prevSelectedTile = vec3(1, temp.y, temp.x);
 		}
-		else if (!chars[i]->GetIsSelected() && TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale))
+		//If a character is selected, and the mouse is clicked on the map; move the character to the position clicked.
+		else if (currentPlayer->GetIsCharacterSelected() && currentPlayer->GetCurrentActiveChar() == chars[i] && TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
+			&& TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x)->GetCharacter() == NULL)
 		{
-			vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), scale);
-			
-			//This statement allows the player to click on a tile with a character on it to select the character.
-			if (TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x)->GetIsOccupied())
+			if (!chars[i]->GetIsMoving())
 			{
-				if (TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x)->GetCharacter() == chars[i])
-				{
-					printf("Character selected by tile click\n");
-					chars[i]->SetIsSelected(true);
-					CAMERA->CentreOn(vec2(x, y));
-					TILEMAP->SetIsTileSelected(true, 1, (int)temp.y, (int)temp.x);
-					prevSelectedTile = vec3(1, temp.y, temp.x);
-				}
+				chars[i]->Move(ClientAPI::tileMap, TILEMAP->GetTileAt(1, (int)temp.y, (int)temp.x));
+				//currentPlayer->RemoveCurrentActiveChar();
+				TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y, prevSelectedTile.z);
+				prevSelectedTile = vec3(1, temp.y, temp.x);
+				TILEMAP->SetIsTileSelected(true, 1, (int)temp.y, (int)temp.x);
 			}
 		}
 	}
@@ -104,7 +96,13 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 		CAMERA->MoveCamera(vec2(-22, 0));
 
 	if (key == SDLK_e)
+	{
+		PLAYERS[ClientAPI::GetCurrentPlayer()]->EndTurn();
+		TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y, prevSelectedTile.z);
 		ClientAPI::CycleToNextPlayer();
+		PLAYERS[ClientAPI::GetCurrentPlayer()]->StartTurn();
+	}
+
 }
 
 void SceneHandler::HandleEventKeyUp(unsigned key)
