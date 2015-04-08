@@ -3,11 +3,13 @@
 
 #include "LobbyList.h"
 #include "ServerButton.h"
+#include "JoinButton.h"
 
 SList<ServerButton*> LobbyList::servers = SList<ServerButton*>();
 LobbyList::LobbyList()
 {
 	background = new Sprite("../Assets/Images/Background.png", ClientAPI::mainRenderer, vec2(0, 170), false, 1.0f, SDL_FLIP_NONE);
+	buttons.push_front(new JoinButton());
 	AddServer("Server1");
 	AddServer("Server2");
 	AddServer("Server3");
@@ -51,4 +53,17 @@ void LobbyList::SetSelection(ServerButton *btn)
 		}
 		btn->selected = true;
 	}
+}
+
+ServerButton LobbyList::GetSelection()
+{
+	ServerButton *tmp = NULL;
+	for (ServerButton *btn : servers)
+	{
+		if (btn->selected)
+		{
+			tmp = btn;
+		}
+	}
+	return *tmp;
 }

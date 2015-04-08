@@ -8,6 +8,7 @@
 
 #ifndef __SERVERBUTTON_H_INCLUDED__
 class ServerButton;
+class JoinButton;
 #endif
 
 class LobbyList : public Menu
@@ -21,6 +22,8 @@ public:
 	void AddServer(std::string text);
 	void RemoveServer(size_t index);
 	static void SetSelection(ServerButton *btn);
+	static ServerButton GetSelection();
+
 
 private:
 	static SList<ServerButton*> servers;

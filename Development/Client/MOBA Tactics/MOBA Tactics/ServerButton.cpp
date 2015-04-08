@@ -52,3 +52,8 @@ void ServerButton::Draw()
 		}
 	}
 }
+
+void ServerButton::LoadScene()
+{
+	Game::gameStateManager.QueueChangeToGameState(GameState::SCENE);
+}

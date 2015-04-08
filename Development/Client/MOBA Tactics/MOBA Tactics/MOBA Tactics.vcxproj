@@ -80,6 +80,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="JoinButton.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="LobbyList.cpp" />
     <ClCompile Include="LoginButton.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IScene.h" />
     <ClInclude Include="ITileMap.h" />
+    <ClInclude Include="JoinButton.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="LobbyList.h" />
     <ClInclude Include="GameManager.h" />
