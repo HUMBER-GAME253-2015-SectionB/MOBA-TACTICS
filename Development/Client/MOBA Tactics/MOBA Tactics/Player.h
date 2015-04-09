@@ -1,3 +1,6 @@
+//Author:	Nicholas Higa
+//Date:		4/9/2015 (NH)
+
 #pragma once
 
 #include "ClientAPI.h"
@@ -27,4 +30,6 @@ private:
 	vector<Character *> characters;
 	bool isCharacterSelected; 
 	int currentActiveChar;
+
+	void SetCharactersToIdle();
 };

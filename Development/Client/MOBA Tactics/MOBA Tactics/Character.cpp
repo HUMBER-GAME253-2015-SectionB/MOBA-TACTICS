@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa, Mathieu Violette
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV),
-//			4/8/2015(NH)
+//			4/8/2015(NH), 4/9/2015(NH)
 
 #include "Character.h"
 #include <cstdlib>
@@ -60,17 +60,16 @@ void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int 
 	SetSkillPoints(_skillPoints);
 	SetOnTile(onTile);
 
-	SetIsMoving(false);
 	SetTargetTile(NULL);
 }
 
 void Character::MoveToAdjacentTile(ITile *toTile)
 {
-	if (!GetIsMoving())
+	if (GetCharacterState() != CharacterState::MOVING)
 	{
 		vec2 startPos = GetOnTile()->GetPosition();
 		vec2 endPos = toTile->GetPosition();
-		SetIsMoving(true);
+		SetCharacterState(CharacterState::MOVING);
 		SetVelocity(vec2((endPos - startPos).x / 10, (endPos - startPos).y / 10));
 		SetTargetTile(toTile);
 	}
@@ -80,7 +79,9 @@ void Character::MoveToAdjacentTile(ITile *toTile)
 //Needs to be improved later on assuming obstacle tiles are required later.
 void Character::Move(ITileMap *tileMap, ITile *toTile)
 {
-	if (!GetIsMoving() && toTile->GetGridPosition() != GetTileGridPosition() && !toTile->GetIsOccupied())
+	//If character is not moving already and target position is not occupied.
+	//NOTE: Character state is updated to MOVING in the MoveToAdjacentTile function, putting it into this function will cause errors.
+	if (GetCharacterState() != CharacterState::MOVING && toTile->GetGridPosition() != GetTileGridPosition() && !toTile->GetIsOccupied())
 	{
 		GetOnTile()->SetCharacter(NULL);
 		vec3 gridDisplacement;
@@ -160,7 +161,7 @@ void Character::ResetDefense()
 
 void Character::Update()
 {
-	if (GetIsMoving())
+	if (GetCharacterState() == CharacterState::MOVING)
 	{
 		vec2 vel = GetVelocity();
 		vec2 targetPos = GetTargetTile()->GetPosition();
@@ -281,9 +282,9 @@ vec2 Character::GetVelocity()
 	return velocity;
 }
 
-bool Character::GetIsMoving()
+CharacterState Character::GetCharacterState()
 {
-	return isMoving;
+	return characterState;
 }
 
 void Character::SetOnTile(ITile *tile)
@@ -369,9 +370,9 @@ void Character::SetVelocity(vec2 vec)
 	velocity = vec;
 }
 
-void Character::SetIsMoving(bool _isMoving)
+void Character::SetCharacterState(CharacterState charState)
 {
-	isMoving = _isMoving;
+	characterState = charState;
 }
 
 //Private methods
@@ -397,7 +398,7 @@ void Character::SetMovementPath(queue<ITile *> *_movementPath)
 
 void Character::MoveToNextTile()
 {
-	SetIsMoving(false);
+	SetCharacterState(CharacterState::SELECTED);
 	SetOnTile(GetTargetTile());
 
 	if (!GetMovementPath()->empty())

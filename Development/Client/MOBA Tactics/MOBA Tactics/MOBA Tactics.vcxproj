@@ -113,6 +113,7 @@
     <ClInclude Include="ButtonHandler.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterState.h" />
     <ClInclude Include="ClientAPI.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Game.h" />

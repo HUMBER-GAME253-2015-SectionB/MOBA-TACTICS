@@ -1,5 +1,6 @@
 //Author:	Nicholas Higa
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 4/8/2015(NH)
+//			4/9/2015(NH)
 #pragma once
 
 #include "ClientAPI.h"
@@ -9,6 +10,7 @@
 #include "Sprite.h"
 #include "glm/glm.hpp"
 #include <queue>
+#include "CharacterState.h"
 
 class TileMap;
 
@@ -57,7 +59,7 @@ public:
 	int GetSkillPoints();
 
 	vec2 GetVelocity();
-	bool GetIsMoving();
+	CharacterState GetCharacterState();
 
 	void SetCurrentHealth(int num);
 	void SetMaxHealth(int num);
@@ -74,7 +76,7 @@ public:
 	void SetSkillPoints(int num);
 
 	void SetVelocity(vec2 vec);
-	void SetIsMoving(bool _isMoving);
+	void SetCharacterState(CharacterState);
 	
 	void SetOnTile(ITile *tile);
 	void SetOnTile(int row, int col);
@@ -96,6 +98,8 @@ private:
 	int level;
 	int skillPoints;
 
+	CharacterState characterState;
+
 	//Methods and fields only related to moving
 	ITile* GetTargetTile();
 	queue<ITile *>* GetMovementPath();
@@ -104,7 +108,6 @@ private:
 	void SetMovementPath(queue<ITile *> *_movementPath);
 	void MoveToNextTile();
 
-	bool isMoving;
 	vec2 velocity;
 	ITile* targetTile;
 	queue<ITile *> movementPath;

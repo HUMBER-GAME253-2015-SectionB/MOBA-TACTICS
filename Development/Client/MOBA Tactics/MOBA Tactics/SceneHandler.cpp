@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa, MAthieu Violette
 //Date:		3/10/2015(NH), 3/11/2015(NH), 3/15/2015(NH), 3/18/2015(MV),
-//			3/30/2015(NH), 4/6/2015(NH), 4/8/2015(NH)
+//			3/30/2015(NH), 4/6/2015(NH), 4/8/2015(NH), 4/9/2015(NH)
 
 #include "SceneHandler.h"
 #include "TileMap.h"
@@ -34,7 +34,14 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 		}
 		printf("\n");
 	}*/
+	//REDO THIS PORTION OF CODE. Only one character can be selected at a time. For loop should only check for selection of a character.
 
+	/*if (currentPlayer->GetIsCharacterSelected())
+	{
+
+	}
+	else
+	{*/
 	for (int i = 0; i < chars.size(); i++)
 	{
 		vec2 charPosition = CAMERA->GetDrawablePosOnScreen(chars[i]);
@@ -57,7 +64,7 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 		else if (currentPlayer->GetIsCharacterSelected() && currentPlayer->GetCurrentActiveChar() == chars[i] && TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
 			&& TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == NULL)
 		{
-			if (!chars[i]->GetIsMoving())
+			if (chars[i]->GetCharacterState() == CharacterState::MOVEMENT_SELECTED)
 			{
 				chars[i]->Move((int)temp.y, (int)temp.x);
 				//currentPlayer->RemoveCurrentActiveChar();
@@ -65,6 +72,11 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 				prevSelectedTile = vec2(temp.y, temp.x);
 				TILEMAP->SetIsTileSelected(true, (int)temp.y, (int)temp.x);
 			}
+		}
+		else if (currentPlayer->GetIsCharacterSelected() && currentPlayer->GetCurrentActiveChar() == chars[i] && TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
+			&& TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() != NULL)
+		{
+
 		}
 	}
 }
@@ -96,6 +108,9 @@ void SceneHandler::HandleEventMouseHover(int x, int y)
 
 void SceneHandler::HandleEventKeyDown(unsigned key)
 {
+	Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
+	Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
+
 	if (key == SDLK_UP)
 		CAMERA->MoveCamera(vec2(0, 22));
 
@@ -110,10 +125,16 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 
 	if (key == SDLK_e)
 	{
-		PLAYERS[ClientAPI::GetCurrentPlayer()]->EndTurn();
+		currentPlayer->EndTurn();
 		TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
 		ClientAPI::CycleToNextPlayer();
-		PLAYERS[ClientAPI::GetCurrentPlayer()]->StartTurn();
+		currentPlayer->StartTurn();
+	}
+
+	if (key == SDLK_m)
+	{
+		if (currentCharacter->GetCharacterState() == CharacterState::SELECTED)
+			currentCharacter->SetCharacterState(CharacterState::MOVEMENT_SELECTED);
 	}
 
 }

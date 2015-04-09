@@ -21,6 +21,8 @@ void Scene::Init()
 	ClientAPI::addPlayer();
 	ClientAPI::SetCurrentPlayer((int)PlayerState::PLAYER_ONE);
 	printf("Press E to end the current players turn\n");
+	printf("Click on a character to select them, then M, then a target tile to move.");
+	printf("M needs to be pressed to move again to move a character a second time.");
 }
 
 void Scene::LoadContent()

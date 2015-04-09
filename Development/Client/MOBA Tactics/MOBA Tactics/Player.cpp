@@ -1,3 +1,6 @@
+//Author:	Nicholas Higa
+//Date:		4/9/2015 (NH)
+
 #include "Player.h"
 
 Player::Player() {}
@@ -10,11 +13,18 @@ void Player::AddCharacter(Character* character)
 void Player::StartTurn()
 {
 	SetIsCharacterSelected(false);
+	vector<Character*> chars = GetCharacterList();
+	for (int i = 0; i < chars.size(); i++)
+	{
+		if (chars[i]->GetCharacterState() == CharacterState::DEFENDING)
+			chars[i]->SetCharacterState(CharacterState::IDLE);
+	}
 }
 
 void Player::EndTurn()
 {
 	SetIsCharacterSelected(false);
+	SetCharactersToIdle();
 }
 
 void Player::CycleToNextCharacter()
@@ -56,6 +66,10 @@ void Player::SetCurrentActiveChar(int val)
 {
 	currentActiveChar = val;
 	SetIsCharacterSelected(true);
+	SetCharactersToIdle();
+
+	if (GetCharacterList()[val]->GetCharacterState() != CharacterState::DEFENDING)
+		GetCharacterList()[val]->SetCharacterState(CharacterState::SELECTED);
 }
 
 void Player::SetCurrentActiveChar(Character* character)
@@ -73,6 +87,9 @@ void Player::SetCurrentActiveChar(Character* character)
 
 		currentActiveChar = i;
 		SetIsCharacterSelected(true);
+		SetCharactersToIdle();
+		if (GetCharacterList()[i]->GetCharacterState() != CharacterState::DEFENDING)
+			GetCharacterList()[i]->SetCharacterState(CharacterState::SELECTED);
 	}
 }
 
@@ -80,3 +97,14 @@ void Player::SetCharacterList(vector <Character *> val)
 {
 	characters = val;
 }
+
+void Player::SetCharactersToIdle()
+{
+	vector<Character*> chars = GetCharacterList();
+	for (int i = 0; i < chars.size(); i++)
+	{
+		if (chars[i]->GetCharacterState() != CharacterState::DEFENDING)
+			chars[i]->SetCharacterState(CharacterState::IDLE);
+	}
+}
+
