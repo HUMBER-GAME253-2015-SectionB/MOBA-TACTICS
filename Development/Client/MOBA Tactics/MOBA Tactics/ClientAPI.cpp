@@ -1,6 +1,6 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
-//			4/6/2015 (NH)
+//			4/6/2015 (NH), 4/8/2015(NH)
 
 #include "ClientAPI.h"
 
@@ -184,8 +184,8 @@ Camera* ClientAPI::createCamera(vec2 pos, int width, int height, vec2 minBoundar
 	return tempCamera;
 }
 
-TileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, string highlightTexturePath) {
-	TileMap* tempMap = new TileMap(_xmlFilePath, _origin, highlightTexturePath, mainRenderer);
+TileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath) {
+	TileMap* tempMap = new TileMap(_xmlFilePath, _origin, _mainLayer, highlightTexturePath, mainRenderer);
 	return tempMap;
 }
 
@@ -200,9 +200,24 @@ Character* ClientAPI::createCharacter(char* spritePath, ITile* onTile)
 	return tempCharacter;
 }
 
+Character* ClientAPI::createCharacter(char *spritePath, int row, int col)
+{
+	Character* tempCharacter = new Character(spritePath, row, col, mainRenderer);
+	return tempCharacter;
+}
+
 Character* ClientAPI::createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
-	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints) {
+	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints)
+{
 	Character* tempCharacter = new Character(spritePath, onTile, _maxHealth, _actionPoints,
+		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
+	return tempCharacter;
+}
+
+Character* ClientAPI::createCharacterStats(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
+	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints)
+{
+	Character* tempCharacter = new Character(spritePath, row, col, _maxHealth, _actionPoints,
 		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
 	return tempCharacter;
 }

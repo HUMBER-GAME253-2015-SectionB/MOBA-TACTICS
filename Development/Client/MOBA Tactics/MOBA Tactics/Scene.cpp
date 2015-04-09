@@ -25,7 +25,7 @@ void Scene::Init()
 
 void Scene::LoadContent()
 {
-	ClientAPI::tileMap = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(700, 300), "../Assets/Images/HighlightTile.png");
+	ClientAPI::tileMap = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(700, 300), 1, "../Assets/Images/HighlightTile.png");
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	TILEMAP->SetHighlightColor(255, 0, 0);
@@ -36,18 +36,18 @@ void Scene::LoadContent()
 	CAMERA->SetPosition(vec2(100, 100));
 
 	Character *tmpChar0, *tmpChar1, *tmpChar2, *tmpChar3, *tmpChar4, *tmpChar5;
-	tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 0, 0));
+	tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 0);
 	ClientAPI::addCharacter(tmpChar0, 0);
-	tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 0, 1));
+	tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 1);
 	ClientAPI::addCharacter(tmpChar1, 0);
-	tmpChar2 = ClientAPI::createCharacter("../Assets/Images/Character.png", ClientAPI::tileMap->GetTileAt(1, 1, 0));
+	tmpChar2 = ClientAPI::createCharacter("../Assets/Images/Character.png", 1, 0);
 	ClientAPI::addCharacter(tmpChar2, 0);
 
-	tmpChar3 = ClientAPI::createCharacter("../Assets/Images/Character2.png", ClientAPI::tileMap->GetTileAt(1, 8, 8));
+	tmpChar3 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 8, 8);
 	ClientAPI::addCharacter(tmpChar3, 1);
-	tmpChar4 = ClientAPI::createCharacter("../Assets/Images/Character2.png", ClientAPI::tileMap->GetTileAt(1, 8, 7));
+	tmpChar4 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 8, 7);
 	ClientAPI::addCharacter(tmpChar4, 1);
-	tmpChar5 = ClientAPI::createCharacter("../Assets/Images/Character2.png", ClientAPI::tileMap->GetTileAt(1, 7, 8));
+	tmpChar5 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 7, 8);
 	ClientAPI::addCharacter(tmpChar5, 1);
 
 	tmp1 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, minBound.y));

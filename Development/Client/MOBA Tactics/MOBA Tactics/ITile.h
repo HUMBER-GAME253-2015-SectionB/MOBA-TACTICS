@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/10/2015(NH)
+//Date:		3/4/2015(NH), 3/10/2015(NH), 4/8/2015(NH)
 
 //This class has been created to prevent circular dependance with the Character class.
 #pragma once
@@ -7,6 +7,8 @@
 #include "glm/glm.hpp"
 
 using namespace glm;
+
+class Character;
 
 class ITile
 {
@@ -24,6 +26,7 @@ public:
 	virtual unsigned GetTileHeight() const = 0;
 	virtual bool GetIsOccupied() const = 0;
 	virtual bool GetIsHighlighted() const = 0;
+	virtual Character* GetCharacter() const = 0;
 
 	virtual void SetTileID(int num) = 0;
 	virtual void SetPosition(vec2 _pos) = 0;
@@ -31,5 +34,5 @@ public:
 	virtual void SetTileWidth(unsigned num) = 0;
 	virtual void SetTileHeight(unsigned num) = 0;
 	virtual void SetIsHighlighted(bool value) = 0;
-	virtual void SetCharacter(void* _character) = 0;
+	virtual void SetCharacter(Character* _character) = 0;
 };

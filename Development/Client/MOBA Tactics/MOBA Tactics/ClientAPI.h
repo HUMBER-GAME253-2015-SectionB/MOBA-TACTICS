@@ -1,6 +1,6 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
-//			4/6/2015 (NH)
+//			4/6/2015 (NH), 4/8/2015(NH)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
@@ -99,10 +99,14 @@ public:
 	static int StringToInt(const std::string &Text); 
 
 	static Camera* createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary);
-	static TileMap* createMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath);
+	static TileMap* createMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath);
+
 	static Character* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
+	static Character* createCharacterStats(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
+		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
 	static Character* createCharacter(char* spritePath, ITile* onTile);
+	static Character* createCharacter(char *spritePath, int row, int col);
 
 	static void addPlayer();
 	static void addCharacter(Character*, int);

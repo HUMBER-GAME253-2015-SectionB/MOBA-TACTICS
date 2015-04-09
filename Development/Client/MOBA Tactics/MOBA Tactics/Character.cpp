@@ -1,11 +1,20 @@
 //Author:	Nicholas Higa, Mathieu Violette
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV),
+//			4/8/2015(NH)
+
 #include "Character.h"
 #include <cstdlib>
+#include "TileMap.h"
 
 Character::Character()
 {
 
+}
+
+Character::Character(char *spritePath, int row, int col, SDL_Renderer *ren)
+{
+	ITile *temp = TILEMAP->GetTileAt(row, col);
+	Initialize(spritePath, temp, ren);
 }
 
 Character::Character(char *spritePath, ITile *onTile, SDL_Renderer *ren)
@@ -17,6 +26,13 @@ Character::Character(char *spritePath, ITile *onTile, int _maxHealth, int _actio
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
 {
 	Initialize(spritePath, onTile, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
+}
+
+Character::Character(char *spritePath, int row, int col, int _maxHealth, int _actionPoints,
+	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren)
+{
+	ITile *temp = TILEMAP->GetTileAt(row, col);
+	Initialize(spritePath, temp, _maxHealth, _actionPoints, _attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, ren);
 }
 
 void Character::Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren)
@@ -45,6 +61,7 @@ void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int 
 	SetOnTile(onTile);
 
 	SetIsMoving(false);
+	SetTargetTile(NULL);
 }
 
 void Character::MoveToAdjacentTile(ITile *toTile)
@@ -115,6 +132,12 @@ void Character::Move(ITileMap *tileMap, ITile *toTile)
 		MoveToAdjacentTile(movementPath.front());
 		movementPath.pop();
 	}
+}
+
+void Character::Move(int row, int col)
+{
+	ITile *temp = TILEMAP->GetTileAt(1, row, col);
+	Move(TILEMAP, temp);
 }
 
 void Character::Attack(Character* target)
@@ -270,7 +293,15 @@ void Character::SetOnTile(ITile *tile)
 	temp.y = tile->GetPosition().y - GetHeight() / 2;
 	SetPosition(temp);
 	onTile = tile;
-	tile->SetCharacter(this);
+
+	if (tile->GetCharacter() == NULL)
+		tile->SetCharacter(this);
+}
+
+void Character::SetOnTile(int row, int col)
+{
+	ITile *temp = TILEMAP->GetTileAt(row, col);
+	SetOnTile(temp);
 }
 
 void Character::SetCurrentHealth(int num)
@@ -371,7 +402,8 @@ void Character::MoveToNextTile()
 
 	if (!GetMovementPath()->empty())
 	{
-		GetOnTile()->SetCharacter(NULL);
+		if (GetOnTile()->GetCharacter() == this)
+			GetOnTile()->SetCharacter(NULL);
 		MoveToAdjacentTile(movementPath.front());
 		movementPath.pop();
 	}

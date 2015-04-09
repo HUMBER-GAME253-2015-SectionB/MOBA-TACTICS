@@ -35,7 +35,7 @@ public:
 	void SetTileHeight(unsigned num);
 	void SetIsHighlighted(bool value);
 	void SetIsSelected(bool value);
-	void SetCharacter(void* _character);
+	void SetCharacter(Character* _character);
 
 private:
 	int tileID;

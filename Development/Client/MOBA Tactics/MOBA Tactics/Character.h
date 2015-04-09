@@ -1,13 +1,16 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 4/8/2015(NH)
 #pragma once
 
+#include "ClientAPI.h"
 #include "ITileMap.h"
 #include "ITile.h"
 #include "ICharacter.h"
 #include "Sprite.h"
 #include "glm/glm.hpp"
 #include <queue>
+
+class TileMap;
 
 using namespace glm;
 using namespace std;
@@ -16,7 +19,10 @@ class Character : public ICharacter, public Sprite
 {
 public:
 	Character();
+	Character(char *spritePath, int row, int col, SDL_Renderer *ren);
 	Character(char *spritePath, ITile *onTile, SDL_Renderer *ren);
+	Character(char *spritePath, int row, int col, int _maxHealth, int _actionPoints,
+		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
 	Character(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
 	void Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren);
@@ -24,6 +30,7 @@ public:
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints, SDL_Renderer *ren);
 	void MoveToAdjacentTile(ITile *toTile);
 	void Move(ITileMap *tileMap, ITile *toTile);
+	void Move(int row, int col);
 	void Attack(Character* target);
 	void Defend();
 	//void SpecialAbility(Ability* abilityname); Somethhing like this when special abilities are implemented, 
@@ -70,6 +77,7 @@ public:
 	void SetIsMoving(bool _isMoving);
 	
 	void SetOnTile(ITile *tile);
+	void SetOnTile(int row, int col);
 
 private:
 	ITile* onTile;

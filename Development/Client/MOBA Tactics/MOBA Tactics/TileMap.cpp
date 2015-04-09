@@ -1,17 +1,33 @@
 //Author:	Nicholas Higa, Mathieu Violette
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/17/2015(MV),
-//          3/24/2015(NH), 4/6/2015(NH)
+//          3/24/2015(NH), 4/6/2015(NH), 4/8/2015(NH)
+
 #include "TileMap.h"
 
 TileMap::TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
 {
 	LoadFromFile(xmlFilePath, _origin, ren);
+	mainLayer = 1;
+}
+
+TileMap::TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, SDL_Renderer *ren)
+{
+	LoadFromFile(xmlFilePath, _origin, ren);
+	mainLayer = _mainLayer;
 }
 
 TileMap::TileMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath, SDL_Renderer *ren)
 {
 	LoadFromFile(xmlFilePath, _origin, ren);
 	InitHightlightSprite(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
+	mainLayer = 1;
+}
+
+TileMap::TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath, SDL_Renderer *ren)
+{
+	LoadFromFile(xmlFilePath, _origin, ren);
+	InitHightlightSprite(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
+	mainLayer = _mainLayer;
 }
 
 bool TileMap::LoadFromFile(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren)
@@ -254,10 +270,25 @@ void TileMap::DrawTile(vec2 pos, int layer, int row, int col, SDL_Renderer *ren)
 //Conversion from Tile coordinates ie (1, 3) will be converted to a screen position ie (32, 64) on the screen
 vec2 TileMap::ConvertTileToScreenCoordinate(vec2 tileCoord)
 {
-	//Might need to include changes with scale
 	vec2 temp;
 	temp.x = GetOrigin().x + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2;
 	temp.y = GetOrigin().y + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2;
+	return temp;
+}
+
+vec2 TileMap::ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord)
+{
+	vec2 temp;
+	temp.x = _origin.x + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2;
+	temp.y = _origin.y + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2;
+	return temp;
+}
+
+vec2 TileMap::ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord, float scale)
+{
+	vec2 temp;
+	temp.x = _origin.x * scale + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2 * scale;
+	temp.y = _origin.y * scale + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2 * scale;
 	return temp;
 }
 
@@ -267,19 +298,10 @@ vec2 TileMap::ConvertTileToScreenCoordinate(vec2 tileCoord)
 //return (1, 3)
 vec2 TileMap::ConvertScreenToTileCoordinates(vec2 screenCoord)
 {
-	//Might need to include changes with scale
 	vec2 temp;
 	temp.x = (screenCoord.x - GetOrigin().x) / GetTileWidth() + (screenCoord.y - GetOrigin().y) / GetTileHeight();
 	temp.y = (screenCoord.y - GetOrigin().y) / GetTileHeight() - (screenCoord.x - GetOrigin().x) / GetTileWidth();
 	return vec2((int)temp.x, (int)temp.y);
-}  
-
-vec2 TileMap::ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord)
-{
-	vec2 temp;
-	temp.x = _origin.x + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2;
-	temp.y = _origin.y + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2;
-	return temp;
 }
 
 vec2 TileMap::ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord)
@@ -291,17 +313,8 @@ vec2 TileMap::ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord)
 	return vec2((int)temp.x, (int)temp.y);
 }
 
-vec2 TileMap::ConvertTileToScreenCoordinate(vec2 _origin, vec2 tileCoord, float scale)
-{
-	vec2 temp;
-	temp.x = _origin.x * scale + (tileCoord.x - tileCoord.y) * GetTileWidth() / 2 * scale;
-	temp.y = _origin.y * scale + (tileCoord.x + tileCoord.y) * GetTileHeight() / 2 * scale;
-	return temp;
-}
-
 vec2 TileMap::ConvertScreenToTileCoordinates(vec2 _origin, vec2 screenCoord, float scale)
 {
-	//Might need to include changes with scale
 	vec2 temp;
 	temp.x = (screenCoord.x - _origin.x * scale) / (GetTileWidth() * scale) + (screenCoord.y - _origin.y * scale) / (GetTileHeight() * scale);
 	temp.y = (screenCoord.y - _origin.y * scale) / (GetTileHeight() * scale) - (screenCoord.x - _origin.x * scale) / (GetTileWidth() * scale);
@@ -381,6 +394,14 @@ Tile* TileMap::GetTileAt(int layer, int row, int col)
 		return NULL;
 }
 
+Tile* TileMap::GetTileAt(int row, int col)
+{
+	if (&GetTileMap()->at(1).at(row).at(col) != NULL)
+		return &GetTileMap()->at(mainLayer).at(row).at(col);
+	else
+		return NULL;
+}
+
 vector<vector<vector<Tile>>>* TileMap::GetTileMap()
 {
 	return &tileMap;
@@ -391,9 +412,21 @@ void TileMap::SetIsTileHighlighted(bool isHighlighted, int layer, int row, int c
 	GetTileMap()->at(layer).at(row).at(col).SetIsHighlighted(isHighlighted);
 }
 
+
+void TileMap::SetIsTileHighlighted(bool isHighlighted, int row, int col)
+{
+	SetIsTileHighlighted(isHighlighted, mainLayer, row, col);
+}
+
+
 void TileMap::SetIsTileSelected(bool isSelected, int layer, int row, int col)
 {
 	GetTileMap()->at(layer).at(row).at(col).SetIsSelected(isSelected);
+}
+
+void TileMap::SetIsTileSelected(bool isSelected, int row, int col)
+{
+	SetIsTileSelected(isSelected, mainLayer, row, col);
 }
 
 void TileMap::SetOrigin(vec2 pos)

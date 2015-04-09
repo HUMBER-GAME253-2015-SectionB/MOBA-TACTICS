@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/10/2015(NH), 4/6/2015(NH)
+//Date:		3/4/2015(NH), 3/10/2015(NH), 4/6/2015(NH), 4/8/2015(NH)
 #include "Tile.h"
 
 Tile::Tile()
@@ -124,12 +124,7 @@ void Tile::SetIsSelected(bool value)
 	isSelected = value;
 }
 
-//This is probably bad practice to make it a void* instead of a 
-//character*. Did this because couldn't find a way for the ITile
-//interface to include a reference to Character* without avoiding
-//a circular reference and Character requires a reference to this
-//method.
-void Tile::SetCharacter(void* _character)
+void Tile::SetCharacter(Character* _character)
 {
-	character = static_cast<Character *>(_character);
+	character = _character;
 }
