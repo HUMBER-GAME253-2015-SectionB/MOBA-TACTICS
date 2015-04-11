@@ -1,0 +1,26 @@
+Even if what is needed is a number, pass a string of that number.
+
+Strings needed from client:
+
+login: "l/l/username/password/"
+register: "l/r/username/password"
+host start game: "l/s/teamNumber/"
+client join game: "l/j/teamNumber/host/"
+create team: "t/c/character/character/character/"
+edit team: "t/e/teamNUmber/character/character/character/"
+delete team: "t/d/teamNumber/"
+move: "g/m/characterNumber/startPoint/endPoint/"
+attack: "g/a/characterNumber/targetPoint/"
+defend: "g/d/characterNumber/"
+
+Strings sent to client:
+
+login: 	"l/l/true/team,char,char,char/team,char,char,char/team,char,char,char/" 
+	"l/l/false/errrorMessage"
+register: "l/r/true/"
+	"l/r/false/errorMessage"
+host start game: "l/j/teamNumber/host"
+create, edit, delete team: "t/team,char,char,char/team,char,char,char/team,char,char,char/"
+move: "g/m/characterNumber/newPoint/"
+attack: "g/a/targetPoint/newHealth/"
+defend: "g/d/characterNumber/defense/"
