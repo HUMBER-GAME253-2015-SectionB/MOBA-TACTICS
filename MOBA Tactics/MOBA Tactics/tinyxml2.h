@@ -22,6 +22,11 @@ must not be misrepresented as being the original software.
 distribution.
 */
 
+/*
+//James Finnie
+Last Updated 03/11
+*/
+
 #ifndef TINYXML2_INCLUDED
 #define TINYXML2_INCLUDED
 

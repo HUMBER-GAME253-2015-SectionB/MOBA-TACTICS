@@ -1,14 +1,26 @@
 //Author:	Mathieu Violette
 //Date:		3/22/2014(MV)
 
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <fstream>
 #include "GameManager.h"
+#include "Login.h"
+#include "Team.h"
+#include "TeamManager.h"
+#include "Character.h"
+
+
 
 Game* GameManager::newGame = nullptr;
 Uint32 lastUpdateTime = 0, timeSincelastUpdate = 0;
 
 GameManager::GameManager()
 {
+	
 	newGame = new Game();
+	//InLobby();
 }
 
 GameManager::~GameManager()
@@ -32,7 +44,7 @@ void GameManager::StartProgram()
 
 			if( SDL_PollEvent(&evt) )
 			{
-				if(evt.type == SDL_QUIT /*|| evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE*/)
+				if(evt.type == SDL_QUIT || evt.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 				{
 					newGame->Exit();
 				}
@@ -43,11 +55,18 @@ void GameManager::StartProgram()
 			
 			SDL_PumpEvents();
 			newGame->Update();
-			newGame->Draw();
-
 		}
-
 	}
-
 	newGame->UnloadContent();
+}
+
+int TM(){
+	TeamManager TM;
+	TM.CreateTeamWithPlayers();
+	TM.ChracterList();
+	TM.TeamList();
+	TM.DeleteCharacter();
+	TM.ChracterList();
+	
+	system("PAUSE");
 }

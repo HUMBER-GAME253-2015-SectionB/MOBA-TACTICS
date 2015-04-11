@@ -32,7 +32,6 @@ class Game
 		void LoadContent();
 		void UnloadContent();
 		void Update();
-		void Draw();
 		void Exit();	
 };
 
