@@ -1,6 +1,7 @@
 //Author:	Nicholas Higa
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 4/8/2015(NH)
-//			4/9/2015(NH)
+//			4/9/2015(NH), 4/11/2015(NH)
+
 #pragma once
 
 #include "ClientAPI.h"
@@ -10,6 +11,7 @@
 #include "Sprite.h"
 #include "glm/glm.hpp"
 #include <queue>
+#include <vector>
 #include "CharacterState.h"
 
 class TileMap;
@@ -41,13 +43,14 @@ public:
 	void Update();
 	~Character();
 
-	vec3 GetTileGridPosition();
+	vec2 GetTileGridPositionVec2();
+	vec3 GetTileGridPositionVec3();
 	ITile *GetOnTile();
 
-	int GetCurrenttHealth();
+	int GetCurrentHealth();
 	int GetMaxHealth();
-	int GetActionPoints();
-	int GetActionPointsPerTurn();
+	int GetCurrentActionPoints();
+	int GetMaxActionPoints();
 	int GetAtackPower();
 	int GetDefense();
 	int GetNormalDefense();
@@ -60,11 +63,12 @@ public:
 
 	vec2 GetVelocity();
 	CharacterState GetCharacterState();
+	CharacterState GetPrevCharacterState();
 
 	void SetCurrentHealth(int num);
 	void SetMaxHealth(int num);
-	void SetActionPoints(int num);
-	void SetActionPointsPerTurn(int num);
+	void SetCurrentActionPoints(int num);
+	void SetMaxActionPoints(int num);
 	void SetAttackPower(int num);
 	void SetDefense(int num);
 	void SetNormalDefense(int num);
@@ -77,17 +81,20 @@ public:
 
 	void SetVelocity(vec2 vec);
 	void SetCharacterState(CharacterState);
+	void SetPrevCharacterState(CharacterState);
 	
 	void SetOnTile(ITile *tile);
 	void SetOnTile(int row, int col);
+
+	void PrintMenu();
 
 private:
 	ITile* onTile;
 
 	int currentHealth;
 	int maxHealth;
-	int actionPoints;
-	int actionPointsPerTurn;
+	int currentActionPoints;
+	int maxActionPoints;
 	int attackPower;
 	int defense;
 	int normalDefense; //Defense at the start of a turn
@@ -99,6 +106,7 @@ private:
 	int skillPoints;
 
 	CharacterState characterState;
+	CharacterState prevCharacterState;
 
 	//Methods and fields only related to moving
 	ITile* GetTargetTile();
@@ -111,4 +119,20 @@ private:
 	vec2 velocity;
 	ITile* targetTile;
 	queue<ITile *> movementPath;
+
+	//Methods and fields related to showing movement/attack range
+	vector<vec2> GetMovementTiles();
+	vector<vec2> GetAttackTiles();
+
+	void SetMovementTiles(vector<vec2>);
+	void SetAttackTiles(vector<vec2>);
+
+	vector<vec2> GetTilesWithinRange(int);
+	void UpdateMovementTiles();
+	void UpdateAttackTiles();
+	bool IsValidTile(vec2);
+	bool IsTileInList(vec2, vector<vec2>);
+
+	vector<vec2> movementTiles;
+	vector<vec2> attackTiles;
 };

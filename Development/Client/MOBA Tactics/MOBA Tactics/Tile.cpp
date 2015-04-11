@@ -1,5 +1,7 @@
 //Author:	Nicholas Higa
 //Date:		3/4/2015(NH), 3/10/2015(NH), 4/6/2015(NH), 4/8/2015(NH)
+//			4/11/2015(NH)
+
 #include "Tile.h"
 
 Tile::Tile()
@@ -43,7 +45,12 @@ vec2 Tile::GetPosition() const
 	return position;
 }
 
-vec3 Tile::GetGridPosition() const
+vec2 Tile::GetGridPositionVec2() const
+{
+	return vec2(GetGridPositionVec3().y, GetGridPositionVec3().z);
+}
+
+vec3 Tile::GetGridPositionVec3() const
 {
 	return gridPosition;
 }

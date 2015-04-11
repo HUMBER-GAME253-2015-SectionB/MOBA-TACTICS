@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa, Mathieu Violette
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/17/2015(MV),
-//          3/24/2015(NH), 4/6/2015(NH), 4/8/2015(NH)
+//          3/24/2015(NH), 4/6/2015(NH), 4/8/2015(NH), 4/11/2015(NH)
 
 #include "TileMap.h"
 
@@ -479,6 +479,20 @@ void TileMap::SetTileSet(TileSet *_tileSet)
 void TileMap::SetTileMap(vector<vector<vector<Tile>>> *_tileMap)
 {
 	tileMap = *_tileMap;
+}
+
+void TileMap::ResetHighlights()
+{
+	for (unsigned a = 0; a < GetNumLayers(); a++)
+	{
+		for (unsigned b = 0; b< GetNumHeight(); b++)
+		{
+			for (unsigned c = 0; c < GetNumWidth(); c++)
+			{
+				tileMap[a][b][c].SetIsHighlighted(false);
+			}
+		}
+	}
 }
 
 TileMap::~TileMap()

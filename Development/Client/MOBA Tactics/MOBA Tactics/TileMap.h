@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 3/24/2015(NH)
-//			4/8/2015(NH)
+//			4/8/2015(NH), 4/11/2015(NH)
 #pragma once
 
 #include "tinyxml2.h"
@@ -79,6 +79,8 @@ public:
 	void SetTileSet(TileSet *_tileSet);
 	void SetTileMap(vector<vector<vector<Tile>>> *_tileMap);
 	void SetHighlightColor(Uint8 r, Uint8 g, Uint8 b);
+
+	void ResetHighlights();
 
 	~TileMap();
 

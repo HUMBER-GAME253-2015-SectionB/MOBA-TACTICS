@@ -21,7 +21,8 @@ public:
 
 	virtual int GetTileID() const = 0;
 	virtual vec2 GetPosition() const = 0;
-	virtual vec3 GetGridPosition() const = 0;
+	virtual vec2 GetGridPositionVec2() const = 0;
+	virtual vec3 GetGridPositionVec3() const = 0;
 	virtual unsigned GetTileWidth() const = 0;
 	virtual unsigned GetTileHeight() const = 0;
 	virtual bool GetIsOccupied() const = 0;

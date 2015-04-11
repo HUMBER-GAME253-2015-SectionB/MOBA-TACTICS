@@ -1,6 +1,7 @@
 //Author:	Nicholas Higa, MAthieu Violette
 //Date:		3/10/2015(NH), 3/11/2015(NH), 3/15/2015(NH), 3/18/2015(MV),
-//			3/30/2015(NH), 4/6/2015(NH), 4/8/2015(NH), 4/9/2015(NH)
+//			3/30/2015(NH), 4/6/2015(NH), 4/8/2015(NH), 4/9/2015(NH), 
+//			4/11/2015(NH)
 
 #include "SceneHandler.h"
 #include "TileMap.h"
@@ -34,14 +35,7 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 		}
 		printf("\n");
 	}*/
-	//REDO THIS PORTION OF CODE. Only one character can be selected at a time. For loop should only check for selection of a character.
 
-	/*if (currentPlayer->GetIsCharacterSelected())
-	{
-
-	}
-	else
-	{*/
 	for (int i = 0; i < chars.size(); i++)
 	{
 		vec2 charPosition = CAMERA->GetDrawablePosOnScreen(chars[i]);
@@ -60,23 +54,31 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 
 			prevSelectedTile = vec2(temp.y, temp.x);
 		}
-		//If a character is selected, and the mouse is clicked on the map; move the character to the position clicked.
-		else if (currentPlayer->GetIsCharacterSelected() && currentPlayer->GetCurrentActiveChar() == chars[i] && TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
-			&& TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == NULL)
+		//If a character is selected
+		else if (currentPlayer->GetIsCharacterSelected() && currentPlayer->GetCurrentActiveChar() == chars[i])
 		{
-			if (chars[i]->GetCharacterState() == CharacterState::MOVEMENT_SELECTED)
+			//If the mouse is clicked on the map; move the character to the position clicked.
+			if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
+				&& TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == NULL)
 			{
-				chars[i]->Move((int)temp.y, (int)temp.x);
-				//currentPlayer->RemoveCurrentActiveChar();
-				TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
-				prevSelectedTile = vec2(temp.y, temp.x);
-				TILEMAP->SetIsTileSelected(true, (int)temp.y, (int)temp.x);
+				if (chars[i]->GetCharacterState() == CharacterState::MOVEMENT_SELECTED)
+				{
+					chars[i]->Move((int)temp.y, (int)temp.x);
+					//currentPlayer->RemoveCurrentActiveChar();
+					TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
+					prevSelectedTile = vec2(temp.y, temp.x);
+					TILEMAP->SetIsTileSelected(true, (int)temp.y, (int)temp.x);
+				}
 			}
-		}
-		else if (currentPlayer->GetIsCharacterSelected() && currentPlayer->GetCurrentActiveChar() == chars[i] && TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
-			&& TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() != NULL)
-		{
-
+			else if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
+				&& TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() != NULL)
+			{
+				Character *targetChar = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
+				if (chars[i]->GetCharacterState() == CharacterState::ATTACK_SELECTED)
+				{
+					chars[i]->Attack(TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter());
+				}
+			}
 		}
 	}
 }
@@ -88,7 +90,12 @@ void SceneHandler::HandleEventMouseUp(int x, int y)
 
 void SceneHandler::HandleEventMouseHover(int x, int y)
 {
-	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale()))
+	Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
+	Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
+	CharacterState currentState = currentCharacter->GetCharacterState();
+
+	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale())
+		&& currentState != CharacterState::ATTACK_SELECTED && currentState != CharacterState::MOVEMENT_SELECTED)
 	{
 		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), CAMERA->GetScale());
 
@@ -110,6 +117,7 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 {
 	Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
 	Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
+	CharacterState currentState = currentCharacter->GetCharacterState();
 
 	if (key == SDLK_UP)
 		CAMERA->MoveCamera(vec2(0, 22));
@@ -133,10 +141,22 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 
 	if (key == SDLK_m)
 	{
-		if (currentCharacter->GetCharacterState() == CharacterState::SELECTED)
+		if (currentState == CharacterState::SELECTED || currentState == CharacterState::ATTACK_SELECTED)
 			currentCharacter->SetCharacterState(CharacterState::MOVEMENT_SELECTED);
 	}
 
+	if (key == SDLK_a)
+	{
+		if (currentState == CharacterState::SELECTED || currentState == CharacterState::MOVEMENT_SELECTED)
+			currentCharacter->SetCharacterState(CharacterState::ATTACK_SELECTED);
+	}
+
+	if (key == SDLK_BACKSPACE)
+	{
+		if (currentState == CharacterState::ATTACK_SELECTED
+			|| currentState == CharacterState::MOVEMENT_SELECTED)
+			currentCharacter->SetCharacterState(CharacterState::SELECTED);
+	}
 }
 
 void SceneHandler::HandleEventKeyUp(unsigned key)

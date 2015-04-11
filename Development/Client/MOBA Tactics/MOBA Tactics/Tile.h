@@ -1,5 +1,6 @@
 //Author:	Nicholas Higa
-//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 4/6/2015(NH)
+//Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 4/6/2015(NH),
+//			4/11/2015(NH)
 #pragma once
 
 #include "Character.h"
@@ -20,7 +21,8 @@ public:
 
 	int GetTileID() const;
 	vec2 GetPosition() const;
-	vec3 GetGridPosition() const;
+	vec2 GetGridPositionVec2() const;
+	vec3 GetGridPositionVec3() const;
 	unsigned GetTileWidth() const;
 	unsigned GetTileHeight() const;
 	bool GetIsOccupied() const;
