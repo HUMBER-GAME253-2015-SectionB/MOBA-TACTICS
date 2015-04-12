@@ -20,7 +20,6 @@ login: 	"l/l/true/team,char,char,char/team,char,char,char/team,char,char,char/"
 register: "l/r/true/"
 	"l/r/false/errorMessage"
 host start game: "l/j/teamNumber/host"
-//no return, save to database
 create, edit, delete team: "t/team,char,char,char/team,char,char,char/team,char,char,char/"
 move: "g/m/characterNumber/newPoint/"
 attack: "g/a/targetPoint/newHealth/"
