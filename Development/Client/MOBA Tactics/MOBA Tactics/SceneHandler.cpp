@@ -1,7 +1,7 @@
 //Author:	Nicholas Higa, MAthieu Violette
 //Date:		3/10/2015(NH), 3/11/2015(NH), 3/15/2015(NH), 3/18/2015(MV),
 //			3/30/2015(NH), 4/6/2015(NH), 4/8/2015(NH), 4/9/2015(NH), 
-//			4/11/2015(NH)
+//			4/11/2015(NH), 4/12/2015(NH)
 
 #include "SceneHandler.h"
 #include "TileMap.h"
@@ -11,7 +11,6 @@
 
 SceneHandler::SceneHandler()
 {
-	prevSelectedTile = vec2(0, 0);
 	prevHoveredTile = vec2(0, 0);
 }
 
@@ -48,12 +47,12 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 			(TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) && TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == chars[i]))
 		{
 			currentPlayer->SetCurrentActiveChar(chars[i]);
+			TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
 			TILEMAP->SetIsTileSelected(true, (int)temp.y, (int)temp.x);
-
-			if (currentPlayer->GetIsCharacterSelected())
-				TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
-
 			prevSelectedTile = vec2(temp.y, temp.x);
+
+			if (chars[i]->GetCharacterState() == CharacterState::DEFENDING)
+				chars[i]->PrintMenu();
 		}
 		//If a character is selected
 		else if (currentPlayer->GetIsCharacterSelected() && currentPlayer->GetCurrentActiveChar() == chars[i])
@@ -65,20 +64,47 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 				if (chars[i]->GetCharacterState() == CharacterState::MOVEMENT_SELECTED)
 				{
 					chars[i]->Move((int)temp.y, (int)temp.x);
-					//currentPlayer->RemoveCurrentActiveChar();
-					TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
-					prevSelectedTile = vec2(temp.y, temp.x);
-					TILEMAP->SetIsTileSelected(true, (int)temp.y, (int)temp.x);
+					if (chars[i]->IsTileInMovementRange(temp))
+					{
+						TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
+						prevSelectedTile = vec2(temp.y, temp.x);
+						TILEMAP->SetIsTileSelected(true, (int)temp.y, (int)temp.x);
+					}
 				}
 			}
 			else if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale)
 				&& TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() != NULL)
 			{
-				Character *targetChar = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
 				if (chars[i]->GetCharacterState() == CharacterState::ATTACK_SELECTED)
 				{
-					chars[i]->Attack(TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter());
+					attackTarget = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
+					chars[i]->SetCharacterState(CharacterState::ATTACK_CONFIRMATION);
 				}
+				else if (chars[i]->GetCharacterState() == CharacterState::ATTACK_CONFIRMATION
+					&& attackTarget != TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter())
+					attackTarget = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
+				else if (chars[i]->GetCharacterState() == CharacterState::ATTACK_CONFIRMATION
+					&& attackTarget == TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter())
+					chars[i]->Attack(attackTarget);
+			}
+		}
+	}
+
+	//If a character is selected that is not in the current player's team
+	for (int i = 0; i < CHARACTERS.size(); i++)
+	{
+		if (!currentPlayer->IsCharacterInTeam(CHARACTERS[i]))
+		{
+			vec2 charPosition = CAMERA->GetDrawablePosOnScreen(CHARACTERS[i]);
+			charPosition *= CAMERA->GetScale();
+
+			if (CHARACTERS[i]->CollisionMouse(charPosition, x, y) ||
+				(TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) &&
+				TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == CHARACTERS[i]))
+			{
+				currentPlayer->GetCurrentActiveChar()->PrintMenu();
+				printf("\n\nSelected Character's Stats\n\n");
+				CHARACTERS[i]->PrintStats();
 			}
 		}
 	}
@@ -131,7 +157,7 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 	if (key == SDLK_RIGHT)
 		CAMERA->MoveCamera(vec2(-22, 0));
 
-	if (key == SDLK_e)
+	if (key == SDLK_4 || key == SDLK_e)
 	{
 		currentPlayer->EndTurn();
 		TILEMAP->SetIsTileSelected(false, prevSelectedTile.x, prevSelectedTile.y);
@@ -139,22 +165,40 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 		currentPlayer->StartTurn();
 	}
 
-	if (key == SDLK_m)
+	if (key == SDLK_1 || key == SDLK_m)
 	{
-		if (currentState == CharacterState::SELECTED || currentState == CharacterState::ATTACK_SELECTED)
+		if (currentState == CharacterState::SELECTED || currentState == CharacterState::ATTACK_SELECTED
+			|| currentState == CharacterState::DEFEND_SELECTED)
 			currentCharacter->SetCharacterState(CharacterState::MOVEMENT_SELECTED);
 	}
 
-	if (key == SDLK_a)
+	if (key == SDLK_2 || key == SDLK_d)
 	{
-		if (currentState == CharacterState::SELECTED || currentState == CharacterState::MOVEMENT_SELECTED)
-			currentCharacter->SetCharacterState(CharacterState::ATTACK_SELECTED);
+		if (currentState == CharacterState::SELECTED || currentState == CharacterState::ATTACK_SELECTED
+			|| currentState == CharacterState::MOVEMENT_SELECTED)
+			currentCharacter->SetCharacterState(CharacterState::DEFEND_SELECTED);
+		else if (currentState == CharacterState::DEFEND_SELECTED)
+		{
+			currentCharacter->Defend();
+			currentCharacter->PrintMenu();
+		}
 	}
 
-	if (key == SDLK_BACKSPACE)
+	if (key == SDLK_3 || key == SDLK_a)
+	{
+		if (currentState == CharacterState::SELECTED || currentState == CharacterState::MOVEMENT_SELECTED
+			|| currentState == CharacterState::DEFEND_SELECTED)
+			currentCharacter->SetCharacterState(CharacterState::ATTACK_SELECTED);
+
+		if (currentState == CharacterState::ATTACK_CONFIRMATION)
+			currentCharacter->Attack(attackTarget);
+	}
+
+	if (key == SDLK_5 || key == SDLK_b)
 	{
 		if (currentState == CharacterState::ATTACK_SELECTED
-			|| currentState == CharacterState::MOVEMENT_SELECTED)
+			|| currentState == CharacterState::MOVEMENT_SELECTED
+			|| currentState == CharacterState::DEFEND_SELECTED)
 			currentCharacter->SetCharacterState(CharacterState::SELECTED);
 	}
 }

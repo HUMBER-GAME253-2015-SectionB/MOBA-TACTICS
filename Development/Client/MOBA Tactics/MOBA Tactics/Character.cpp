@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa, Mathieu Violette
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV),
-//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH)
+//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH)
 
 #include "Character.h"
 #include <cstdlib>
@@ -153,12 +153,27 @@ void Character::Move(int row, int col)
 
 void Character::Attack(Character* target)
 {
+	SetCharacterState(CharacterState::ATTACKING);
+	SetCurrentActionPoints(GetCurrentActionPoints() - 2);
+	int targetDefense = target->GetDefense();
+	int atk = GetAtackPower();
+	int damage = atk - defense;
 
+	if (damage < 1)
+		damage = 1;
+
+	target->SetCurrentHealth(target->GetCurrentHealth() - damage);
+	//Check for if target dead.
+	SetCharacterState(CharacterState::SELECTED);
 }
 
 void Character::Defend()
 {
-
+	SetCharacterState(CharacterState::DEFENDING);
+	int x = GetDefense();
+	int y = GetCurrentActionPoints();
+	SetDefense(GetDefense() + GetCurrentActionPoints());
+	SetCurrentActionPoints(0);
 }
 
 //void SpecialAbility(Ability* abilityname); Somethhing like this when special abilities are implemented, 
@@ -167,6 +182,11 @@ void Character::Defend()
 void Character::ResetDefense()
 {
 	SetDefense(GetNormalDefense());
+}
+
+void Character::ResetActionPoints()
+{
+	SetCurrentActionPoints(GetMaxActionPoints());
 }
 
 void Character::Update()
@@ -210,25 +230,6 @@ void Character::Update()
 		}
 
 		//SetDefense(0); Not sure why this was here, leaving it in just in case.
-	}
-
-	if ((GetPrevCharacterState() == CharacterState::MOVEMENT_SELECTED || GetPrevCharacterState() == CharacterState::ATTACK_SELECTED))
-		TILEMAP->ResetHighlights();
-	
-	if (GetCharacterState() == CharacterState::ATTACK_SELECTED)
-	{
-		UpdateAttackTiles();
-		vector<vec2> atkRange = GetAttackTiles();
-		for (int i = 0; i < atkRange.size(); i++)
-			TILEMAP->GetTileAt(atkRange[i].x, atkRange[i].y)->SetIsHighlighted(true);
-	}
-
-	if (GetCharacterState() == CharacterState::MOVEMENT_SELECTED)
-	{
-		UpdateMovementTiles();
-		vector<vec2> moveRange = GetMovementTiles();
-		for (int i = 0; i < moveRange.size(); i++)
-			TILEMAP->GetTileAt(moveRange[i].x, moveRange[i].y)->SetIsHighlighted(true);
 	}
 }
 
@@ -357,6 +358,8 @@ void Character::SetMaxHealth(int num)
 void Character::SetCurrentActionPoints(int num)
 {
 	currentActionPoints = num;
+	if (num < 0)
+		currentActionPoints = 0;
 }
 
 void Character::SetMaxActionPoints(int num)
@@ -411,8 +414,43 @@ void Character::SetVelocity(vec2 vec)
 
 void Character::SetCharacterState(CharacterState charState)
 {
-	SetPrevCharacterState(GetCharacterState());
-	characterState = charState;
+	if (charState == CharacterState::ATTACK_SELECTED || charState == CharacterState::ATTACK_CONFIRMATION)
+	{
+		if (GetCurrentActionPoints() >= 2)
+		{
+			UpdateAttackTiles();
+			vector<vec2> atkRange = GetAttackTiles();
+			for (int i = 0; i < atkRange.size(); i++)
+				TILEMAP->GetTileAt(atkRange[i].x, atkRange[i].y)->SetIsHighlighted(true);
+
+			SetPrevCharacterState(GetCharacterState());
+			characterState = charState;
+		}
+	}
+	else if (charState == CharacterState::MOVEMENT_SELECTED)
+	{
+		if (GetCurrentActionPoints() >= 1)
+		{
+			UpdateMovementTiles();
+			vector<vec2> moveRange = GetMovementTiles();
+			for (int i = 0; i < moveRange.size(); i++)
+				TILEMAP->GetTileAt(moveRange[i].x, moveRange[i].y)->SetIsHighlighted(true);
+
+			SetPrevCharacterState(GetCharacterState());
+			characterState = charState;
+		}
+	}
+	else
+	{
+		SetPrevCharacterState(GetCharacterState());
+		characterState = charState;
+	}
+
+	if (GetPrevCharacterState() == CharacterState::MOVEMENT_SELECTED
+		|| GetPrevCharacterState() == CharacterState::ATTACK_CONFIRMATION)
+		TILEMAP->ResetHighlights();
+
+	PrintMenu();
 }
 
 void Character::SetPrevCharacterState(CharacterState charState)
@@ -436,7 +474,13 @@ void Character::PrintMenu()
 	int experience;
 	int level;
 	int skillPoints;*/
+	
+	system("cls"); //Very bad way to clear console screen, but it will be fine for this purpose.
 	CharacterState tmp = GetCharacterState();
+	int currAP = GetCurrentActionPoints();
+
+	vector<char*> menu;
+
 	if (tmp == CharacterState::IDLE)
 	{
 
@@ -447,15 +491,73 @@ void Character::PrintMenu()
 	}
 	else if (tmp == CharacterState::ATTACK_SELECTED)
 	{
+		PrintStats();
 
+		//printf("Click on enemy to Attack    Cost: 2 AP\n\n");
+		//printf("1/M to Move                 Cost: 1 AP per tile\n");
+		//printf("2/D to Defend               Cost: Consumes all AP\n");
+		//printf("4/E to End turn\n");
+		//printf("5/B to go Back to main menu.\n\n");
+		AddItemToMenu(menu, "attack2");
+		AddItemToMenu(menu, "move1");
+		AddItemToMenu(menu, "defense1");
+		AddItemToMenu(menu, "end");
+		AddItemToMenu(menu, "back");
+	}
+	else if (tmp == CharacterState::ATTACK_CONFIRMATION)
+	{
+		PrintStats();
+
+		//printf("Are you sure?\n");
+		//printf("3/A again to confirm        Cost: 2 AP\n\n");
+		//printf("1/M to Move                 Cost: 1 AP per tile\n");
+		//printf("2/D to Defend               Cost: Consumes all AP\n");
+		//printf("4/E to End turn\n");
+		//printf("5/B to go Back to main menu.\n\n");
+
+		AddItemToMenu(menu, "attack3");
+		AddItemToMenu(menu, "move1");
+		AddItemToMenu(menu, "defense1");
+		AddItemToMenu(menu, "end");
+		AddItemToMenu(menu, "back");
+	}
+	else if (tmp == CharacterState::DEFEND_SELECTED)
+	{
+		PrintStats();
+
+		//printf("Are you sure?\n");
+		//printf("2/D again to confirm        Cost: Consumes all AP\n\n");
+		//printf("1/M to Move                 Cost: 1 AP per tile\n");
+		//printf("3/A to Attack               Cost: 2 AP\n");
+		//printf("4/E to End turn\n");
+		//printf("5/B to go Back to main menu.\n\n");
+		AddItemToMenu(menu, "defense2");
+		AddItemToMenu(menu, "move1");
+		AddItemToMenu(menu, "attack1");
+		AddItemToMenu(menu, "end");
+		AddItemToMenu(menu, "back");
 	}
 	else if (tmp == CharacterState::DEFENDING)
 	{
-
+		printf("Status: Defending\n\n");
+		PrintStats();
+		AddItemToMenu(menu, "switch");
+		AddItemToMenu(menu, "end");
 	}
 	else if (tmp == CharacterState::MOVEMENT_SELECTED)
 	{
+		PrintStats();
 
+		//printf("Click on tile to Move       Cost: 1 AP per tile\n\n");
+		//printf("2/D to Defend               Cost: Consumes all AP\n");
+		//printf("3/A to Attack               Cost: 2 AP\n");
+		//printf("4/E to End turn\n");
+		//printf("5/B to go Back to main menu.\n\n");
+		AddItemToMenu(menu, "move2");
+		AddItemToMenu(menu, "defense1");
+		AddItemToMenu(menu, "attack1");
+		AddItemToMenu(menu, "end");
+		AddItemToMenu(menu, "back");
 	}
 	else if (tmp == CharacterState::MOVING)
 	{
@@ -463,18 +565,112 @@ void Character::PrintMenu()
 	}
 	else if (tmp == CharacterState::SELECTED)
 	{
-		printf("Level: %d Exp: %d\n", GetLevel(), GetExperience());
-		printf("AP: %d/%d\n\n", GetCurrentActionPoints(), GetMaxActionPoints());
-		printf("HP: %d/%d\n", GetCurrentHealth(), GetMaxHealth());
-		printf("ATK: %d\n", GetAtackPower());
-		printf("DEF: %d\n", GetDefense());
-		printf("RNGE: %d\n", GetRange());
-		printf("SPD: %d\n\n", GetSpeed());
+		PrintStats();
 
-		printf("1/M to Move\n");
-		printf("2/D to Defend\n");
-		printf("3/A to Attack\n");
+		//printf("1/M to Move                 Cost: 1 AP per tile\n");
+		//printf("2/D to Defend               Cost: Consumes all AP\n");
+		//printf("3/A to Attack               Cost: 2 AP\n");
+		//printf("4/E to End Turn\n\n");
+		AddItemToMenu(menu, "move1");
+		AddItemToMenu(menu, "defense1");
+		AddItemToMenu(menu, "attack1");
+		AddItemToMenu(menu, "end");
+
+		if (menu[0] == "4/E to End turn\n")
+		{
+			menu.clear();
+			AddItemToMenu(menu, "switch");
+			AddItemToMenu(menu, "end");
+		}
 	}
+
+	for (int i = 0; i < menu.size(); i++)
+		printf(menu[i]);
+}
+
+void Character::PrintStats()
+{
+	printf("Level: %d Exp: %d\n", GetLevel(), GetExperience());
+	printf("Action Points: %d/%d\n\n", GetCurrentActionPoints(), GetMaxActionPoints());
+	printf("HP: %d/%d\n", GetCurrentHealth(), GetMaxHealth());
+	printf("ATK: %d\n", GetAtackPower());
+	printf("DEF: %d\n", GetDefense());
+	printf("RNGE: %d\n", GetRange());
+	printf("SPD: %d\n\n", GetSpeed());
+}
+
+void Character::AddItemToMenu(vector<char*> &menu, char* string)
+{
+	char* move1 = "1/M to Move                 Cost: 1 AP per tile\n";
+	char* move2 = "Click on tile to Move       Cost: 1 AP per tile\n\n";
+	char* atk1 = "3/A to Attack               Cost: 2 AP\n";
+	char* atk2 = "Click on enemy to Attack    Cost: 2 AP\n\n";
+	char* atk3 = "3/A again to confirm        Cost: 2 AP\n";
+	char* def1 = "2/D to Defend               Cost: Consumes all AP\n";
+	char* def3 = "2/D again to confirm        Cost: Consumes all AP\n\n";
+	char* end = "4/E to End turn\n";
+	char* back = "5/B to go Back to main menu.\n\n";
+	char* confirm = "Are you sure?\n";
+	char* switchChar = "No more AP, Switch Characters\n";
+	int currActionPoints = GetCurrentActionPoints();
+
+	if (string == "move1")
+	{
+		if (currActionPoints >= 1)
+			menu.push_back(move1);
+	}
+	else if (string == "move2")
+	{
+		if (currActionPoints >= 1)
+			menu.push_back(move2);
+	}
+	else if (string == "attack1")
+	{
+		if (currActionPoints >= 2)
+			menu.push_back(atk1);
+	}
+	else if (string == "attack2")
+	{
+		if (currActionPoints >= 2)
+			menu.push_back(atk2);
+	}
+	else if (string == "attack3")
+	{
+		if (currActionPoints >= 2)
+		{
+			menu.push_back(confirm);
+			menu.push_back(atk3);
+		}
+	}
+	else if (string == "defense1")
+	{
+		if (currActionPoints >= 1)
+			menu.push_back(def1);
+	}
+	else if (string == "defense2")
+	{
+		if (currActionPoints >= 1)
+		{
+			menu.push_back(confirm);
+			menu.push_back(def3);
+		}
+	}
+	else if (string == "end")
+		menu.push_back(end);
+	else if (string == "back")
+		menu.push_back(back);
+	else if (string == "switch")
+		menu.push_back(switchChar);
+}
+
+bool Character::IsTileInMovementRange(vec2 val)
+{
+	return IsTileInList(val, GetMovementTiles());
+}
+
+bool Character::IsTileInAttackRange(vec2 val)
+{
+	return IsTileInList(val, GetAttackTiles());
 }
 
 //Private methods

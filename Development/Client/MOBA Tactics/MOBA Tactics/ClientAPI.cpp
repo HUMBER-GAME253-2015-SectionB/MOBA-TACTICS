@@ -1,6 +1,6 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
-//			4/6/2015 (NH), 4/8/2015(NH)
+//			4/6/2015 (NH), 4/8/2015(NH), 4/12/2015(NH)
 
 #include "ClientAPI.h"
 
@@ -25,6 +25,7 @@ Uint32 ClientAPI::elaspedTime = 0;
 TileMap* ClientAPI::tileMap;
 Camera* ClientAPI::camera;
 vector<Player*> ClientAPI::players;
+vector<Character*> ClientAPI::allCharacters;
 
 int ClientAPI::currentPlayer;
 
@@ -230,6 +231,7 @@ void ClientAPI::addPlayer()
 void ClientAPI::addCharacter(Character* _character, int _playerIndex)
 {
 	PLAYERS[_playerIndex]->AddCharacter(_character);
+	CHARACTERS.push_back(_character);
 	CAMERA->AddToDrawList(_character);
 }
 

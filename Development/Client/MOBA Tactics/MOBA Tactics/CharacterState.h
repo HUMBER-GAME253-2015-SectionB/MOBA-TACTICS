@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		4/9/2015 (NH)
+//Date:		4/9/2015(NH), 4/12/2015(NH)
 
 #pragma once
 
@@ -11,5 +11,7 @@ enum class CharacterState
 	MOVING,
 	ATTACK_SELECTED,
 	ATTACKING,
+	ATTACK_CONFIRMATION,
+	DEFEND_SELECTED,
 	DEFENDING
 };

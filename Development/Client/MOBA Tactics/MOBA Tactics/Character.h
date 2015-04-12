@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 4/8/2015(NH)
-//			4/9/2015(NH), 4/11/2015(NH)
+//			4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH)
 
 #pragma once
 
@@ -40,6 +40,7 @@ public:
 	//void SpecialAbility(Ability* abilityname); Somethhing like this when special abilities are implemented, 
 												//assuming new class should be created for skills.
 	void ResetDefense(); //Set defense back to regular value.
+	void ResetActionPoints();
 	void Update();
 	~Character();
 
@@ -86,7 +87,12 @@ public:
 	void SetOnTile(ITile *tile);
 	void SetOnTile(int row, int col);
 
+	bool IsTileInMovementRange(vec2);
+	bool IsTileInAttackRange(vec2);
+
+	//Methods related to printing menu
 	void PrintMenu();
+	void PrintStats();
 
 private:
 	ITile* onTile;
@@ -135,4 +141,6 @@ private:
 
 	vector<vec2> movementTiles;
 	vector<vec2> attackTiles;
+
+	void AddItemToMenu(vector<char*>&, char*);
 };

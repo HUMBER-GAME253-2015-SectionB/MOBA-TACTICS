@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/10/2015(NH)
+//Date:		3/10/2015(NH),	4/12/2015(NH)
 
 #pragma once
 
@@ -16,6 +16,7 @@ private:
 	SceneHandler();
 	vec2 prevSelectedTile;
 	vec2 prevHoveredTile;
+	Character *attackTarget;
 public:
 	static SceneHandler& GetInstance();
 	void HandleEventMouseDown(int x, int y);

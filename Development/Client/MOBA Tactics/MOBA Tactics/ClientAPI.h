@@ -1,6 +1,6 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
-//			4/6/2015 (NH), 4/8/2015(NH)
+//			4/6/2015 (NH), 4/8/2015(NH), 4/12/2015(NH)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
@@ -37,6 +37,7 @@ class TileMap;
 #define CAMERA ((Camera*)ClientAPI::camera)
 #define TILEMAP ((TileMap*)ClientAPI::tileMap)
 #define PLAYERS ClientAPI::players
+#define CHARACTERS ClientAPI::allCharacters
 
 struct Colors
 {
@@ -79,6 +80,7 @@ public:
 	static TileMap* tileMap;
 	static Camera *camera;
 	static vector<Player*> players;
+	static vector<Character*> allCharacters;
 
 	static SDL_Window *mainWindow;
 	static SDL_Renderer *mainRenderer;

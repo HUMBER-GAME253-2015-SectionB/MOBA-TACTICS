@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		4/9/2015 (NH)
+//Date:		4/9/2015 (NH),	4/12/2015(NH)
 
 #include "Player.h"
 
@@ -18,6 +18,7 @@ void Player::StartTurn()
 	{
 		if (chars[i]->GetCharacterState() == CharacterState::DEFENDING)
 			chars[i]->SetCharacterState(CharacterState::IDLE);
+		chars[i]->ResetDefense();
 	}
 }
 
@@ -25,6 +26,9 @@ void Player::EndTurn()
 {
 	SetIsCharacterSelected(false);
 	SetCharactersToIdle();
+	vector<Character*> chars = GetCharacterList();
+	for (int i = 0; i < chars.size(); i++)
+		chars[i]->ResetActionPoints();
 }
 
 void Player::CycleToNextCharacter()
@@ -106,5 +110,16 @@ void Player::SetCharactersToIdle()
 		if (chars[i]->GetCharacterState() != CharacterState::DEFENDING)
 			chars[i]->SetCharacterState(CharacterState::IDLE);
 	}
+}
+
+bool Player::IsCharacterInTeam(Character* _character)
+{
+	vector<Character*> chars = GetCharacterList();
+	for (int i = 0; i < chars.size(); i++)
+	{
+		if (chars[i] == _character)
+			return true;
+	}
+	return false;
 }
 

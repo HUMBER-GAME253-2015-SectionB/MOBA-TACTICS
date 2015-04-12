@@ -1,5 +1,5 @@
 //Author:	David Vo, Nicholas Higa
-//Date:		2/23/2015(DV), 3/30/2015(NH), 4/6/2015(NH)
+//Date:		2/23/2015(DV), 3/30/2015(NH), 4/6/2015(NH), 4/12/2015(NH)
 
 #include "Scene.h"
 #include "Camera.h"
@@ -20,9 +20,6 @@ void Scene::Init()
 	ClientAPI::addPlayer();
 	ClientAPI::addPlayer();
 	ClientAPI::SetCurrentPlayer((int)PlayerState::PLAYER_ONE);
-	printf("Press E to end the current players turn\n");
-	printf("Click on a character to select them, then M, then a target tile to move.");
-	printf("M needs to be pressed to move again to move a character a second time.");
 }
 
 void Scene::LoadContent()
@@ -39,7 +36,7 @@ void Scene::LoadContent()
 	CAMERA->SetPosition(vec2(100, 100));
 
 	Character *tmpChar0, *tmpChar1, *tmpChar2, *tmpChar3, *tmpChar4, *tmpChar5;
-	tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 0);
+	tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", 6, 6);
 	ClientAPI::addCharacter(tmpChar0, 0);
 	tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 1);
 	ClientAPI::addCharacter(tmpChar1, 0);
