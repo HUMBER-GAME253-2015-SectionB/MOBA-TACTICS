@@ -10,8 +10,26 @@ struct Character
 {
 public:
 
-	std::string name ,cTeam;
-	int type;
+	std::string name;
+	int cTeam;
+	char type;
+
+	int curHP;
+	int maxHP;
+
+	int maxAP;
+	int curAP;
+	 
+	int akt;
+
+	int maxDef;
+	int currDef;
+
+	bool active; 
+	bool alive; 
+
+	int respawnTimer;
+
 	int Stats[3];
 };
 

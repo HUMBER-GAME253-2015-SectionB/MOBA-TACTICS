@@ -1,6 +1,6 @@
 /*
 //James Finnie
-Last Updated 03/11
+Last Updated 04/07
 */
 
 #include "stdafx.h"
@@ -10,24 +10,6 @@ fstream loginInfo;
 
 Login::Login()
 {
-	char choice;
-
-	cout << "[l]ogin or [r]egister" << endl;
-
-	cin >> choice;
-
-	if (choice == 'l' || choice == 'L')
-	{
-		TryLogin();
-	}
-	else if (choice == 'r' || choice == 'R')
-	{
-		CreateNewUser();
-	}
-	else
-	{
-		Login();
-	}
 }
 
 
@@ -35,33 +17,23 @@ Login::~Login()
 {
 }
 
-void Login::TryLogin()
+string Login::TryLogin(string name, string pass)
 {
-	cout << "Enter user name:" << endl;
-	cin >> userName;
-
-	//hide keys?
-	cout << "Enter password:" << endl;
-	cin >> password;
-
-	if (ConfirmUser(userName, password))
+	if (ConfirmUser(name, pass))
 	{
-		//pass off to lobby
-		cout << "It worked!";
+		//everything checks out!
+		return "login/OK/Message/";
 	}
 	else
 	{
-		cout << "nope, try again";
-		//try again
-		TryLogin();
+		return "login/Fail/Message/";
 	}
 }
-
 bool Login::ConfirmUser(std::string name, std::string pass)
 {
 	bool found = false;
-
-	string test = name + " " + pass;
+	
+	string test = name + " " + Encrypt(pass);
 	string line;
 
 	//open file for reading
@@ -76,7 +48,6 @@ bool Login::ConfirmUser(std::string name, std::string pass)
 			found = true;
 		}
 	}
-	//if found set found to true
 
 	//close file
 	loginInfo.close();
@@ -84,48 +55,95 @@ bool Login::ConfirmUser(std::string name, std::string pass)
 	return found;
 }
 
-void Login::CreateNewUser()
+string Login::CreateNewUser(string name, string pass)
 {
-	string newName;
-	string newPass;
-	string passConfirm;
-	bool done = false;
+	
 
-	while (!done)
-	{
-		cout << "Choose a user name:" << endl;
-		cin >> newName;
+	bool nPass = false;//controls name loop
 
-		//hide these?
-		cout << "Enter a password:" << endl;
-		cin >> newPass;
 
-		cout << "Confirm password:" << endl;
-		cin >> passConfirm;
 
-		//make sure passwords match
-		if (newPass == passConfirm)
+		while (!nPass) // step 1: get and check name
+		{
+			bool nameGood = true; // assumes the name will be original
+			string line;
+
+			//open file for reading
+			loginInfo.open("loginInfo.txt");
+
+			//check for existing username
+			while (getline(loginInfo, line) && nameGood == true)
+			{
+				//if found name already exists
+				if (line.find(name) == 0)
+				{
+					nameGood = false;
+					return "create/failed/Name/already/exists/";
+				}
+			}
+
+			loginInfo.close();
+
+			if (nameGood) //Woo!
+			{
+				nPass = true;
+			}
+		}
+
+		//name and pass check out, create new user
+		if (nPass)
 		{
 			//open file for writing and append to end
 			loginInfo.open("loginInfo.txt", ios::app);
-
+			
+			//NEW
+			string newPass = Encrypt(newPass);
+			
 			//this may enter info weirdly, keep an eye...
-			loginInfo << newName << " " << newPass << endl;
+			loginInfo << name << " " << newPass << endl;
 
 			loginInfo.close();
 			
-			done = true;
-		}
-		else
-		{
-			cout << "Passwords don't match!";
+			return "create/OK/everything worked";
 		}
 	}
-	Login();
+
+bool Login::CheckConnection()
+{
+	//this may not even be needed, can we just check inactivity while monitoring for incoming?
+	return true;
 }
 
-void Login::Clear()
+string Login::Encrypt(string str)
 {
-	userName = "";
-	password = "";
+	// Make sure the key is at least as long as the message
+	string key = "J";
+	string tmp = "F";
+
+	while (key.size() < str.size())
+		key += tmp;
+
+	// And now for the encryption part
+	for (int i = 0; i < str.size(); ++i) // odd that i++ breaks it...
+		str[i] ^= key[i];
+
+	return str;
+}
+
+string Login::Defend(int unit)// may require userID as well?
+{
+	//how to get user info from team manager
+
+	//add ap to currentDef
+	//char[unit].currDef += char[unit].currAP;
+
+	//clear remaining ap to be safe
+	//char[unit].currAP = 0;
+
+	//set unit to inacive
+	//char[unit].active = false;
+
+	//end turn automatically if all 3 chars are inactive?
+
+	return "char#/defending/newDef#/if/client/doesnt/want/to/calc/it/";
 }
