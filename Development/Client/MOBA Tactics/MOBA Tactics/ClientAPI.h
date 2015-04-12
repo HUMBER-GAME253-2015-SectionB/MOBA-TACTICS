@@ -99,7 +99,7 @@ public:
 	static int StringToInt(const std::string &Text); 
 
 	static Camera* createCamera(vec2 pos, int width, int height, vec2 minBoundary, vec2 maxBoundary);
-	static TileMap* createMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath);
+	static TileMap* createMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath, string hoverTexturePath);
 
 	static Character* createCharacterStats(char* spritePath, ITile* onTile, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);

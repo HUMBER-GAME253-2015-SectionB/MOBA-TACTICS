@@ -16,17 +16,19 @@ TileMap::TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, SDL_Renderer *
 	mainLayer = _mainLayer;
 }
 
-TileMap::TileMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath, SDL_Renderer *ren)
+TileMap::TileMap(char *xmlFilePath, vec2 _origin, string highlightTexturePath, string hoverTexturePath, SDL_Renderer *ren)
 {
 	LoadFromFile(xmlFilePath, _origin, ren);
 	InitHightlightSprite(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
+	InitHoverSprite(hoverTexturePath, 0, 0, 0, ren);
 	mainLayer = 1;
 }
 
-TileMap::TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath, SDL_Renderer *ren)
+TileMap::TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath, string hoverTexturePath, SDL_Renderer *ren)
 {
 	LoadFromFile(xmlFilePath, _origin, ren);
 	InitHightlightSprite(highlightTexturePath, 0, 0, 0, 10, 200, 3, ren);
+	InitHoverSprite(hoverTexturePath, 0, 0, 0, ren);
 	mainLayer = _mainLayer;
 }
 
@@ -152,12 +154,28 @@ void TileMap::InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g
 	SetHighlightColor(r, g, b);
 }
 
+void TileMap::InitHoverSprite(string hoverTexturePath, Uint8 r, Uint8 g, Uint8 b, SDL_Renderer *ren)
+{
+	hoverTexture.sprite = new Sprite(hoverTexturePath, ren, vec2(0, 0));
+	hoverTexture.sprite->SetBlendMode(SDL_BLENDMODE_BLEND);
+	hoverTexture.sprite->SetAlpha(255);
+	SetHoverColor(r, g, b);
+}
+
 void TileMap::SetHighlightColor(Uint8 r, Uint8 g, Uint8 b)
 {
 	hlTexture.sprite->SetColor(r, g, b);
 	hlTexture.r = r;
 	hlTexture.g = g;
 	hlTexture.b = b;
+}
+
+void TileMap::SetHoverColor(Uint8 r, Uint8 g, Uint8 b)
+{
+	hoverTexture.sprite->SetColor(r, g, b);
+	hoverTexture.r = r;
+	hoverTexture.g = g;
+	hoverTexture.b = b;
 }
 
 void TileMap::Update()
@@ -233,6 +251,9 @@ void TileMap::DrawTile(int layer, int row, int col, SDL_Renderer *ren)
 	if (tileMap[layer][row][col].GetIsHighlighted() || tileMap[layer][row][col].GetIsSelected())
 		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
 		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
+
+	if (tileMap[layer][row][col].GetIsHovered())
+		SDL_RenderCopy(ren, hoverTexture.sprite->GetImage(), NULL, &renderQuad);
 }
 
 //Draw a tile at a position different from its set position.
@@ -265,6 +286,9 @@ void TileMap::DrawTile(vec2 pos, int layer, int row, int col, SDL_Renderer *ren)
 	if (tileMap[layer][row][col].GetIsHighlighted() || tileMap[layer][row][col].GetIsSelected())
 		//hlTexture.texture->Render(tileMap[layer][row][col].GetPosition().x, tileMap[layer][row][col].GetPosition().y, NULL, ren);
 		SDL_RenderCopy(ren, hlTexture.sprite->GetImage(), NULL, &renderQuad);
+
+	if (tileMap[layer][row][col].GetIsHovered())
+		SDL_RenderCopy(ren, hoverTexture.sprite->GetImage(), NULL, &renderQuad);
 }
 
 //Conversion from Tile coordinates ie (1, 3) will be converted to a screen position ie (32, 64) on the screen
@@ -429,6 +453,16 @@ void TileMap::SetIsTileSelected(bool isSelected, int row, int col)
 	SetIsTileSelected(isSelected, mainLayer, row, col);
 }
 
+void TileMap::SetIsTileHovered(bool isHovered, int layer, int row, int col)
+{
+	GetTileMap()->at(layer).at(row).at(col).SetIsHovered(isHovered);
+}
+
+void TileMap::SetIsTileHovered(bool isHovered, int row, int col)
+{
+	SetIsTileHovered(isHovered, mainLayer, row, col);
+}
+
 void TileMap::SetOrigin(vec2 pos)
 {
 	origin = pos;
@@ -498,6 +532,7 @@ void TileMap::ResetHighlights()
 TileMap::~TileMap()
 {
 	delete hlTexture.sprite;
+	delete hoverTexture.sprite;
 }
 
 //Don't think this is an efficient method since it has to update every single tile's position.

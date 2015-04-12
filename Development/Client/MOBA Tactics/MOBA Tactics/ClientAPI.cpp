@@ -184,8 +184,8 @@ Camera* ClientAPI::createCamera(vec2 pos, int width, int height, vec2 minBoundar
 	return tempCamera;
 }
 
-TileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath) {
-	TileMap* tempMap = new TileMap(_xmlFilePath, _origin, _mainLayer, highlightTexturePath, mainRenderer);
+TileMap* ClientAPI::createMap(char* _xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath, string hoverTexturePath) {
+	TileMap* tempMap = new TileMap(_xmlFilePath, _origin, _mainLayer, highlightTexturePath, hoverTexturePath, mainRenderer);
 	return tempMap;
 }
 

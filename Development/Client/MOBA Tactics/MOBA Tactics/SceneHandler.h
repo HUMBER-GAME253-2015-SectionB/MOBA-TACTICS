@@ -14,8 +14,8 @@ class SceneHandler
 {
 private:
 	SceneHandler();
-	vec2 prevHighlightedTile;
 	vec2 prevSelectedTile;
+	vec2 prevHoveredTile;
 public:
 	static SceneHandler& GetInstance();
 	void HandleEventMouseDown(int x, int y);

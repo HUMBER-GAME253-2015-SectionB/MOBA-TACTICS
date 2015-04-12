@@ -11,7 +11,8 @@
 
 SceneHandler::SceneHandler()
 {
-	prevHighlightedTile = vec2(0, 0);
+	prevSelectedTile = vec2(0, 0);
+	prevHoveredTile = vec2(0, 0);
 }
 
 void SceneHandler::HandleEventMouseDown(int x, int y)
@@ -94,22 +95,21 @@ void SceneHandler::HandleEventMouseHover(int x, int y)
 	Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
 	CharacterState currentState = currentCharacter->GetCharacterState();
 
-	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale())
-		&& currentState != CharacterState::ATTACK_SELECTED && currentState != CharacterState::MOVEMENT_SELECTED)
+	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale()))
 	{
 		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), CAMERA->GetScale());
 
-		if (prevHighlightedTile != vec2(temp.y, temp.x))
+		if (prevHoveredTile != vec2(temp.y, temp.x))
 		{
-			TILEMAP->SetIsTileHighlighted(true, 1, (int)temp.y, (int)temp.x);
-			TILEMAP->SetIsTileHighlighted(false, (int)prevHighlightedTile.x, (int)prevHighlightedTile.y);
+			TILEMAP->SetIsTileHovered(true, 1, (int)temp.y, (int)temp.x);
+			TILEMAP->SetIsTileHovered(false, (int)prevHoveredTile.x, (int)prevHoveredTile.y);
 		}
 
-		prevHighlightedTile = vec2(temp.y, temp.x);
+		prevHoveredTile = vec2(temp.y, temp.x);
 	}
 	else
 	{
-		TILEMAP->SetIsTileHighlighted(false, (int)prevHighlightedTile.x, (int)prevHighlightedTile.y);
+		TILEMAP->SetIsTileHovered(false, (int)prevHoveredTile.x, (int)prevHoveredTile.y);
 	}
 }
 

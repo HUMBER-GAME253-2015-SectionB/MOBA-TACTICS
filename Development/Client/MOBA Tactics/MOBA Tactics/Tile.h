@@ -28,6 +28,7 @@ public:
 	bool GetIsOccupied() const;
 	bool GetIsHighlighted() const;
 	bool GetIsSelected() const;
+	bool GetIsHovered() const;
 	Character* GetCharacter() const;
 
 	void SetTileID(int num);
@@ -37,6 +38,7 @@ public:
 	void SetTileHeight(unsigned num);
 	void SetIsHighlighted(bool value);
 	void SetIsSelected(bool value);
+	void SetIsHovered(bool value);
 	void SetCharacter(Character* _character);
 
 private:
@@ -49,4 +51,5 @@ private:
 
 	bool isHighlighted;
 	bool isSelected;
+	bool isHovered;
 };

@@ -29,16 +29,19 @@ class TileMap : public ITileMap, public Sprite
 public:
 	TileMap(char *xmlFilePath, vec2 _origin, SDL_Renderer *ren);
 	TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, SDL_Renderer *ren);
-	TileMap(char *xmlFilePath, vec2 origin, string highlightTexturePath, SDL_Renderer *ren);
-	TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath, SDL_Renderer *ren);
+	TileMap(char *xmlFilePath, vec2 origin, string highlightTexturePath, string hoverTexturePath, SDL_Renderer *ren);
+	TileMap(char *xmlFilePath, vec2 _origin, int _mainLayer, string highlightTexturePath, string hoverTexturePath, SDL_Renderer *ren);
 	bool LoadFromFile(char *xmlFilePath, vec2 origin, SDL_Renderer *ren);
 	void InitTileMap(unsigned _numWidth, unsigned _numHeight, unsigned _numLayers, unsigned _tileWidth, unsigned _tileHeight);
 	void InitTileSet(char *texturePath, unsigned _tileWidth, unsigned _tileHeight, SDL_Renderer *ren);
 	void InitHightlightSprite(string highlightTexturePath, Uint8 r, Uint8 g, Uint8 b, Uint8 minAlpha, Uint8 maxAlpha, Uint8 fadePerFrame, SDL_Renderer *ren);
+	void InitHoverSprite(string hoverTexturePath, Uint8 r, Uint8 g, Uint8 b, SDL_Renderer *ren);
 	void SetIsTileSelected(bool isSelected, int layer, int row, int col);
 	void SetIsTileSelected(bool isSelected, int row, int col);
 	void SetIsTileHighlighted(bool isHighlighted, int layer, int row, int col);
 	void SetIsTileHighlighted(bool isHighlighted, int row, int col);
+	void SetIsTileHovered(bool isHovered, int layer, int row, int col);
+	void SetIsTileHovered(bool isHovered, int row, int col);
 	void Draw(vec2 pos, SDL_Renderer *ren);
 	void Draw(SDL_Renderer *ren);
 	void DrawTile(int layer, int row, int col, SDL_Renderer *ren);
@@ -79,6 +82,7 @@ public:
 	void SetTileSet(TileSet *_tileSet);
 	void SetTileMap(vector<vector<vector<Tile>>> *_tileMap);
 	void SetHighlightColor(Uint8 r, Uint8 g, Uint8 b);
+	void SetHoverColor(Uint8 r, Uint8 g, Uint8 b);
 
 	void ResetHighlights();
 
@@ -89,6 +93,7 @@ private:
 	vector<vector<vector<Tile>>> tileMap;
 	TileSet* tileSet;
 	HighlightTexture hlTexture;
+	HighlightTexture hoverTexture;
 	vec2 origin;
 	unsigned numWidth;
 	unsigned numHeight;

@@ -22,6 +22,8 @@ void Tile::InitializeTile(int _tileID, vec2 _pos, vec3 _gridPos, unsigned _tileW
 	SetTileWidth(_tileWidth);
 	SetTileHeight(_tileHeight);
 	SetIsHighlighted(false); //Test boolean
+	SetIsHovered(false);
+	SetIsSelected(false);
 	SetCharacter(NULL);
 }
 
@@ -85,6 +87,11 @@ bool Tile::GetIsSelected() const
 	return isSelected;
 }
 
+bool Tile::GetIsHovered() const
+{
+	return isHovered;
+}
+
 void Tile::SetTileID(int num)
 {
 	tileID = num;
@@ -129,6 +136,11 @@ void Tile::SetIsHighlighted(bool value)
 void Tile::SetIsSelected(bool value)
 {
 	isSelected = value;
+}
+
+void Tile::SetIsHovered(bool value)
+{
+	isHovered = value;
 }
 
 void Tile::SetCharacter(Character* _character)
