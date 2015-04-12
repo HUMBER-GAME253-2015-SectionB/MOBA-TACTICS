@@ -5,6 +5,7 @@ Last Updated 04/07
 
 #include "stdafx.h"
 #include "Login.h"
+#include "Team.h"
 
 fstream loginInfo;
 
@@ -130,8 +131,22 @@ string Login::Encrypt(string str)
 	return str;
 }
 
-string Login::Defend(int unit)// may require userID as well?
+string Login::Defend(Character Defender)// may require userID as well?
 {
+
+
+	if (Defender.currDef >= Defender.maxDef)
+	{
+		Defender.currDef = Defender.maxDef;
+
+	}
+	else
+	{
+		Defender.currDef += Defender.curAP;
+		Defender.curAP = 0;
+		Defender.active = false;
+
+	}
 	//how to get user info from team manager
 
 	//add ap to currentDef
