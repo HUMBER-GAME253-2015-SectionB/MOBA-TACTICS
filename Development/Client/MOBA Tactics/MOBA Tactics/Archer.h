@@ -7,6 +7,7 @@
 
 class Archer : public Character
 {
+public:
 	Archer(char *spritePath, int row, int col, SDL_Renderer *ren)
 		: Character(spritePath, row, col, 70, 10, 6, 5, 4, 2, 0, 1, 0, ren) {}
 };

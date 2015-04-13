@@ -109,6 +109,7 @@
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archer.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonHandler.h" />
     <ClInclude Include="Camera.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerState.h" />
     <ClInclude Include="Profile.h" />
+    <ClInclude Include="Rogue.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneHandler.h" />
     <ClInclude Include="SceneState.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />
     <ClInclude Include="tinyxml2.h" />
+    <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

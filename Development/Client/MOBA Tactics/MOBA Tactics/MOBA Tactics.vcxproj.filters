@@ -252,16 +252,16 @@
     <ClInclude Include="CharacterState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Archer.h">
-      <Filter>Header Files\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Rogue.h">
+    <ClInclude Include="Character.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Warrior.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
+    <ClInclude Include="Archer.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Rogue.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
   </ItemGroup>

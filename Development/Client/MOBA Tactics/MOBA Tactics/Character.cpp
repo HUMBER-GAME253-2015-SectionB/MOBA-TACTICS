@@ -447,7 +447,8 @@ void Character::SetCharacterState(CharacterState charState)
 	}
 
 	if (GetPrevCharacterState() == CharacterState::MOVEMENT_SELECTED
-		|| GetPrevCharacterState() == CharacterState::ATTACK_CONFIRMATION)
+		|| GetPrevCharacterState() == CharacterState::ATTACK_CONFIRMATION
+		|| (GetPrevCharacterState() == CharacterState::ATTACK_SELECTED && charState == CharacterState::IDLE))
 		TILEMAP->ResetHighlights();
 
 	PrintMenu();

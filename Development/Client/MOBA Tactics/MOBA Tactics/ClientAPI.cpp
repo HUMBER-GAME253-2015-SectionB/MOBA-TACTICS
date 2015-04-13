@@ -9,6 +9,9 @@
 #include "Camera.h"
 #include "Profile.h"
 #include "Player.h"
+#include "Archer.h"
+#include "Warrior.h"
+#include "Rogue.h"
 
 SDL_Window* ClientAPI::mainWindow = NULL;
 SDL_Renderer* ClientAPI::mainRenderer = NULL;
@@ -221,6 +224,21 @@ Character* ClientAPI::createCharacterStats(char* spritePath, int row, int col, i
 	Character* tempCharacter = new Character(spritePath, row, col, _maxHealth, _actionPoints,
 		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
 	return tempCharacter;
+}
+
+Character* ClientAPI::createRogue(char *spritePath, int row, int col)
+{
+	return new Rogue(spritePath, row, col, mainRenderer);
+}
+
+Character* ClientAPI::createArcher(char *spritePath, int row, int col)
+{
+	return new Archer(spritePath, row, col, mainRenderer);
+}
+
+Character* ClientAPI::createWarrior(char *spritePath, int row, int col)
+{
+	return new Warrior(spritePath, row, col, mainRenderer);
 }
 
 void ClientAPI::addPlayer()

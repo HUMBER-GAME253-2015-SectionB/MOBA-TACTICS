@@ -36,18 +36,32 @@ void Scene::LoadContent()
 	CAMERA->SetPosition(vec2(100, 100));
 
 	Character *tmpChar0, *tmpChar1, *tmpChar2, *tmpChar3, *tmpChar4, *tmpChar5;
-	tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", 6, 6);
+	//tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", 6, 6);
+	//ClientAPI::addCharacter(tmpChar0, 0);
+	//tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 1);
+	//ClientAPI::addCharacter(tmpChar1, 0);
+	//tmpChar2 = ClientAPI::createCharacter("../Assets/Images/Character.png", 1, 0);
+	//ClientAPI::addCharacter(tmpChar2, 0);
+
+	//tmpChar3 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 8, 8);
+	//ClientAPI::addCharacter(tmpChar3, 1);
+	//tmpChar4 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 8, 7);
+	//ClientAPI::addCharacter(tmpChar4, 1);
+	//tmpChar5 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 7, 8);
+	//ClientAPI::addCharacter(tmpChar5, 1);
+
+	tmpChar0 = ClientAPI::createArcher("../Assets/Images/bArcher.png", 6, 6);
 	ClientAPI::addCharacter(tmpChar0, 0);
-	tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 1);
+	tmpChar1 = ClientAPI::createRogue("../Assets/Images/bRogue.png", 0, 1);
 	ClientAPI::addCharacter(tmpChar1, 0);
-	tmpChar2 = ClientAPI::createCharacter("../Assets/Images/Character.png", 1, 0);
+	tmpChar2 = ClientAPI::createWarrior("../Assets/Images/bWarrior.png", 1, 0);
 	ClientAPI::addCharacter(tmpChar2, 0);
 
-	tmpChar3 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 8, 8);
+	tmpChar3 = ClientAPI::createArcher("../Assets/Images/rArcher.png", 8, 8);
 	ClientAPI::addCharacter(tmpChar3, 1);
-	tmpChar4 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 8, 7);
+	tmpChar4 = ClientAPI::createRogue("../Assets/Images/rRogue.png", 8, 7);
 	ClientAPI::addCharacter(tmpChar4, 1);
-	tmpChar5 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 7, 8);
+	tmpChar5 = ClientAPI::createWarrior("../Assets/Images/rWarrior.png", 7, 8);
 	ClientAPI::addCharacter(tmpChar5, 1);
 
 	tmp1 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, minBound.y));
