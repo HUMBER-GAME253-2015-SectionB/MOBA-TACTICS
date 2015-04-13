@@ -20,7 +20,7 @@ public:
 	static void EditTeam(int client, int team, char one, char two, char three);
 
 	//Create a new Character
-	Character CreateCharacter(char typem);
+	static Character CreateCharacter(char typem);
 
 	//Clean up
 	static void DeleteTeam(int team);
@@ -28,10 +28,10 @@ public:
 private: 
 
 	//Team Object holder
-	std::vector<Team> _TeamCaps;
+	static std::vector<Team> _TeamCaps;
 
 	//Character object holder
-	std::vector<Character> _CharCaps;
+	static std::vector<Character> _CharCaps;
 
 };
 
