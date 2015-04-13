@@ -37,7 +37,7 @@ Character::Character(char *spritePath, int row, int col, int _maxHealth, int _ac
 
 void Character::Initialize(char *spritePath, ITile *onTile, SDL_Renderer *ren)
 {
-	Initialize(spritePath, onTile, 100, 5, 10, 10, 4, 1, 0, 0, 0, ren); //Can change later for balance
+	Initialize(spritePath, onTile, 100, 5, 10, 10, 4, 1, 0, 1, 0, ren); //Can change later for balance
 }
 
 void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int _actionPoints,
