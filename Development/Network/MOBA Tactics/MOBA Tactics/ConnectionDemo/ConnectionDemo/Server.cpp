@@ -10,6 +10,8 @@ Server::Server(unsigned int portGiven, unsigned int bufferSizeGiven, unsigned in
 	// Create the items nessecary for a server 
 	// as well as open the servers Socket for client connections.
 
+	debug = true;
+
 	port = portGiven;
 	bufferSize = bufferSizeGiven;
 	maxSockets = maxSocketAllowed;
@@ -33,9 +35,51 @@ Server::Server(unsigned int portGiven, unsigned int bufferSizeGiven, unsigned in
 	}
 
 	// For error checking place code below as an int and check for it.
-	SDLNet_ResolveHost(&serverIP, NULL, port);
+	int hostResolved = SDLNet_ResolveHost(&serverIP, NULL, port);
+	
+	if (hostResolved == -1)
+	{
+		string msg = "Failed to open the server socket: ";
+		msg += SDLNet_GetError();
 
+		SocketException e(msg);
+		throw e;
+	}
+	else // If we resolved the host successfully, output the details
+	{
+		if (debug)
+		{
+			// Get our IP address in proper dot-quad format by breaking up the 32-bit unsigned
+			// host address and splitting it into an array of four 8-bit unsigned numbers...
+			Uint8 * dotQuad = (Uint8*)&serverIP.host;
+
+			dotQuadString = toString((unsigned short)dotQuad[0]);
+			dotQuadString += ".";
+			dotQuadString += toString((unsigned short)dotQuad[1]);
+			dotQuadString += ".";
+			dotQuadString += toString((unsigned short)dotQuad[2]);
+			dotQuadString += ".";
+			dotQuadString += toString((unsigned short)dotQuad[3]);
+
+			//... and then outputting them cast to integers. Then read the last 16 bits of the serverIP object to get the port number
+			cout << "Successfully resolved server host to IP: " << dotQuadString;
+			cout << ", will use port " << SDLNet_Read16(&serverIP.port) << endl;
+		}
+	}
 	serverSocket = SDLNet_TCP_Open(&serverIP);
+
+	if (!serverSocket)
+	{
+		string msg = "Failed to open the server socket: ";
+		msg += SDLNet_GetError();
+
+		SocketException e(msg);
+		throw e;
+	}
+	else
+	{
+		if (debug) { cout << "Sucessfully created server socket." << endl; }
+	}
 
 	SDLNet_TCP_AddSocket(socketSet, serverSocket);
 }

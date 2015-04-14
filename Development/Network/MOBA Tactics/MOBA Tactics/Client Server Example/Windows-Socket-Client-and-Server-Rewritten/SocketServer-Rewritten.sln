@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SocketServer-Rewritten", "SocketServer-Rewritten\SocketServer-Rewritten.vcxproj", "{A0B3AB8D-932F-4236-B702-D1F60B7172E3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SocketClient-Rewritten", "SocketClient-Rewritten\SocketClient-Rewritten.vcxproj", "{6E5701F8-4FE8-4B08-B92E-8CD36BF3211F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0B3AB8D-932F-4236-B702-D1F60B7172E3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A0B3AB8D-932F-4236-B702-D1F60B7172E3}.Debug|Win32.Build.0 = Debug|Win32
+		{A0B3AB8D-932F-4236-B702-D1F60B7172E3}.Release|Win32.ActiveCfg = Release|Win32
+		{A0B3AB8D-932F-4236-B702-D1F60B7172E3}.Release|Win32.Build.0 = Release|Win32
+		{6E5701F8-4FE8-4B08-B92E-8CD36BF3211F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6E5701F8-4FE8-4B08-B92E-8CD36BF3211F}.Debug|Win32.Build.0 = Debug|Win32
+		{6E5701F8-4FE8-4B08-B92E-8CD36BF3211F}.Release|Win32.ActiveCfg = Release|Win32
+		{6E5701F8-4FE8-4B08-B92E-8CD36BF3211F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

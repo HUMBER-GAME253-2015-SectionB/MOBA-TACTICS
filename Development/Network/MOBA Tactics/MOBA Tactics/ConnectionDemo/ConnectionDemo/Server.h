@@ -3,11 +3,14 @@
 #include <sstream>
 #include "SDL_net.h"
 
+#include "SocketException.h"
+
 using namespace std;
 
 class Server
 {
 	private:
+		bool debug;
 
 		unsigned int port; // The port number
 		unsigned int bufferSize; // Size of message to be sent over
@@ -16,6 +19,7 @@ class Server
 	
 		IPaddress serverIP;  // The IP of the socket server 
 		TCPsocket serverSocket; // The Server socket.
+		string dotQuadString;  // The IP address of the server as a dot-quad string i.e. "127.0.0.1"
 
 		TCPsocket *clientSocket; // points to array 
 		bool *socketIsFree; // points to array telling us if connected or not.
@@ -43,3 +47,12 @@ class Server
 		void sendData(string dataToSend);
 
 };
+
+// Template function to convert anything to a string
+template<class T>
+std::string toString(const T& t)
+{
+	std::ostringstream stream;
+	stream << t;
+	return stream.str();
+}

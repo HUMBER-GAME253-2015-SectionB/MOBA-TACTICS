@@ -11,7 +11,7 @@ void thread_1()
 {
 	do{
 		s->connectionThread();
-		cout << "Loop 1" << endl;
+		//cout << "Loop 1" << endl;
 	} while (shutDown != true);
 }
 
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 		activeClient = -1;
 		do{
 			activeClient = s->checkForActivity(); // ActiveClient is the client number
-			cout << "Loop 2" << endl;
+			//cout << "Loop 2" << endl;
 			if (activeClient != -1)
 			{
 				message = s->storeActivity(activeClient);
@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
 			}
 
 		} while (activeClient != -1);
+
 	} while (shutDown != true);
 	
 	getchar();

@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Server.h" />
+    <ClInclude Include="SocketException.h" />
     <ClInclude Include="Thread.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

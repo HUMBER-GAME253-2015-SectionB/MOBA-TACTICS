@@ -5,7 +5,7 @@ const std::string  Client::SERVER_NOT_FULL			= "OK";			// Server's response when
 const std::string  Client::SERVER_FULL				= "FULL";		// Server's response when there are not free spots, so a client cannot join
 const std::string  Client::SHUTDOWN_SIGNAL			= "/shutdown";	// What you type to shutdown server (a command)
 const std::string  Client::QUIT_SIGNAL				= "/quit";		// What you type to shutdown the client (a command)
-const unsigned int Client::CONNECTION_TIMEOUT_PERIOD= 5000;			// 5 second connection timeout
+const unsigned int Client::CONNECTION_TIMEOUT_PERIOD= 10000;		// (10000ms) 10 second connection timeout
 const unsigned int Client::SOCKET_SET_POLL_PERIOD	= 10;			// 10ms, so poll 100 times/second
 
 // Client constructor
@@ -83,7 +83,7 @@ void Client::connectToServer()
 
 		dotQuadString  = toString((unsigned short)dotQuad[0]);
 		dotQuadString += ".";
-		dotQuadString  = toString((unsigned short)dotQuad[2]);
+		dotQuadString  = toString((unsigned short)dotQuad[1]);
 		dotQuadString += ".";
 		dotQuadString  = toString((unsigned short)dotQuad[2]);
 		dotQuadString += ".";
