@@ -24,7 +24,7 @@ void Scene::Init()
 
 void Scene::LoadContent()
 {
-	ClientAPI::tileMap = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(700, 300), 1, "../Assets/Images/HighlightTile.png", "../Assets/Images/HoverTile.png");
+	ClientAPI::tileMap = ClientAPI::createMap("../Assets/XML_Files/IsoMap.tmx", vec2(700, 100), 1, "../Assets/Images/HighlightTile.png", "../Assets/Images/HoverTile.png");
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(400, 100), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	//tiles = new TileMap("../Assets/XML_Files/IsoMap.tmx", vec2(0, 0), "../Assets/Images/HighlightTile.png", ClientAPI::mainRenderer);
 	TILEMAP->SetHighlightColor(255, 0, 0);
@@ -50,18 +50,18 @@ void Scene::LoadContent()
 	//tmpChar5 = ClientAPI::createCharacter("../Assets/Images/Character2.png", 7, 8);
 	//ClientAPI::addCharacter(tmpChar5, 1);
 
-	tmpChar0 = ClientAPI::createArcher("../Assets/Images/bArcher.png", 6, 6);
+	tmpChar0 = ClientAPI::createArcher("../Assets/Images/bArcher.png", 1, 0);
 	ClientAPI::addCharacter(tmpChar0, 0);
 	tmpChar1 = ClientAPI::createRogue("../Assets/Images/bRogue.png", 0, 1);
 	ClientAPI::addCharacter(tmpChar1, 0);
-	tmpChar2 = ClientAPI::createWarrior("../Assets/Images/bWarrior.png", 1, 0);
+	tmpChar2 = ClientAPI::createWarrior("../Assets/Images/bWarrior.png", 0, 0);
 	ClientAPI::addCharacter(tmpChar2, 0);
 
-	tmpChar3 = ClientAPI::createArcher("../Assets/Images/rArcher.png", 8, 8);
+	tmpChar3 = ClientAPI::createArcher("../Assets/Images/rArcher.png", 20, 19);
 	ClientAPI::addCharacter(tmpChar3, 1);
-	tmpChar4 = ClientAPI::createRogue("../Assets/Images/rRogue.png", 8, 7);
+	tmpChar4 = ClientAPI::createRogue("../Assets/Images/rRogue.png", 19, 20);
 	ClientAPI::addCharacter(tmpChar4, 1);
-	tmpChar5 = ClientAPI::createWarrior("../Assets/Images/rWarrior.png", 7, 8);
+	tmpChar5 = ClientAPI::createWarrior("../Assets/Images/rWarrior.png", 20, 20);
 	ClientAPI::addCharacter(tmpChar5, 1);
 
 	tmp1 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, minBound.y));
