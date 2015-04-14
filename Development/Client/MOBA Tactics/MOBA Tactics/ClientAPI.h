@@ -36,6 +36,7 @@ class TileMap;
 class Rogue;
 class Archer;
 class Warrior;
+class Enemy;
 
 #define CAMERA ((Camera*)ClientAPI::camera)
 #define TILEMAP ((TileMap*)ClientAPI::tileMap)
@@ -115,6 +116,8 @@ public:
 	static Character* createRogue(char *spritePath, int row, int col);
 	static Character* createArcher(char *spritePath, int row, int col);
 	static Character* createWarrior(char *spritePath, int row, int col);
+	static Character* createEnemy(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
+		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
 
 	static void addPlayer();
 	static void addCharacter(Character*, int);

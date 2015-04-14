@@ -19,6 +19,7 @@ void Scene::Init()
 	//camera = new Camera(ClientAPI::mainRenderer, vec2(0, 0), 1024, 768); 
 	ClientAPI::addPlayer();
 	ClientAPI::addPlayer();
+	ClientAPI::addPlayer();
 	ClientAPI::SetCurrentPlayer((int)PlayerState::PLAYER_ONE);
 }
 
@@ -36,6 +37,7 @@ void Scene::LoadContent()
 	CAMERA->SetPosition(vec2(100, 100));
 
 	Character *tmpChar0, *tmpChar1, *tmpChar2, *tmpChar3, *tmpChar4, *tmpChar5;
+	Character *enemy1, *enemy2, *enemy3, *enemy4;
 	//tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", 6, 6);
 	//ClientAPI::addCharacter(tmpChar0, 0);
 	//tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 1);
@@ -63,6 +65,15 @@ void Scene::LoadContent()
 	ClientAPI::addCharacter(tmpChar4, 1);
 	tmpChar5 = ClientAPI::createWarrior("../Assets/Images/rWarrior.png", 20, 20);
 	ClientAPI::addCharacter(tmpChar5, 1);
+
+	enemy1 = ClientAPI::createEnemy("../Assets/Images/mob1.png", 2, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	ClientAPI::addCharacter(enemy1, 2);
+	enemy2 = ClientAPI::createEnemy("../Assets/Images/mob2.png", 10, 2, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	ClientAPI::addCharacter(enemy2, 2);
+	enemy3 = ClientAPI::createEnemy("../Assets/Images/mob3.png", 18, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	ClientAPI::addCharacter(enemy3, 2);
+	enemy4 = ClientAPI::createEnemy("../Assets/Images/mob4.png", 10, 18, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	ClientAPI::addCharacter(enemy4, 2);
 
 	tmp1 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, minBound.y));
 	CAMERA->AddToDrawList(tmp1);

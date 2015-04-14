@@ -12,6 +12,7 @@
 #include "Archer.h"
 #include "Warrior.h"
 #include "Rogue.h"
+#include "Enemy.h"
 
 SDL_Window* ClientAPI::mainWindow = NULL;
 SDL_Renderer* ClientAPI::mainRenderer = NULL;
@@ -239,6 +240,13 @@ Character* ClientAPI::createArcher(char *spritePath, int row, int col)
 Character* ClientAPI::createWarrior(char *spritePath, int row, int col)
 {
 	return new Warrior(spritePath, row, col, mainRenderer);
+}
+
+Character* ClientAPI::createEnemy(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
+	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints)
+{
+	return new Enemy(spritePath, row, col, _maxHealth, _actionPoints,
+		_attackPower, _defense, _range, _speed, _experience, _level, _skillPoints, mainRenderer);
 }
 
 void ClientAPI::addPlayer()

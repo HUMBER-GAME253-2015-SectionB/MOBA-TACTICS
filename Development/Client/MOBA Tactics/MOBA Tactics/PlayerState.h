@@ -6,5 +6,6 @@
 enum class PlayerState
 {
 	PLAYER_ONE = 0,
-	PLAYER_TWO = 13 
+	PLAYER_TWO = 1,
+	AI = 2,
 };
