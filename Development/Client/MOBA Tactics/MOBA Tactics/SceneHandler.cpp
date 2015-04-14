@@ -208,6 +208,12 @@ void SceneHandler::HandleEventKeyUp(unsigned key)
 
 }
 
+void SceneHandler::HandleEventMouseDragging(SDL_MouseMotionEvent motion)
+{
+	float scale = CAMERA->GetScale();
+	CAMERA->MoveCamera(vec2(motion.xrel * scale, motion.yrel * scale));
+}
+
 void SceneHandler::HandleEventMouseWheel(SDL_MouseWheelEvent mwheel)
 {
 	if (mwheel.y > 0)

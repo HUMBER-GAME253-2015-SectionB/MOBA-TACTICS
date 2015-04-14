@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		3/10/2015(NH),	4/12/2015(NH)
+//Date:		3/10/2015(NH),	4/12/2015(NH),	4/13/2015(NH)
 
 #pragma once
 
@@ -17,6 +17,7 @@ private:
 	vec2 prevSelectedTile;
 	vec2 prevHoveredTile;
 	Character *attackTarget;
+	bool isMouseDragging;
 public:
 	static SceneHandler& GetInstance();
 	void HandleEventMouseDown(int x, int y);
@@ -24,5 +25,6 @@ public:
 	void HandleEventMouseHover(int x, int y);
 	void HandleEventKeyDown(unsigned key);
 	void HandleEventKeyUp(unsigned key);
+	void HandleEventMouseDragging(SDL_MouseMotionEvent);
 	void HandleEventMouseWheel(SDL_MouseWheelEvent mwheel);
 };

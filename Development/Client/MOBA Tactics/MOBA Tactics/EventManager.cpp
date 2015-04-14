@@ -58,6 +58,15 @@ void EventManager::ManageEvents(SDL_Event *event)
 		}
 	}
 
+	//Check for drag and drop
+	if (event->type == SDL_MOUSEMOTION 
+		&& event->motion.state == SDL_BUTTON_LMASK
+		&& (event->motion.xrel != 0 || event->motion.yrel != 0))
+	{
+		if (Game::gameStateManager.GetGameState() == GameState::SCENE)
+			sceneHandler.HandleEventMouseDragging(event->motion);
+	}
+
 	//Check for mouse movement
 	if (PreviousMouseX != MouseX ||
 		PreviousMouseY != MouseY)
