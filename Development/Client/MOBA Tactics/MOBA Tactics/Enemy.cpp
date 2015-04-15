@@ -34,11 +34,10 @@ void Enemy::SetRoamingPath(vector<vec2> path)
 bool Enemy::IsATargetInAttackRange()
 {
 	//Causing errors, where there's always a target in attack range.
-	vector<vec2> atkTiles = GetAttackTiles();
+	vector<vec2> atkTiles;// = GetAttackTiles();
 	for (int i = 0; i < atkTiles.size(); i++)
 	{
-		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL
-			&& GetTileGridPositionVec2() != atkTiles[i])
+		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL)
 			return true;
 	}
 	return false;
@@ -49,8 +48,7 @@ vec2 Enemy::GetAttackTargetLocation()
 	vector<vec2> atkTiles = GetAttackTiles();
 	for (int i = 0; i < atkTiles.size(); i++)
 	{
-		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL
-			&& GetTileGridPositionVec2() != atkTiles[i])
+		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL)
 			return atkTiles[i];
 	}
 	return vec2(-1, -1); //Return impossible tilemap location, if not found
