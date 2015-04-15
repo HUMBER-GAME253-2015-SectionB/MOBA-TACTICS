@@ -1,9 +1,10 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015
+//Date:		4/14/2015,	4/15/2015(NG)
 
 #pragma once
 
 #include "Enemy.h"
+#include "TileMap.h"
 
 Enemy::Enemy(char *spritePath, int row, int col, SDL_Renderer *ren)
 : Character(spritePath, row, col, 50, 10, 4, 3, 1, 5, 0, 1, 0, ren)
@@ -30,10 +31,34 @@ void Enemy::SetRoamingPath(vector<vec2> path)
 	roamingPath = path;
 }
 
+bool Enemy::IsATargetInAttackRange()
+{
+	//Causing errors, where there's always a target in attack range.
+	vector<vec2> atkTiles;// = GetAttackTiles();
+	for (int i = 0; i < atkTiles.size(); i++)
+	{
+		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL)
+			return true;
+	}
+	return false;
+}
+
+vec2 Enemy::GetAttackTargetLocation()
+{
+	vector<vec2> atkTiles = GetAttackTiles();
+	for (int i = 0; i < atkTiles.size(); i++)
+	{
+		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL)
+			return atkTiles[i];
+	}
+	return vec2(-1, -1); //Return impossible tilemap location, if not found
+}
+
 void Enemy::MovementPhase()
 {
 	int size = roamingPath.size();
 	vec2 targetPosition;
+	SetEnemyState(EnemyState::MOVING);
 
 	if (size > 0)
 	{
@@ -62,7 +87,20 @@ void Enemy::MovementPhase()
 	}
 	else
 	{
-		SetCharacterState(CharacterState::SELECTED);
+		SetEnemyState(EnemyState::TURN_COMPLETED);
+	}
+}
+
+void Enemy::Update()
+{
+	Character::Update();
+
+	if (GetEnemyState() == EnemyState::MOVING)
+	{
+		if (GetCharacterState() == CharacterState::SELECTED)
+		{
+			SetEnemyState(EnemyState::ATTACK_PHASE2);
+		}
 	}
 }
 
@@ -97,4 +135,14 @@ void Enemy::BuildRoamingPath(vec2 start, vec2 end)
 		}
 	}
 	SetRoamingPath(path);
+}
+
+EnemyState Enemy::GetEnemyState()
+{
+	return enemyState;
+}
+
+void Enemy::SetEnemyState(EnemyState eState)
+{
+	enemyState = eState;
 }

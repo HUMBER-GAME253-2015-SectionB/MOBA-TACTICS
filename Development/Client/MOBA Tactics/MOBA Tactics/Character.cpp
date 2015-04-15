@@ -505,7 +505,6 @@ void Character::SetCharacterState(CharacterState charState)
 	{
 		if (GetCurrentActionPoints() >= 2)
 		{
-			UpdateAttackTiles();
 			vector<vec2> atkRange = GetAttackTiles();
 			for (int i = 0; i < atkRange.size(); i++)
 				TILEMAP->GetTileAt(atkRange[i].x, atkRange[i].y)->SetIsHighlighted(true);
@@ -518,7 +517,6 @@ void Character::SetCharacterState(CharacterState charState)
 	{
 		if (GetCurrentActionPoints() >= 1)
 		{
-			UpdateMovementTiles();
 			vector<vec2> moveRange = GetMovementTiles();
 			for (int i = 0; i < moveRange.size(); i++)
 				TILEMAP->GetTileAt(moveRange[i].x, moveRange[i].y)->SetIsHighlighted(true);
@@ -853,11 +851,13 @@ void Character::UpdateAttackTiles()
 
 vector<vec2> Character::GetMovementTiles()
 {
+	UpdateMovementTiles();
 	return movementTiles;
 }
 
 vector<vec2> Character::GetAttackTiles()
 {
+	UpdateAttackTiles();
 	return attackTiles;
 }
 

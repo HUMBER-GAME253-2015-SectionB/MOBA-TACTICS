@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015(NH)
+//Date:		4/14/2015(NH),	4/15/2015(NG)
 
 #pragma once
 
@@ -12,7 +12,6 @@ class PlayerAI
 public:
 	PlayerAI();
 
-	void MovementPhase();
 	void AttackPhase();
 	void Update();
 
@@ -33,11 +32,19 @@ public:
 
 	bool IsCharacterInTeam(Enemy*);
 
-	bool isAIMakingMoves;
+	//Related to setting states
+	bool GetIsAIMakingMoves();
+
+	void SetIsAIMakingMoves(bool);
+
 private:
 	vector<Enemy *> characters;
 	bool isCharacterSelected;
 	int currentActiveChar;
+
+	double attackStart;
+
+	bool isAIMakingMoves;
 
 	void SetCharactersToIdle();
 };

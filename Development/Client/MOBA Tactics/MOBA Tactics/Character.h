@@ -1,4 +1,4 @@
-//Author:	Nicholas Higa
+ //Author:	Nicholas Higa
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 4/8/2015(NH)
 //			4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH)
 
@@ -105,6 +105,10 @@ public:
 	bool IsTileInMovementRange(vec2);
 	bool IsTileInAttackRange(vec2);
 
+	//Methods and fields related to showing movement/attack range
+	vector<vec2> GetMovementTiles();
+	vector<vec2> GetAttackTiles();
+
 	//Methods related to printing menu
 	void PrintMenu();
 	void PrintStats();
@@ -144,10 +148,6 @@ private:
 	vec2 velocity;
 	ITile* targetTile;
 	queue<ITile *> movementPath;
-
-	//Methods and fields related to showing movement/attack range
-	vector<vec2> GetMovementTiles();
-	vector<vec2> GetAttackTiles();
 
 	void SetMovementTiles(vector<vec2>);
 	void SetAttackTiles(vector<vec2>);

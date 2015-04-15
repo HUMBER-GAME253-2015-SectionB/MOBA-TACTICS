@@ -122,10 +122,6 @@ void SceneHandler::HandleEventMouseUp(int x, int y)
 
 void SceneHandler::HandleEventMouseHover(int x, int y)
 {
-	Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
-	Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
-	CharacterState currentState = currentCharacter->GetCharacterState();
-
 	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale()))
 	{
 		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), CAMERA->GetScale());

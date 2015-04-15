@@ -124,7 +124,7 @@ void Scene::Update()
 	}
 	else
 	{
-		if (ClientAPI::computer->isAIMakingMoves)
+		if (ClientAPI::computer->GetIsAIMakingMoves())
 			ClientAPI::computer->Update();
 		else
 		{

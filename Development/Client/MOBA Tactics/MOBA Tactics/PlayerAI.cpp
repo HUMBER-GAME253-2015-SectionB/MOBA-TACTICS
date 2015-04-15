@@ -1,37 +1,56 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015(NG)
+//Date:		4/14/2015(NH),	4/15/2015(NG)
 
 #include "PlayerAI.h"
+#include "TileMap.h"
 
 PlayerAI::PlayerAI()
 {
-	isAIMakingMoves = false;
-}
-
-void PlayerAI::MovementPhase()
-{
-	vector<Enemy*> chars = GetCharacterList();
+	SetIsAIMakingMoves(false);
 }
 
 void PlayerAI::AttackPhase()
 {
-
+	Enemy* currEnemy = GetCurrentActiveChar();
+	vec2 targetLocation = currEnemy->GetAttackTargetLocation();
+	currEnemy->Attack(TILEMAP->GetTileAt(targetLocation.x, targetLocation.y)->GetCharacter());
+	currEnemy->SetEnemyState(EnemyState::TURN_COMPLETED);
 }
 
 void PlayerAI::Update()
 {
-	if (isAIMakingMoves)
+	if (GetIsAIMakingMoves())
 	{
 		vector<Enemy*> chars = GetCharacterList();
 		for (int i = 0; i < chars.size(); i++)
 			chars[i]->Update();
 
 		Enemy* currEnemy = GetCurrentActiveChar();
-		if (currEnemy->GetCharacterState() == CharacterState::IDLE)
+		if (currEnemy->GetEnemyState() == EnemyState::TURN_STARTED)
+		{
+			currEnemy->SetEnemyState(EnemyState::ATTACK_PHASE1);
+		}
+		else if (currEnemy->GetEnemyState() == EnemyState::ATTACK_PHASE1)
+		{	
+			if (currEnemy->IsATargetInAttackRange())
+				AttackPhase();
+			else
+				currEnemy->SetEnemyState(EnemyState::MOVEMENT_PHASE);
+		}
+		//If a target was attacked in first phase, don't move so the enemy is still in attack range
+		else if (currEnemy->GetEnemyState() == EnemyState::MOVEMENT_PHASE)
 		{
 			currEnemy->MovementPhase();
 		}
-		else if (currEnemy->GetCharacterState() == CharacterState::SELECTED)
+		//If a target was already attacked, dont attack again.
+		else if (currEnemy->GetEnemyState() == EnemyState::ATTACK_PHASE2)
+		{
+			if (currEnemy->IsATargetInAttackRange())
+				AttackPhase();
+			else
+				currEnemy->SetEnemyState(EnemyState::TURN_COMPLETED);
+		}
+		else if (currEnemy->GetEnemyState() == EnemyState::TURN_COMPLETED)
 		{
 			CycleToNextCharacter();
 		}
@@ -45,13 +64,12 @@ void PlayerAI::AddCharacter(Enemy* character)
 
 void PlayerAI::StartTurn()
 {
-	isAIMakingMoves = true;
+	SetIsAIMakingMoves(true);
 	SetCurrentActiveChar(0);
 	vector<Enemy*> chars = GetCharacterList();
 	for (int i = 0; i < chars.size(); i++)
 	{
-		if (chars[i]->GetCharacterState() == CharacterState::DEFENDING)
-			chars[i]->SetCharacterState(CharacterState::IDLE);
+		chars[i]->SetEnemyState(EnemyState::TURN_STARTED);
 		chars[i]->ResetDefense();
 
 		if (ClientAPI::turnNumber - chars[i]->GetDiedOnTurnNumber() >= 2
@@ -75,7 +93,7 @@ void PlayerAI::CycleToNextCharacter()
 	{
 		currentActiveChar++;
 		if (currentActiveChar >= characters.size())
-			isAIMakingMoves = false;
+			SetIsAIMakingMoves(false);
 	}
 }
 
@@ -162,3 +180,12 @@ bool PlayerAI::IsCharacterInTeam(Enemy* _character)
 	return false;
 }
 
+bool PlayerAI::GetIsAIMakingMoves()
+{
+	return isAIMakingMoves;
+}
+
+void PlayerAI::SetIsAIMakingMoves(bool val)
+{
+	isAIMakingMoves = val;
+}

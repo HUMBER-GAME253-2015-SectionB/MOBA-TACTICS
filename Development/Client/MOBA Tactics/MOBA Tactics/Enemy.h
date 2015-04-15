@@ -1,9 +1,11 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015
+//Date:		4/14/2015,	4/15/2015(NG)
 
 #pragma once
 
 #include "Character.h"
+#include "ClientAPI.h"
+#include "EnemyState.h"
 
 class Enemy : public Character
 {
@@ -16,12 +18,21 @@ public:
 	vector<vec2> GetRoamingPath();
 	void SetRoamingPath(vector<vec2>);
 
-	void MovementPhase();
+	bool IsATargetInAttackRange();
+	vec2 GetAttackTargetLocation();
+
 	void AttackPhase();
+	void MovementPhase();
 	void BuildRoamingPath(vec2 start, vec2 end);
+
+	EnemyState GetEnemyState();
+	void SetEnemyState(EnemyState);
+
+	void Update();
 
 private:
 	vector<vec2> roamingPath;
 	bool movingUp;
 	int pathIndex;
+	EnemyState enemyState;
 };

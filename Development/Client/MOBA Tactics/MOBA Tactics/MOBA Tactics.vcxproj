@@ -119,6 +119,7 @@
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="ClientAPI.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GUIElement.h" />
