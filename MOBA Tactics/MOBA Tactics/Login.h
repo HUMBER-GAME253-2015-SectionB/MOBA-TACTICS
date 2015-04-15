@@ -16,8 +16,8 @@ public:
 	string TryLogin(string name, string pass);
 	string CreateNewUser(string name, string pass);
 	bool CheckConnection(); // temp storage?
-	string Defend(int unit); // temp storage
-	
+	string Defend(Character Defender); // temp storage
+	string Attack(Character Attacker, int x, int y);
 private:
 	bool ConfirmUser(string name, string pass);
 	string Encrypt(string pass);

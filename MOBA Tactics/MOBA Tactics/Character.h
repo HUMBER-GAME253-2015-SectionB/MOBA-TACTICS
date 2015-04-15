@@ -19,8 +19,10 @@ public:
 
 	int maxAP;
 	int curAP;
+
+
 	 
-	int akt;
+	int atk;
 
 	int maxDef;
 	int currDef;

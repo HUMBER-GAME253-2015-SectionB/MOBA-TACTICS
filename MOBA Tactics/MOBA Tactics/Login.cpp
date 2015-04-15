@@ -162,3 +162,14 @@ string Login::Defend(Character Defender)// may require userID as well?
 
 	return "char#/defending/newDef#/if/client/doesnt/want/to/calc/it/";
 }
+
+std::string Login::Attack(Character Attacker, int x, int y)
+{
+	//get value of the attacker 
+	//find the object on the (x,y) 
+	//find the defense of the object
+	//subtract the attack by defense 
+	//the remaining subtract that from the health
+	
+	
+}
