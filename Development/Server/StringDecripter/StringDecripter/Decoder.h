@@ -1,3 +1,5 @@
+//Coded by Marc-ANtoine Lavoie
+
 #pragma once
 #include <iostream>
 #include <string>
