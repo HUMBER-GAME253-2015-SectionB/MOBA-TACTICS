@@ -47,7 +47,7 @@ Server::Server(unsigned int portGiven, unsigned int bufferSizeGiven, unsigned in
 
 	// For error checking place code below as an int and check for it.
 	int hostResolved = SDLNet_ResolveHost(&serverIP, NULL, port);
-	
+
 	if (hostResolved == -1)
 	{
 		string msg = "Failed to open the server socket: ";
@@ -64,19 +64,21 @@ Server::Server(unsigned int portGiven, unsigned int bufferSizeGiven, unsigned in
 			// host address and splitting it into an array of four 8-bit unsigned numbers...
 			Uint8 *dotQuad = (Uint8*)&serverIP.host;
 
-			dotQuadString = toString( (unsigned short)dotQuad[0] );
+			dotQuadString = toString((unsigned short)dotQuad[0]);
 			dotQuadString += ".";
-			dotQuadString += toString( (unsigned short)dotQuad[1] );
+			dotQuadString += toString((unsigned short)dotQuad[1]);
 			dotQuadString += ".";
-			dotQuadString += toString( (unsigned short)dotQuad[2] );
+			dotQuadString += toString((unsigned short)dotQuad[2]);
 			dotQuadString += ".";
-			dotQuadString += toString( (unsigned short)dotQuad[3] );
+			dotQuadString += toString((unsigned short)dotQuad[3]);
 
 			//... and then outputting them cast to integers. Then read the last 16 bits of the serverIP object to get the port number
 			cout << "Successfully resolved server host to IP: " << dotQuadString;
 			cout << ", will use port " << SDLNet_Read16(&serverIP.port) << endl;
 		}
 	}
+
+
 
 	serverSocket = SDLNet_TCP_Open(&serverIP);
 
@@ -123,15 +125,6 @@ Server::~Server()
 
 void Server::connectionThread()
 {
-	int numActiveSockets = SDLNet_CheckSockets(socketSet, 1);
-
-	if (numActiveSockets != 0)
-	{
-		if (debug) {
-			cout << "There are currently " << numActiveSockets << " socket(s) with data to be processed." << endl;
-		}
-	}
-
 	// Check if there is activity on the server socket. 
 	// If there is no activity don't do anything
 	int checkActivity = SDLNet_SocketReady(serverSocket);
@@ -150,7 +143,7 @@ void Server::connectionThread()
 				{
 					// The socket has a free spot for a client.
 
-					socketIsFree[loop] = false; 
+					socketIsFree[loop] = false;
 					freeSlot = loop; // Save the index.
 					break; // Break out of the for loop
 					// Slot is no longer free because we are placing a client into it.
@@ -158,7 +151,7 @@ void Server::connectionThread()
 			}
 			// Accept the client into the free slot.
 			clientSocket[freeSlot] = SDLNet_TCP_Accept(serverSocket);
-			
+
 			// Add that client to the SocketSet.
 			SDLNet_TCP_AddSocket(socketSet, clientSocket[freeSlot]);
 
@@ -166,12 +159,11 @@ void Server::connectionThread()
 			clientCount++;
 
 			// Send the client a message that they connected.
-			buffer = "OK";
+			buffer = "You have connected to the Server";
 			int bufferLength = strlen(buffer) + 1;
 			// Send the client info that we are full
-			int bytesSent = SDLNet_TCP_Send(clientSocket[freeSlot], buffer, bufferLength);
+			SDLNet_TCP_Send(clientSocket[freeSlot], buffer, bufferLength);
 
-			cout << bytesSent << endl;
 		}
 		else
 		{
@@ -191,23 +183,15 @@ void Server::connectionThread()
 
 int Server::checkForActivity()
 {
-	int numActiveSockets = SDLNet_CheckSockets(socketSet, 1);
-
-	if (numActiveSockets != 0)
-	{
-		if (debug) {
-			cout << "There are currently " << numActiveSockets << " socket(s) with data to be processed." << endl;
-		}
-	}
 	// Loop through the client sockets for activity
 	// This also gives the clientNumber to the Sockets activity.
-	for (unsigned int clientNumber = 0; clientNumber < maxClients; clientNumber++) 
+	for (unsigned int clientNumber = 0; clientNumber < maxClients; clientNumber++)
 	{
 		// returns non-zero for activity. 0 means there is no activity!
 		// If no activity nothing is happening. 
 		// Activity can signify a disconnect as well.
 		int checkSocketActivity = SDLNet_SocketReady(clientSocket[clientNumber]);
-		
+
 		// If there is activity
 		if (checkSocketActivity != 0)
 		{
@@ -236,13 +220,13 @@ int Server::checkForActivity()
 	return -1;
 }
 
-string Server::storeActivity()
+string Server::storeActivity(unsigned int clientNumber)
 {
 	//get the data that was send from client and store it.
 	string dataRecieved = buffer;
 
 	//return it so the server can use the data received.
-	return dataRecieved; 
+	return dataRecieved;
 }
 
 void Server::sendData(string dataToSend)
@@ -250,7 +234,7 @@ void Server::sendData(string dataToSend)
 	// Send message to all other connected clients
 	for (unsigned int loop = 0; loop < maxClients; loop++)
 	{
-		strcpy_s(buffer, sizeof(dataToSend) + 1 ,dataToSend.c_str());
+		strcpy_s(buffer, sizeof(dataToSend)+1, dataToSend.c_str());
 
 		SDLNet_TCP_Send(clientSocket[loop], buffer, bufferSize);
 	}

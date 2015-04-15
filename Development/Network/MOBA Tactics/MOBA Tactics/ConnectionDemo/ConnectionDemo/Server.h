@@ -3,6 +3,7 @@
 #include <sstream>
 #include "SDL_net.h"
 
+
 #include "SocketException.h"
 
 using namespace std;
@@ -41,7 +42,7 @@ class Server
 		int checkForActivity(); 
 
 		// Do something when client is detected, accepting a client to do the activity with.
-		string storeActivity(unsigned int clientNumber);
+		string storeActivity();
 
 
 		void sendData(string dataToSend);

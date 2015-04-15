@@ -82,13 +82,13 @@ void ClientSocket::connectToServer()
 		// and splitting it into an array of four 8-bit unsigned numbers...
 		Uint8 * dotQuad = (Uint8*)&serverIP.host;
 
-		dotQuadString  = toString( (unsigned short)dotQuad[0] );
+		dotQuadString  = toString((unsigned short)dotQuad[0]);
 		dotQuadString += ".";
-		dotQuadString += toString( (unsigned short)dotQuad[1] );
+		dotQuadString += toString((unsigned short)dotQuad[1]);
 		dotQuadString += ".";
-		dotQuadString += toString( (unsigned short)dotQuad[2] );
+		dotQuadString += toString((unsigned short)dotQuad[2]);
 		dotQuadString += ".";
-		dotQuadString += toString( (unsigned short)dotQuad[3] );
+		dotQuadString += toString((unsigned short)dotQuad[3]);
 
 		//... and then outputting them. Then read the last 16 bits of the serverIP object to get the port number
 		if (debug)
@@ -110,7 +110,7 @@ void ClientSocket::connectToServer()
 			}
 		}
 	}
-
+	
 	// Try to open a connection between the client and the server - quit out if we can't connect
 	clientSocket = SDLNet_TCP_Open(&serverIP);
 	if (!clientSocket)

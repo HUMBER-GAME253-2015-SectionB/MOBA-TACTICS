@@ -31,7 +31,7 @@ Client::Client(string theServerAddress, unsigned int theServerPort, unsigned int
 		socketSet = SDLNet_AllocSocketSet(2);
 
 		// If we couldn't create the socket set then throw and exception
-		if (socketSet = NULL)
+		if (socketSet == NULL)
 		{
 			string msg = "Failed to allocate the socket set in Client constructor: ";
 			msg += SDLNet_GetError();
@@ -45,6 +45,7 @@ Client::Client(string theServerAddress, unsigned int theServerPort, unsigned int
 		// Re-throw the ecveption to be dealt with appropriately elsewhere
 		throw e;
 	}
+
 }
 
 // Client destructor
@@ -81,13 +82,13 @@ void Client::connectToServer()
 		// and splitting it into an array of four 8-bit unsigned numbers...
 		Uint8 * dotQuad = (Uint8*)&serverIP.host;
 
-		dotQuadString  = toString((unsigned short)dotQuad[0]);
+		dotQuadString += toString((unsigned short)dotQuad[0]);
 		dotQuadString += ".";
-		dotQuadString  = toString((unsigned short)dotQuad[1]);
+		dotQuadString += toString((unsigned short)dotQuad[1]);
 		dotQuadString += ".";
-		dotQuadString  = toString((unsigned short)dotQuad[2]);
+		dotQuadString += toString((unsigned short)dotQuad[2]);
 		dotQuadString += ".";
-		dotQuadString  = toString((unsigned short)dotQuad[3]);
+		dotQuadString += toString((unsigned short)dotQuad[3]);
 
 		// ...and then outputting them. Then read the last 16 bits of the serverIP object to get the port number
 		if (debug)
@@ -179,7 +180,7 @@ void Client::connectToServer()
 			msg			+= " at IP: ";
 			msg			+= dotQuadString;
 			msg			+= " on port ";
-			msg			+= serverIP.port;
+			msg += SDLNet_Read16(&serverIP.port);
 
 			SocketException e(msg);
 			throw e;
