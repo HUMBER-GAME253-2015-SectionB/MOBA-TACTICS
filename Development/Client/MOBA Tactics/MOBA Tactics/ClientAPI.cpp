@@ -35,6 +35,7 @@ PlayerAI* ClientAPI::computer = new PlayerAI();
 
 int ClientAPI::currentPlayer;
 bool ClientAPI::isComputersTurn;
+int ClientAPI::turnNumber = 1;
 
 Colors::Colors()
 {
@@ -288,7 +289,10 @@ void ClientAPI::SetCurrentPlayer(int val)
 
 void ClientAPI::CycleToNextPlayer()
 {
-	SetCurrentPlayer((GetCurrentPlayer() + 1) % GetNumPlayers());
+	int playerNum = (GetCurrentPlayer() + 1) % GetNumPlayers();
+	SetCurrentPlayer(playerNum);
+	if (playerNum == 0)
+		ClientAPI::turnNumber++;
 }
 
 Profile* ClientAPI::Login(std::string userName, std::string passWord)

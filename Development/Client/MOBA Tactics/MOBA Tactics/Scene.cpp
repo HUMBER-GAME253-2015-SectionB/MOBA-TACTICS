@@ -71,7 +71,7 @@ void Scene::LoadContent()
 	tmpChar5 = ClientAPI::createWarrior("../Assets/Images/rWarrior.png", 20, 20);
 	ClientAPI::addCharacter(tmpChar5, 1);
 
-	enemy1 = ClientAPI::createEnemy("../Assets/Images/mob1.png", 2, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	enemy1 = ClientAPI::createEnemy("../Assets/Images/mob1.png", 2, 10, 1, 3, 5, 3, 1, 1, 0, 1, 0);
 	ClientAPI::addEnemy(enemy1);
 	enemy2 = ClientAPI::createEnemy("../Assets/Images/mob2.png", 10, 2, 30, 3, 5, 3, 1, 1, 0, 1, 0);
 	ClientAPI::addEnemy(enemy2);

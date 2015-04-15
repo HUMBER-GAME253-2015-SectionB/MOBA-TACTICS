@@ -19,6 +19,10 @@ void Player::StartTurn()
 		if (chars[i]->GetCharacterState() == CharacterState::DEFENDING)
 			chars[i]->SetCharacterState(CharacterState::IDLE);
 		chars[i]->ResetDefense();
+
+		if (ClientAPI::turnNumber - chars[i]->GetDiedOnTurnNumber() >= 2
+			&& !chars[i]->GetIsAlive())
+			chars[i]->Respawn();
 	}
 }
 

@@ -41,8 +41,19 @@ public:
 												//assuming new class should be created for skills.
 	void ResetDefense(); //Set defense back to regular value.
 	void ResetActionPoints();
+
+	void LevelUp();
+	void Respawn();
+	void RespawnAt(vec2);
+
+	void Draw(vec2 pos, SDL_Renderer *ren);
+	void Draw(SDL_Renderer*);
 	void Update();
 	~Character();
+	
+	vec2 GetSpawnLocation();
+	bool GetIsAlive();
+	int GetDiedOnTurnNumber();
 
 	vec2 GetTileGridPositionVec2();
 	vec3 GetTileGridPositionVec3();
@@ -65,6 +76,10 @@ public:
 	vec2 GetVelocity();
 	CharacterState GetCharacterState();
 	CharacterState GetPrevCharacterState();
+
+	void SetSpawnLocation(vec2);
+	void SetIsAlive(bool);
+	void SetDiedOnTurnNumber(int);
 
 	void SetCurrentHealth(int num);
 	void SetMaxHealth(int num);
@@ -110,6 +125,10 @@ private:
 	int experience;
 	int level;
 	int skillPoints;
+
+	bool isAlive;
+	vec2 spawnLocation;
+	int diedOnTurnNumber;
 
 	CharacterState characterState;
 	CharacterState prevCharacterState;

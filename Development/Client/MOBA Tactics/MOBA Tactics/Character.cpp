@@ -63,6 +63,8 @@ void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int 
 	SetTargetTile(NULL);
 	SetCharacterState(CharacterState::IDLE);
 	SetPrevCharacterState(CharacterState::IDLE);
+	SetIsAlive(true);
+	SetSpawnLocation(onTile->GetGridPositionVec2());
 }
 
 void Character::MoveToAdjacentTile(ITile *toTile)
@@ -164,6 +166,24 @@ void Character::Attack(Character* target)
 
 	target->SetCurrentHealth(target->GetCurrentHealth() - damage);
 	//Check for if target dead.
+	if (target->GetCurrentHealth() <= 0)
+	{
+		target->SetIsAlive(false);
+		target->GetOnTile()->SetCharacter(NULL);
+		target->SetDiedOnTurnNumber(ClientAPI::turnNumber);
+	}
+	
+	float experienceGained;
+	int targetLevel = target->GetLevel();
+	int charLevel = GetLevel();
+
+	//IF the target slain has a higher level gain more experience than slaying a lower level
+	if (targetLevel >= charLevel)
+		experienceGained = (targetLevel - charLevel) * 1000.0f + 500.0f;
+	else
+		experienceGained = 1.0f / (charLevel - targetLevel) * 1000.0f + 500.0f;
+
+	SetExperience(GetExperience() + (int)experienceGained);
 	SetCharacterState(CharacterState::SELECTED);
 }
 
@@ -187,6 +207,36 @@ void Character::ResetDefense()
 void Character::ResetActionPoints()
 {
 	SetCurrentActionPoints(GetMaxActionPoints());
+}
+
+void Character::LevelUp()
+{
+	SetLevel(GetLevel() + 1);
+	//Need to figure out stats to add
+}
+
+void Character::Respawn()
+{
+	SetOnTile(GetSpawnLocation().x, GetSpawnLocation().y);
+	SetIsAlive(true);
+}
+
+void Character::RespawnAt(vec2 val)
+{
+	SetOnTile(val.x, val.y);
+	SetIsAlive(true);
+}
+
+void Character::Draw(vec2 pos, SDL_Renderer *ren)
+{
+	if (GetIsAlive())
+		Sprite::Draw(pos, ren);
+}
+
+void Character::Draw(SDL_Renderer* ren)
+{
+	if (GetIsAlive())
+		Sprite::Draw(ren);
 }
 
 void Character::Update()
@@ -235,6 +285,21 @@ void Character::Update()
 
 Character::~Character()
 {
+}
+
+vec2 Character::GetSpawnLocation()
+{
+	return spawnLocation;
+}
+
+bool Character::GetIsAlive()
+{
+	return isAlive;
+}
+
+int Character::GetDiedOnTurnNumber()
+{
+	return diedOnTurnNumber;
 }
 
 vec2 Character::GetTileGridPositionVec2()
@@ -327,6 +392,21 @@ CharacterState Character::GetPrevCharacterState()
 	return prevCharacterState;
 }
 
+void Character::SetSpawnLocation(vec2 val)
+{
+	spawnLocation = val;
+}
+
+void Character::SetIsAlive(bool val)
+{
+	isAlive = val;
+}
+
+void Character::SetDiedOnTurnNumber(int val)
+{
+	diedOnTurnNumber = val;
+}
+
 void Character::SetOnTile(ITile *tile)
 {
 	vec2 temp;
@@ -394,6 +474,13 @@ void Character::SetSpeed(int num)
 
 void Character::SetExperience(int num)
 {
+	int currExperience = GetExperience();
+
+	if (currExperience / 1000 < num / 1000)
+	{
+		for (int i = currExperience / 1000; i < num / 1000; i++)
+			LevelUp();
+	}
 	experience = num;
 }
 
@@ -592,7 +679,7 @@ void Character::PrintMenu()
 
 void Character::PrintStats()
 {
-	printf("Level: %d Exp: %d\n", GetLevel(), GetExperience());
+	printf("Level: %d Exp: %d/%d\n", GetLevel(), GetExperience(), GetLevel() * 1000);
 	printf("Action Points: %d/%d\n\n", GetCurrentActionPoints(), GetMaxActionPoints());
 	printf("HP: %d/%d\n", GetCurrentHealth(), GetMaxHealth());
 	printf("ATK: %d\n", GetAtackPower());

@@ -127,6 +127,8 @@ public:
 
 	static int currentPlayer;
 	static bool isComputersTurn;
+	static int turnNumber;
+
 	static int GetNumPlayers();
 	static int GetCurrentPlayer();
 	static void SetCurrentPlayer(int);
