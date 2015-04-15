@@ -677,7 +677,7 @@ void Character::PrintMenu()
 
 void Character::PrintStats()
 {
-	printf("Level: %d Exp: %d/%d\n", GetLevel(), GetExperience(), GetLevel() * 1000);
+	printf("Level: %d  Exp: %d/%d\n", GetLevel(), GetExperience(), GetLevel() * 1000);
 	printf("Action Points: %d/%d\n\n", GetCurrentActionPoints(), GetMaxActionPoints());
 	printf("HP: %d/%d\n", GetCurrentHealth(), GetMaxHealth());
 	printf("ATK: %d\n", GetAtackPower());

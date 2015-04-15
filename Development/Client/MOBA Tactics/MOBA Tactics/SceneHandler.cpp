@@ -159,13 +159,9 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 	if (!ClientAPI::isComputersTurn)
 	{
 		Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
-		Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
-		
-		if (currentCharacter == nullptr)
-			return;
-		
-		CharacterState currentState = currentCharacter->GetCharacterState();
-		
+		CharacterState currentState;
+		Character* currentCharacter;
+
 		if (key == SDLK_4 || key == SDLK_e)
 		{
 			currentPlayer->EndTurn();
@@ -180,6 +176,12 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 				ClientAPI::computer->StartTurn();
 			}
 		}
+		
+		currentCharacter = currentPlayer->GetCurrentActiveChar();
+		if (currentCharacter == nullptr)
+			return;
+
+		currentState = currentCharacter->GetCharacterState();
 
 		if (key == SDLK_1 || key == SDLK_m)
 		{
