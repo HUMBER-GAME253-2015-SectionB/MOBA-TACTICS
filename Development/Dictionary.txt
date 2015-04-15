@@ -7,7 +7,7 @@ register: "l/r/username/password"
 host start game: "l/s/teamNumber/"
 client join game: "l/j/teamNumber/host/"
 create team: "t/c/character/character/character/"
-edit team: "t/e/teamNUmber/character/character/character/"
+edit team: "t/e/teamNumber/character/character/character/"
 delete team: "t/d/teamNumber/"
 move: "g/m/characterNumber/startPoint/endPoint/"
 attack: "g/a/characterNumber/targetPoint/"
@@ -25,3 +25,17 @@ create, edit, delete team: "t/team,char,char,char/team,char,char,char/team,char,
 move: "g/m/characterNumber/newPoint/"
 attack: "g/a/targetPoint/newHealth/"
 defend: "g/d/characterNumber/defense/"
+
+
+
+Strings sent to database:
+
+register: "username/password"
+teamEdits: "team,char,char,char/team,char,char,char/team,char,char,char/"
+which character: "type/"
+
+Strings needed from database:
+
+user: "true/" or "false/"
+team info: "team,char,char,char/team,char,char,char/team,char,char,char/"
+character info: "health/attack/defense/actionPoints/range/movementRange/"
