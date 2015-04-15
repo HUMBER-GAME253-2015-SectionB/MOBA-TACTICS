@@ -14,6 +14,7 @@ TextInput::TextInput(SDL_Rect& dimentions, TTF_Font* _font, int _maxCharacters)
 	spriteUnfocused = new TextSprite(ClientAPI::Color.Green, ClientAPI::mainRenderer, dimentions, font, false);
 	spriteFocused = new TextSprite(ClientAPI::Color.Blue, ClientAPI::mainRenderer, dimentions, font, false);
 
+	Show();
 	SelectSprite();
 }
 

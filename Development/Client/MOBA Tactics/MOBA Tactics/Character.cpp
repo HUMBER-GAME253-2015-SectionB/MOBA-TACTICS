@@ -1,6 +1,7 @@
 //Author:	Nicholas Higa, Mathieu Violette
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV),
-//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH)
+//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH),
+//			4/15/2015(NH)
 
 #include "Character.h"
 #include <cstdlib>
@@ -217,14 +218,24 @@ void Character::LevelUp()
 
 void Character::Respawn()
 {
-	SetOnTile(GetSpawnLocation().x, GetSpawnLocation().y);
-	SetIsAlive(true);
+	if (TILEMAP->GetTileAt(GetSpawnLocation().x, GetSpawnLocation().y)->GetCharacter() == NULL)
+	{
+		SetOnTile(GetSpawnLocation().x, GetSpawnLocation().y);
+		SetIsAlive(true);
+	}
+	else
+		SetDiedOnTurnNumber(GetDiedOnTurnNumber() + 1);
 }
 
 void Character::RespawnAt(vec2 val)
 {
-	SetOnTile(val.x, val.y);
-	SetIsAlive(true);
+	if (TILEMAP->GetTileAt(val.x, val.y)->GetCharacter() == NULL)
+	{
+		SetOnTile(val.x, val.y);
+		SetIsAlive(true);
+	}
+	else
+		SetDiedOnTurnNumber(GetDiedOnTurnNumber() + 1);
 }
 
 void Character::Draw(vec2 pos, SDL_Renderer *ren)

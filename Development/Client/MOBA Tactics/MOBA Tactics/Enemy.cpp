@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015,	4/15/2015(NG)
+//Date:		4/14/2015,	4/15/2015(NH)
 
 #pragma once
 
@@ -31,9 +31,9 @@ void Enemy::SetRoamingPath(vector<vec2> path)
 	roamingPath = path;
 }
 
+//Checks to see if ANY character is in its attack range, including other "enemies"
 bool Enemy::IsATargetInAttackRange()
 {
-	//Causing errors, where there's always a target in attack range.
 	vector<vec2> atkTiles = GetAttackTiles();
 	for (int i = 0; i < atkTiles.size(); i++)
 	{
@@ -44,6 +44,7 @@ bool Enemy::IsATargetInAttackRange()
 	return false;
 }
 
+//Returns a vec2 if there's ANY character within its attack range, including other "enemies"
 vec2 Enemy::GetAttackTargetLocation()
 {
 	vector<vec2> atkTiles = GetAttackTiles();
@@ -85,7 +86,10 @@ void Enemy::MovementPhase()
 			}
 		}
 
-		Move(targetPosition.x, targetPosition.y);
+		if (TILEMAP->GetTileAt(targetPosition.x, targetPosition.y)->GetCharacter() == NULL)
+			Move(targetPosition.x, targetPosition.y);
+		else
+			SetEnemyState(EnemyState::ATTACK_PHASE2);
 	}
 	else
 	{

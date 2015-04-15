@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015(NH),	4/15/2015(NG)
+//Date:		4/14/2015(NH),	4/15/2015(NH)
 
 #pragma once
 
@@ -20,6 +20,9 @@ public:
 	void EndTurn();
 	void CycleToNextCharacter();
 	void RemoveCurrentActiveChar();
+
+	bool IsATargetInAttackRange(Enemy *enemy);
+	vec2 GetAttackTargetLocation(Enemy *enemy);
 
 	bool GetIsCharacterSelected();
 	vector<Enemy *> GetCharacterList();

@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015(NH),	4/15/2015(NG)
+//Date:		4/14/2015(NH),	4/15/2015(NH)
 
 #include "PlayerAI.h"
 #include "TileMap.h"
@@ -32,7 +32,7 @@ void PlayerAI::Update()
 		}
 		else if (currEnemy->GetEnemyState() == EnemyState::ATTACK_PHASE1)
 		{	
-			if (currEnemy->IsATargetInAttackRange())
+			if (IsATargetInAttackRange(currEnemy))
 				AttackPhase();
 			else
 				currEnemy->SetEnemyState(EnemyState::MOVEMENT_PHASE);
@@ -45,7 +45,7 @@ void PlayerAI::Update()
 		//If a target was already attacked, dont attack again.
 		else if (currEnemy->GetEnemyState() == EnemyState::ATTACK_PHASE2)
 		{
-			if (currEnemy->IsATargetInAttackRange())
+			if (IsATargetInAttackRange(currEnemy))
 				AttackPhase();
 			else
 				currEnemy->SetEnemyState(EnemyState::TURN_COMPLETED);
@@ -95,6 +95,48 @@ void PlayerAI::CycleToNextCharacter()
 		if (currentActiveChar >= characters.size())
 			SetIsAIMakingMoves(false);
 	}
+}
+
+bool PlayerAI::IsATargetInAttackRange(Enemy *enemy)
+{
+	vector<vec2> atkTiles = enemy->GetAttackTiles();
+	vector<Enemy*> mobs = GetCharacterList();
+	bool isTargetFriendly;
+
+	for (int i = 0; i < atkTiles.size(); i++)
+	{
+		isTargetFriendly = false;
+		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL
+			&& enemy->GetTileGridPositionVec2() != atkTiles[i])
+		{
+			for (int j = 0; j < mobs.size(); j++)
+				if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() == mobs[j])
+					isTargetFriendly = true;
+
+			if (!isTargetFriendly)
+				return true;
+		}
+	}
+	return false;
+}
+
+vec2 PlayerAI::GetAttackTargetLocation(Enemy *enemy)
+{
+	vector<vec2> atkTiles = enemy->GetAttackTiles();
+	vector<Enemy*> mobs = GetCharacterList();
+	bool isTargetFriendly;
+
+	for (int i = 0; i < atkTiles.size(); i++)
+	{
+		isTargetFriendly = false;
+		if (TILEMAP->GetTileAt(atkTiles[i].x, atkTiles[i].y)->GetCharacter() != NULL
+			&& enemy->GetTileGridPositionVec2() != atkTiles[i])
+			isTargetFriendly = true;
+
+		if (!isTargetFriendly)
+			return atkTiles[i];
+	}
+	return vec2(-1, -1); //Return impossible tilemap location, if not found
 }
 
 void PlayerAI::RemoveCurrentActiveChar()
