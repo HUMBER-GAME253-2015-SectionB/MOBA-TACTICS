@@ -1,9 +1,13 @@
-//Author:	Nicholas Higa
-//Date:		4/9/2015 (NH),	4/12/2015(NH)
+//Author:	Nicholas Higa, Mathieu Violette
+//Date:		4/9/2015 (NH),	4/12/2015(NH), 4/15/2015(MV)
 
 #include "Player.h"
 
-Player::Player() {}
+Player::Player() 
+{
+	isCharacterSelected = false;
+	currentActiveChar = -1;
+}
 
 void Player::AddCharacter(Character* character)
 {
@@ -62,6 +66,9 @@ vector<Character *> Player::GetCharacterList()
 
 Character* Player::GetCurrentActiveChar()
 {
+	if (currentActiveChar < 0 || currentActiveChar >= characters.size())
+		return nullptr;
+
 	return GetCharacterList()[currentActiveChar];
 }
 

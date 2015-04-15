@@ -1,7 +1,7 @@
 //Author:	Nicholas Higa, MAthieu Violette
 //Date:		3/10/2015(NH), 3/11/2015(NH), 3/15/2015(NH), 3/18/2015(MV),
 //			3/30/2015(NH), 4/6/2015(NH),  4/8/2015(NH),  4/9/2015(NH), 
-//			4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH)
+//			4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH), 4/15/2015(MV)
 
 #include "SceneHandler.h"
 #include "TileMap.h"
@@ -106,7 +106,8 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 					(TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) &&
 					TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == CHARACTERS[i]))
 				{
-					currentPlayer->GetCurrentActiveChar()->PrintMenu();
+					//currentPlayer->GetCurrentActiveChar()->PrintMenu(); //No reason to try to access the active character... or print it's options.
+					system("cls");
 					printf("\n\nSelected Character's Stats\n\n");
 					CHARACTERS[i]->PrintStats();
 				}
@@ -143,24 +144,28 @@ void SceneHandler::HandleEventMouseHover(int x, int y)
 void SceneHandler::HandleEventKeyDown(unsigned key)
 {
 	if (key == SDLK_UP)
-		CAMERA->MoveCamera(vec2(0, 22));
-
-	if (key == SDLK_DOWN)
 		CAMERA->MoveCamera(vec2(0, -22));
 
+	if (key == SDLK_DOWN)
+		CAMERA->MoveCamera(vec2(0, 22));
+
 	if (key == SDLK_LEFT)
-		CAMERA->MoveCamera(vec2(22, 0));
+		CAMERA->MoveCamera(vec2(-22, 0));
 
 	if (key == SDLK_RIGHT)
-		CAMERA->MoveCamera(vec2(-22, 0));
+		CAMERA->MoveCamera(vec2(22, 0));
 
 
 	if (!ClientAPI::isComputersTurn)
 	{
 		Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
 		Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
+		
+		if (currentCharacter == nullptr)
+			return;
+		
 		CharacterState currentState = currentCharacter->GetCharacterState();
-
+		
 		if (key == SDLK_4 || key == SDLK_e)
 		{
 			currentPlayer->EndTurn();
