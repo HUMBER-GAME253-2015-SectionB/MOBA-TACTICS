@@ -1,6 +1,6 @@
 //Author:	Nicholas Higa, Mathieu Violette
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV),
-//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH)
+//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH)
 
 #include "Character.h"
 #include <cstdlib>
@@ -81,12 +81,12 @@ void Character::MoveToAdjacentTile(ITile *toTile)
 //Needs to be improved later on assuming obstacle tiles are required later.
 void Character::Move(ITileMap *tileMap, ITile *toTile)
 {
+	UpdateMovementTiles();
 	//If character is not moving already and target position is not occupied.
 	//NOTE: Character state is updated to MOVING in the MoveToAdjacentTile function, putting it into this function will cause errors.
 	if (GetCharacterState() != CharacterState::MOVING && toTile->GetGridPositionVec3() != GetTileGridPositionVec3() && !toTile->GetIsOccupied()
-		&& IsTileInList(toTile->GetGridPositionVec2(), GetMovementTiles()))
+		&& IsTileInMovementRange(toTile->GetGridPositionVec2()))
 	{
-		
 		GetOnTile()->SetCharacter(NULL);
 		vec3 gridDisplacement;
 		vec3 tileGridPos = GetTileGridPositionVec3();
@@ -584,6 +584,7 @@ void Character::PrintMenu()
 			AddItemToMenu(menu, "end");
 		}
 	}
+	menu.push_back("\n\n");
 
 	for (int i = 0; i < menu.size(); i++)
 		printf(menu[i]);

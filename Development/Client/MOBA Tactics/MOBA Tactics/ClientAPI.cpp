@@ -1,6 +1,6 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
-//			4/6/2015 (NH), 4/8/2015(NH), 4/12/2015(NH)
+//			4/6/2015 (NH), 4/8/2015(NH), 4/12/2015(NH), 4/14/2015(NH)
 
 #include "ClientAPI.h"
 
@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Profile.h"
 #include "Player.h"
+#include "PlayerAI.h"
 #include "Archer.h"
 #include "Warrior.h"
 #include "Rogue.h"
@@ -30,8 +31,10 @@ TileMap* ClientAPI::tileMap;
 Camera* ClientAPI::camera;
 vector<Player*> ClientAPI::players;
 vector<Character*> ClientAPI::allCharacters;
+PlayerAI* ClientAPI::computer = new PlayerAI();
 
 int ClientAPI::currentPlayer;
+bool ClientAPI::isComputersTurn;
 
 Colors::Colors()
 {
@@ -242,7 +245,7 @@ Character* ClientAPI::createWarrior(char *spritePath, int row, int col)
 	return new Warrior(spritePath, row, col, mainRenderer);
 }
 
-Character* ClientAPI::createEnemy(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
+Enemy* ClientAPI::createEnemy(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
 	int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints)
 {
 	return new Enemy(spritePath, row, col, _maxHealth, _actionPoints,
@@ -259,6 +262,13 @@ void ClientAPI::addCharacter(Character* _character, int _playerIndex)
 	PLAYERS[_playerIndex]->AddCharacter(_character);
 	CHARACTERS.push_back(_character);
 	CAMERA->AddToDrawList(_character);
+}
+
+void ClientAPI::addEnemy(Enemy* _enemy)
+{
+	computer->AddCharacter(_enemy);
+	CHARACTERS.push_back(_enemy);
+	CAMERA->AddToDrawList(_enemy);
 }
 
 int ClientAPI::GetNumPlayers()

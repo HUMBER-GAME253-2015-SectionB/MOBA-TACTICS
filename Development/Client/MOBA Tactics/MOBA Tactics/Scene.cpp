@@ -1,11 +1,14 @@
 //Author:	David Vo, Nicholas Higa
-//Date:		2/23/2015(DV), 3/30/2015(NH), 4/6/2015(NH), 4/12/2015(NH)
+//Date:		2/23/2015(DV), 3/30/2015(NH), 4/6/2015(NH), 4/12/2015(NH),
+// 			4/14/2015(NH)
 
 #include "Scene.h"
 #include "Camera.h"
 #include "TileMap.h"
 #include "Character.h"
 #include "Player.h"
+#include "PlayerAI.h"
+#include "Enemy.h"
 
 Scene::Scene() {}
 
@@ -21,6 +24,7 @@ void Scene::Init()
 	ClientAPI::addPlayer();
 	ClientAPI::addPlayer();
 	ClientAPI::SetCurrentPlayer((int)PlayerState::PLAYER_ONE);
+	ClientAPI::isComputersTurn = ClientAPI::GetCurrentPlayer() == (int)PlayerState::AI;
 }
 
 void Scene::LoadContent()
@@ -37,7 +41,8 @@ void Scene::LoadContent()
 	CAMERA->SetPosition(vec2(100, 100));
 
 	Character *tmpChar0, *tmpChar1, *tmpChar2, *tmpChar3, *tmpChar4, *tmpChar5;
-	Character *enemy1, *enemy2, *enemy3, *enemy4;
+	Enemy *enemy1, *enemy2, *enemy3, *enemy4, *enemy5, *enemy6, *enemy7, *enemy8;
+
 	//tmpChar0 = ClientAPI::createCharacter("../Assets/Images/Character.png", 6, 6);
 	//ClientAPI::addCharacter(tmpChar0, 0);
 	//tmpChar1 = ClientAPI::createCharacter("../Assets/Images/Character.png", 0, 1);
@@ -67,13 +72,26 @@ void Scene::LoadContent()
 	ClientAPI::addCharacter(tmpChar5, 1);
 
 	enemy1 = ClientAPI::createEnemy("../Assets/Images/mob1.png", 2, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
-	ClientAPI::addCharacter(enemy1, 2);
+	ClientAPI::addEnemy(enemy1);
 	enemy2 = ClientAPI::createEnemy("../Assets/Images/mob2.png", 10, 2, 30, 3, 5, 3, 1, 1, 0, 1, 0);
-	ClientAPI::addCharacter(enemy2, 2);
-	enemy3 = ClientAPI::createEnemy("../Assets/Images/mob3.png", 18, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
-	ClientAPI::addCharacter(enemy3, 2);
-	enemy4 = ClientAPI::createEnemy("../Assets/Images/mob4.png", 10, 18, 30, 3, 5, 3, 1, 1, 0, 1, 0);
-	ClientAPI::addCharacter(enemy4, 2);
+	ClientAPI::addEnemy(enemy2);
+	enemy3 = ClientAPI::createEnemy("../Assets/Images/mob1.png", 18, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	ClientAPI::addEnemy(enemy3);
+	enemy4 = ClientAPI::createEnemy("../Assets/Images/mob2.png", 10, 18, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	ClientAPI::addEnemy(enemy4);
+
+	enemy5 = ClientAPI::createEnemy("../Assets/Images/mob3.png", 10, 8, 10, 30, 5, 3, 1, 1, 0, 1, 0);
+	enemy5->BuildRoamingPath(vec2(12, 8), vec2(8, 8));
+	ClientAPI::addEnemy(enemy5);
+	enemy6 = ClientAPI::createEnemy("../Assets/Images/mob4.png", 8, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	enemy6->BuildRoamingPath(vec2(8, 8), vec2(8, 12));
+	ClientAPI::addEnemy(enemy6);
+	enemy7 = ClientAPI::createEnemy("../Assets/Images/mob3.png", 10, 12, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	enemy7->BuildRoamingPath(vec2(8, 12), vec2(12, 12));
+	ClientAPI::addEnemy(enemy7);
+	enemy8 = ClientAPI::createEnemy("../Assets/Images/mob4.png", 12, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	enemy8->BuildRoamingPath(vec2(12, 12), vec2(12, 8));
+	ClientAPI::addEnemy(enemy8);
 
 	tmp1 = new Sprite("../Assets/Images/Character.png", ClientAPI::mainRenderer, vec2(maxBound.x - 21, minBound.y));
 	CAMERA->AddToDrawList(tmp1);
@@ -99,9 +117,23 @@ void Scene::Update()
 	CAMERA->Update();
 	TILEMAP->Update();
 
-	vector<Character*> chars = PLAYERS[ClientAPI::GetCurrentPlayer()]->GetCharacterList();
-	for (int i = 0; i < chars.size(); i++)
-		chars[i]->Update();
+	if (!ClientAPI::isComputersTurn)
+	{
+		for (int i = 0; i < CHARACTERS.size(); i++)
+			CHARACTERS[i]->Update();
+	}
+	else
+	{
+		if (ClientAPI::computer->isAIMakingMoves)
+			ClientAPI::computer->Update();
+		else
+		{
+			ClientAPI::isComputersTurn = false;
+			ClientAPI::computer->EndTurn();
+			ClientAPI::CycleToNextPlayer();
+			PLAYERS[ClientAPI::GetCurrentPlayer()]->StartTurn();
+		}
+	}
 
 	//This block of code can not be used within Event Manager because the 
 	//Event manager does not handle cases where the mouse doesn't move. This

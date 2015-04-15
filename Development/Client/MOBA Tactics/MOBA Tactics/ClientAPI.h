@@ -1,6 +1,6 @@
 //Author:	David Vo, Mathieu Violette, Nicholas Higa
 //Date:		2/23/2015(DV), 3/8/2015(MV), 3/18/2015(MV), 3/30/2015(NH)
-//			4/6/2015 (NH), 4/8/2015(NH), 4/12/2015(NH)
+//			4/6/2015 (NH), 4/8/2015(NH), 4/12/2015(NH), 4/14/2015(NH)
 
 #ifndef __CLIENTAPI_H_INCLUDED__
 #define __CLIENTAPI_H_INCLUDED__
@@ -30,6 +30,7 @@
 
 class Profile;
 class Player;
+class PlayerAI;
 class Character;
 class Camera;
 class TileMap;
@@ -85,6 +86,7 @@ public:
 	static Camera *camera;
 	static vector<Player*> players;
 	static vector<Character*> allCharacters;
+	static PlayerAI *computer;
 
 	static SDL_Window *mainWindow;
 	static SDL_Renderer *mainRenderer;
@@ -116,13 +118,15 @@ public:
 	static Character* createRogue(char *spritePath, int row, int col);
 	static Character* createArcher(char *spritePath, int row, int col);
 	static Character* createWarrior(char *spritePath, int row, int col);
-	static Character* createEnemy(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
+	static Enemy* createEnemy(char* spritePath, int row, int col, int _maxHealth, int _actionPoints,
 		int _attackPower, int _defense, int _range, int _speed, int _experience, int _level, int _skillPoints);
 
 	static void addPlayer();
 	static void addCharacter(Character*, int);
+	static void addEnemy(Enemy*);
 
 	static int currentPlayer;
+	static bool isComputersTurn;
 	static int GetNumPlayers();
 	static int GetCurrentPlayer();
 	static void SetCurrentPlayer(int);
