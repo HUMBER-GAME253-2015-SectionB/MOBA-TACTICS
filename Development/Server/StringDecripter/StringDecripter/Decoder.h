@@ -1,4 +1,4 @@
-//Coded by Marc-ANtoine Lavoie
+//Coded by Marc-Antoine Lavoie
 
 #pragma once
 #include <iostream>
