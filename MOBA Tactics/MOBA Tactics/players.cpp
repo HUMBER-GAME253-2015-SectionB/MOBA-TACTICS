@@ -1,6 +1,8 @@
+
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
+#include "Players.h"
 /*
 //Michael Kochen, Trey Hesketh	
 Last Updated 03/11
@@ -14,6 +16,26 @@ void Players();
 
 int player1;
 int player2;
+
+Player Players::FindPlayerByID(int id)
+{ 
+	Player player;
+	//loop through AcvitePlayers list until a matching ID number is found
+	// return the player with that ID
+
+	return player;
+}
+
+void Players::GetTeams(int id)
+{
+	//gets teams saved in DB
+}
+
+void Players::SaveStats(int id)
+{
+	//saves stats to DB
+}
+
 
 void InLobby()
 {
@@ -140,10 +162,10 @@ void Ready()
 		cout << "Let the game begin!" << endl;
 }
 
-int main()
-{
-	InLobby();
-
-	system("pause");
-	return 0;
-}
+//int main()
+//{
+//	InLobby();
+//
+//	system("pause");
+//	return 0;
+//}

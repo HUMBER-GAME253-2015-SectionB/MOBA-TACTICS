@@ -71,24 +71,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="PlayerActions.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameMonitor.cpp" />
     <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="Login.cpp" />
-    <ClCompile Include="LoginMain.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="players.cpp" />
     <ClCompile Include="TeamManager.cpp" />
-    <ClCompile Include="TeamManagerMain.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDList.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="PlayerActions.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameMonitor.h" />
     <ClInclude Include="Login.h" />
+    <ClInclude Include="Players.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Team.h" />

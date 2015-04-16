@@ -91,10 +91,10 @@ string openLobby(string select)
 	joinLobby();
 }
 
-int main()
-{
-	init();
-
-	//system("pause");
-	return 0;
-}
+//int main()
+//{
+//	init();
+//
+//	//system("pause");
+//	return 0;
+//}

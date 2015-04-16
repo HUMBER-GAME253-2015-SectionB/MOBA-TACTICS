@@ -1,6 +1,6 @@
 //Author:	Mathieu Violette
 //Date:		3/22/2014(MV)
-
+#pragma once
 #include "stdafx.h"
 #include <iostream>
 #include <stdio.h>
@@ -60,13 +60,13 @@ void GameManager::StartProgram()
 	newGame->UnloadContent();
 }
 
-int TM(){
-	TeamManager TM;
-	TM.CreateTeamWithPlayers();
-	TM.ChracterList();
-	TM.TeamList();
-	TM.DeleteCharacter();
-	TM.ChracterList();
-	
-	system("PAUSE");
-}
+//int TM(){
+//	TeamManager TM;
+//	TM.CreateTeamWithPlayers();
+//	TM.ChracterList();
+//	TM.TeamList();
+//	TM.DeleteCharacter();
+//	TM.ChracterList();
+//	
+//	system("PAUSE");
+//}

@@ -17,7 +17,7 @@ public:
 	Team CreateTeam(std::string name);
 
 	//Create Completely new Team (new characters)
-	Team CreateTeamWithPlayers();
+	Team CreateTeamWithPlayers(int client, char whatDoesItStartWith, char whatDoesItStartWith2, char whatDoesItStartWith3);
 
 	//Create new player when you delete one
 	void CreateOneCharacter(std::string TeamName);
@@ -29,7 +29,7 @@ public:
 	void TeamList();
 
 	//Create a new Character
-	Character CreateCharacter(std::string team, std::string name, int typem);
+	Character CreateCharacter(int client ,int team,  char CharClass);
 
 	//Edit an old Character
 	Character EditCharacter(Character character);
@@ -38,7 +38,7 @@ public:
 	void ChracterList();
 
 	//Clean up
-	void DeleteTeam();
+	void DeleteTeam(int clintNumber, int number);
 	void DeleteCharacter();
 
 private: 

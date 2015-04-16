@@ -1,8 +1,7 @@
 /*
 //James Finnie
-Last Updated 04/11
+Last Updated 04/16
 */
-
 #include "GameMonitor.h"
 
 
@@ -15,14 +14,15 @@ GameMonitor::~GameMonitor(void)
 {
 }
 
-GameMonitor::GameMonitor(int client1, int client2)
+GameMonitor::GameMonitor(Player player1, Player player2)
 {
-	Team team1; /*= get active clients team*/
-	Team team2; /*= get active clients team*/
+	Team team1 = player1.activeTeam;
+	Team team2 = player2.activeTeam;
 
-	if(CheckWinner(team1, team2))
+	if(CheckWinner(player1,player2))
 	{
 		//we're outta here!
+		EndGame(player1,player2);
 	}
 
 	//check for any change to team status
@@ -32,29 +32,29 @@ GameMonitor::GameMonitor(int client1, int client2)
 	ActionCheck(team1);
 	ActionCheck(team2);
 	
-	if(EndTurn(team1)) // should only fire as soon as they run out of AP...
+	if(EndTurn(player1)) // should only fire as soon as they run out of AP...
 	{
-		StartTurn(team2);
+		StartTurn(player2);
 	}
 
-	if(EndTurn(team2)) // should only fire as soon as they run out of AP...
+	if(EndTurn(player2)) // should only fire as soon as they run out of AP...
 	{
 		//mob update
 		//endRound update - update points for holding location if appplicable
-		StartTurn(team1); // this will have to go if we get mobs in, move if not
+		StartTurn(player1); // this will have to go if we get mobs in, move if not
 	}
 	
 }
 
-bool GameMonitor::CheckWinner(Team team1, Team team2)
+bool GameMonitor::CheckWinner(Player player1, Player player2)
 {
-	if (team1._Score == 1000)
+	if (player1.score >= 1000)
 	{
 		//declare team1 the winner
 
 		return true;
 	}
-	else if (team2._Score == 1000)
+	else if (player2.score >= 1000)
 	{
 		//declare team2 the winner
 
@@ -65,13 +65,16 @@ bool GameMonitor::CheckWinner(Team team1, Team team2)
 		return false;
 	}
 }
-bool GameMonitor::EndTurn(Team team)
+bool GameMonitor::EndTurn(Player player)
 {
+	Team team = player.activeTeam;
+
 	//if the game still thinks its their tuen bt no characters can act
-	if (!team._Wait && !team._Characters[0].active && !team._Characters[1].active && !team._Characters[2].active)
+	if (!player.wait && !team._Characters[0].active && !team._Characters[1].active && !team._Characters[2].active)
 	{
 		//end turn
-		team._Wait = true;
+		player.wait = true;
+		//notfiy player
 		return true;
 	}
 	else
@@ -81,8 +84,10 @@ bool GameMonitor::EndTurn(Team team)
 	}
 }
 
-void GameMonitor::StartTurn(Team team)
+void GameMonitor::StartTurn(Player player)
 {
+	Team team = player.activeTeam;
+
 	for(int i = 0; i < 3; i++)
 	{
 		if(team._Characters[i].alive)
@@ -108,18 +113,19 @@ void GameMonitor::StartTurn(Team team)
 				team._Characters[i].alive = true;
 				team._Characters[i].active = true;
 
-				//reset pos //no idea how we're handling movement/position
-				//update player
+				//reset pos 
+				//update players
 			}
 
 		}
 	}
 	//Go!
-	team._Wait = false;
+	player.wait = false;
+	//notify player
 }
 
 //checking/setting alive state // move to be part of atk?
-void HealthCheck(Team team) // this should be firing often enough to update at the proper times 
+void GameMonitor::HealthCheck(Team team) // this should be firing often enough to update at the proper times 
 {
 	for(int i = 0; i < 3; i++)
 	{
@@ -137,7 +143,7 @@ void HealthCheck(Team team) // this should be firing often enough to update at t
 }
 
 //checking/setting active states
-void ActionCheck(Team team)
+void GameMonitor::ActionCheck(Team team)
 {
 		for(int i = 0; i < 3; i++)
 	{
@@ -149,4 +155,35 @@ void ActionCheck(Team team)
 		
 	}
 }
+
+	void GameMonitor::StartGame(Player player1, Team team1, Player player2, Team team2) //may send just an int and we grab from storedTeams arr
+	{
+		//assign active team
+		player1.activeTeam = team1;
+		player2.activeTeam = team2;
+
+		//set chars stats(?)
+
+		// add mobs to game
+
+		//set start positions
+
+		//add new GameMonitor to list
+
+		
+	}
+
+	void GameMonitor::EndGame(Player player1, Player player2) //ends game and returns players to lobby (or boots inactive players)
+	{
+		//save stats to DB
+		Players::SaveStats(player1.ID);
+		Players::SaveStats(player2.ID);
+
+		//kick players back to lobby
+
+		//delete mobs
+
+		//remove GameMonitor from list
+
+	}
 

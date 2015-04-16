@@ -1,3 +1,4 @@
+#pragma once
 #include "TeamManager.h"
 /*
 //Michael Kochen, Trey Hesketh
@@ -56,7 +57,7 @@ Character TeamManager::CreateCharacter(int client ,int team,  char CharClass)
 		character.Stats[2] = 15;
 		break;
 	}
-	character.cTeam = key;
+	//character.cTeam = key; 
 	_CharCaps.push_back(character);
 	return character;
 }

@@ -2,10 +2,7 @@
 // or project specific include files that are used frequently, but
 // are changed infrequently
 //
-/*
-//James Finnie
-Last Updated 03/11
-*/
+
 #pragma once
 
 #include "targetver.h"
