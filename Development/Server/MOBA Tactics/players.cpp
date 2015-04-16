@@ -4,7 +4,7 @@
 #include <fstream>
 #include "Players.h"
 /*
-//Michael Kochen, Trey Hesketh	
+//Michael Kochen, Trey Hesketh, Marc-Antoine Lavoie
 Last Updated 03/11
 */
 using namespace std;
