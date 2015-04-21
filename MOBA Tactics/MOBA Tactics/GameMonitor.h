@@ -22,7 +22,7 @@ public:
 	void HealthCheck(Team team);
 	void ActionCheck(Team team);
 
-	void StartGame(Player player1, Team team1, Player player2, Team team2); //may send just an int and we grab from storedTeams arr
+	void StartGame(Player player1, int team1, Player player2, int team2); // creates game with selected teams
 	void EndGame(Player player1, Player player2); //ends game and returns players to lobby (or boots inactive players)
 
 private:

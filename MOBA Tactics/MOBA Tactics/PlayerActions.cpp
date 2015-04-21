@@ -11,18 +11,19 @@ PlayerActions::~PlayerActions(void)
 {
 }
 
-std::string PlayerActions::Defend(Character Defender)// may require userID as well?
+std::string PlayerActions::Defend(int id, int character)// may require userID as well?
 {
 
+	Character Defender = Players::FindPlayerByID(id).activeTeam._Characters[character];
 
-	if (Defender.currDef >= Defender.maxDef)
+	if (Defender.curDef >= Defender.maxDef)
 	{
-		Defender.currDef = Defender.maxDef;
+		Defender.curDef = Defender.maxDef;
 
 	}
 	else
 	{
-		Defender.currDef += Defender.curAP;
+		Defender.curDef += Defender.curAP;
 		Defender.curAP = 0;
 		Defender.active = false;
 
@@ -31,7 +32,7 @@ std::string PlayerActions::Defend(Character Defender)// may require userID as we
 	return "char#/defending/newDef#/";
 }
 
-std::string PlayerActions::Attack(Character Attacker, int x, int y)
+std::string PlayerActions::Attack(int id, int character, int x, int y)
 {
 	//get value of the attacker 
 	//find the object on the (x,y) 
@@ -55,9 +56,9 @@ bool occupied(int x, int y)
 			return true;
 		}
 	}
-	for (int j = 0; j < npcs.size(); j++);
+	for (int j = 0; j < npcs.size(); j++)
 	{
-		if (x == npcs[i].posX && y == npcs[i].posY)
+		if (x == npcs[j].posX && y == npcs[j].posY)
 		{
 			return true;
 		}
@@ -65,19 +66,22 @@ bool occupied(int x, int y)
 	return false;
 }
 
-string move(int player, int character, int x, int y)
+std::string Move(int player, int character, int x, int y)
 {
 	if (occupied(x, y))
 		return "g/m/false/";
 
-	int Xap = abs(players[player]._Characters[character].posX - x);
-	int Yap = abs(players[player]._Characters[character].posY - y);
+	Player p = Players::FindPlayerByID(player);
 
-	players[player]._Characters[character].posX = x;
-	players[player]._Characters[character].posY = y;
+	int Xap = abs(p.activeTeam._Characters[character].posX - x);
+	int Yap = abs(p.activeTeam._Characters[character].posY - y);
 
-	players[player]._Characters[character].currentAP -= Xap + Yap;
-	string newAP = "" + x + "," + y + "/" + players[player]._Characters[character].currentAP;
+	p.activeTeam._Characters[character].posX = x;
+	p.activeTeam._Characters[character].posY = y;
 
-	return "g/m/newAP/";
+	p.activeTeam._Characters[character].curAP -= Xap + Yap;
+
+	std::string newAP = "" + x + "," + y + "/" + p.activeTeam._Characters[character].curAP;
+
+	return "g/m/" + newAP + "/";
 }

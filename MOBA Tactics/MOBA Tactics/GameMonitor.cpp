@@ -69,7 +69,7 @@ bool GameMonitor::EndTurn(Player player)
 {
 	Team team = player.activeTeam;
 
-	//if the game still thinks its their tuen bt no characters can act
+	//if the game still thinks its their tuen but no characters can act
 	if (!player.wait && !team._Characters[0].active && !team._Characters[1].active && !team._Characters[2].active)
 	{
 		//end turn
@@ -94,7 +94,7 @@ void GameMonitor::StartTurn(Player player)
 		{
 			//reset stats
 			team._Characters[i].curAP = team._Characters[i].maxAP;
-			team._Characters[i].currDef = team._Characters[i].maxDef;
+			team._Characters[i].curDef = team._Characters[i].maxDef;
 			team._Characters[i].active = true;
 		}
 		else //they're dead and waiting to respawn
@@ -107,13 +107,16 @@ void GameMonitor::StartTurn(Player player)
 			{
 				//reset stats
 				team._Characters[i].curHP = team._Characters[i].maxHP;
-				team._Characters[i].currDef = team._Characters[i].maxDef;
+				team._Characters[i].curDef = team._Characters[i].maxDef;
 				team._Characters[i].curAP = team._Characters[i].maxAP;
 				//reset states
 				team._Characters[i].alive = true;
 				team._Characters[i].active = true;
 
 				//reset pos 
+				team._Characters[i].posX = team._Characters[i].startX;
+				team._Characters[i].posY = team._Characters[i].startY;
+
 				//update players
 			}
 
@@ -156,11 +159,11 @@ void GameMonitor::ActionCheck(Team team)
 	}
 }
 
-	void GameMonitor::StartGame(Player player1, Team team1, Player player2, Team team2) //may send just an int and we grab from storedTeams arr
+	void GameMonitor::StartGame(Player player1, int team1, Player player2, int team2) //may send just an int and we grab from storedTeams arr
 	{
 		//assign active team
-		player1.activeTeam = team1;
-		player2.activeTeam = team2;
+		player1.activeTeam = player1.storedTeams[team1];
+		player2.activeTeam = player2.storedTeams[team2];
 
 		//set chars stats(?)
 

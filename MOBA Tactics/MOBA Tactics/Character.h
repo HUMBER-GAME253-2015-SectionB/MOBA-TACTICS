@@ -14,21 +14,26 @@ public:
 	int cTeam;
 	char type;
 
-	int curHP;
-	int maxHP;
 
-	int maxAP;
+	//tracked in game
+	int curHP;
+	int curDef;
 	int curAP;
 
-
-	 
-	int atk;
-
-	int maxDef;
-	int currDef;
+	int posX;
+	int posY;
 
 	bool active; 
 	bool alive; 
+
+	//fixed at start
+	int atk;
+	int maxHP;
+	int maxAP;
+	int maxDef;
+
+	int startX;
+	int startY;
 
 	int respawnTimer;
 

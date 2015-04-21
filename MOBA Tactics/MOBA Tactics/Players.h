@@ -1,6 +1,7 @@
 #pragma once
 #include "Team.h"
 #include <string>
+#include <vector>
 
 struct Player
 {
@@ -24,9 +25,14 @@ struct Player
 class Players
 {
 public:
-	Player FindPlayerByID(int id);//returns player from list with that id#
+	static void CreateNewPlayer(int id);
+	static void RemovePlayer(int id);
+	static Player FindPlayerByID(int id);//returns player from list with that id#
 	static void GetTeams(int id); // gets teams from database and adds them to storedTeams array;
 	static void SaveStats(int id); //saves stats to DB
+
+	//stores active players on creation, removes on logout
+	static std::vector<Player> activePlayers;
 
 private:
 

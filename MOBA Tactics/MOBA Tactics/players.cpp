@@ -17,11 +17,34 @@ void Players();
 int player1;
 int player2;
 
+void Players::CreateNewPlayer(int id)
+{
+	Player player = Player(id);
+	Players::activePlayers.push_back(player);
+}
+
+void Players::RemovePlayer(int id)
+{
+	for(int i = 0; i < Players::activePlayers.size - 1; i++)
+	{
+		if(activePlayers[i].ID == id)
+		{
+			activePlayers.erase(activePlayers.begin() + i);
+		}
+	}
+}
+
 Player Players::FindPlayerByID(int id)
 { 
 	Player player;
+	
 	//loop through AcvitePlayers list until a matching ID number is found
-	// return the player with that ID
+	for(int i = 0; i < Players::activePlayers.size - 1; i++)
+	{
+		if(activePlayers[i].ID == id)
+			player = activePlayers[i];
+		break; // return the player with that ID
+	}
 
 	return player;
 }

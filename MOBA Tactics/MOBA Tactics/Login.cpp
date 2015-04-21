@@ -19,11 +19,13 @@ Login::~Login()
 {
 }
 
-string Login::TryLogin(string name, string pass)
+string Login::TryLogin(int id, string name, string pass)
 {
 	if (ConfirmUser(name, pass))
 	{
 		//everything checks out!
+		
+		Players::FindPlayerByID(id).userName = name;
 		
 		return "login/OK/Message/";
 	}

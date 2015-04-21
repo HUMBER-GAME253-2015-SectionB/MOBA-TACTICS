@@ -13,7 +13,7 @@ class Login
 public:
 	Login();
 	~Login();
-	string TryLogin(string name, string pass);
+	string TryLogin(int id, string name, string pass);
 	string CreateNewUser(string name, string pass);
 	bool CheckConnection(); // temp storage?
 
