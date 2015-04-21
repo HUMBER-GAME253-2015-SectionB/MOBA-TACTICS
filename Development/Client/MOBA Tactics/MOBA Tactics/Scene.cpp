@@ -81,13 +81,13 @@ void Scene::LoadContent()
 	ClientAPI::addEnemy(enemy4);
 
 	enemy5 = ClientAPI::createEnemy("../Assets/Images/mob3.png", 8, 8, 10, 30, 5, 3, 1, 1, 0, 1, 0);
-	//enemy5->BuildRoamingPath(vec2(12, 8), vec2(8, 8));
+	enemy5->BuildRoamingPath(vec2(12, 8), vec2(8, 8));
 	ClientAPI::addEnemy(enemy5);
 	enemy6 = ClientAPI::createEnemy("../Assets/Images/mob4.png", 8, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
 	enemy6->BuildRoamingPath(vec2(8, 8), vec2(8, 12));
 	ClientAPI::addEnemy(enemy6);
-	enemy7 = ClientAPI::createEnemy("../Assets/Images/mob3.png", 10, 12, 30, 3, 5, 3, 1, 1, 0, 1, 0);
-	enemy7->BuildRoamingPath(vec2(8, 12), vec2(12, 12));
+	enemy7 = ClientAPI::createEnemy("../Assets/Images/mob3.png", 8, 12, 30, 3, 5, 3, 1, 1, 0, 1, 0);
+	//enemy7->BuildRoamingPath(vec2(8, 12), vec2(12, 12));
 	ClientAPI::addEnemy(enemy7);
 	enemy8 = ClientAPI::createEnemy("../Assets/Images/mob4.png", 12, 10, 30, 3, 5, 3, 1, 1, 0, 1, 0);
 	enemy8->BuildRoamingPath(vec2(12, 12), vec2(12, 8));

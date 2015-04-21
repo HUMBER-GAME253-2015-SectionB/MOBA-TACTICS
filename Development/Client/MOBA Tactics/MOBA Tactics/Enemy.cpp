@@ -61,6 +61,8 @@ void Enemy::MovementPhase()
 {
 	int size = roamingPath.size();
 	vec2 targetPosition;
+	bool moveAgain = false;
+	bool incrementUp = false;
 	SetEnemyState(EnemyState::MOVING);
 
 	if (size > 0)
@@ -68,7 +70,11 @@ void Enemy::MovementPhase()
 		if (movingUp)
 		{
 			if (pathIndex + 1 < size)
+			{
 				targetPosition = roamingPath[++pathIndex];
+				moveAgain = true;
+				incrementUp = false;
+			}
 			else
 			{
 				targetPosition = roamingPath[--pathIndex];
@@ -78,7 +84,11 @@ void Enemy::MovementPhase()
 		else
 		{
 			if (pathIndex - 1 >= 0)
+			{
 				targetPosition = roamingPath[--pathIndex];
+				moveAgain = true;
+				incrementUp = true;
+			}
 			else
 			{
 				targetPosition = roamingPath[++pathIndex];
@@ -88,6 +98,26 @@ void Enemy::MovementPhase()
 
 		if (TILEMAP->GetTileAt(targetPosition.x, targetPosition.y)->GetCharacter() == NULL)
 			Move(targetPosition.x, targetPosition.y);
+		else if (moveAgain)
+		{
+			if (incrementUp)
+			{
+				pathIndex += 2;
+				targetPosition = roamingPath[pathIndex];
+				movingUp = !movingUp;
+			}				
+			else
+			{
+				pathIndex -= 2;
+				targetPosition = roamingPath[pathIndex];
+				movingUp = !movingUp;
+			}
+
+			if (TILEMAP->GetTileAt(targetPosition.x, targetPosition.y)->GetCharacter() == NULL)
+				Move(targetPosition.x, targetPosition.y);
+			else
+				SetEnemyState(EnemyState::TURN_COMPLETED);
+		}
 		else
 			SetEnemyState(EnemyState::ATTACK_PHASE2);
 	}

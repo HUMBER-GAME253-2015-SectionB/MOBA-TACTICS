@@ -1,5 +1,5 @@
 //Author:	Nicholas Higa
-//Date:		4/14/2015,	4/15/2015(NG)
+//Date:		4/14/2015,	4/15/2015(NH)
 
 #pragma once
 
