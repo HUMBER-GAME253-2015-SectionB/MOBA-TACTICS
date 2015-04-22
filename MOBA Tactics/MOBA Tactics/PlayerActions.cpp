@@ -34,15 +34,27 @@ std::string PlayerActions::Defend(int id, int character)// may require userID as
 	return "char#/defending/newDef#/";
 }
 
-std::string PlayerActions::Attack(int id, int character, int x, int y)
+std::string PlayerActions::Attack(int id, int character, int TargetID, int target)
 {
 	//get value of the attacker 
+	Character Attacker = Players::FindPlayerByID(id).activeTeam._Characters[character];
+	Character Target = Players::FindPlayerByID(TargetID).activeTeam._Characters[target];
 	//find the object on the (x,y) 
-	//find the defense of the object
-	//subtract the attack by defense 
-	//the remaining subtract that from the health
 	
-	return "targets/new/hp/";
+	//find the defense of the object
+
+	//subtract the attack by defense 
+	int Blocked = Attacker.atk - Target.curDef;
+	if (Blocked < 0)
+	{
+		Blocked == 0;
+	}
+	int Damage = Blocked;
+	//the remaining subtract that from the health
+	Target.curHP -= Damage;
+	std::string HP = std::to_string(Target.curHP);
+
+	return "target/" + HP + "/";
 }
 
 bool PlayerActions::occupied(int x, int y)

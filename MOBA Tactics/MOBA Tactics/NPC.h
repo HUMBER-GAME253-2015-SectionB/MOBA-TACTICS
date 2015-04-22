@@ -6,7 +6,7 @@
 Last Updated 03/11
 */
 
-struct NPC
+struct NPC : public Character
 {
 public:
 

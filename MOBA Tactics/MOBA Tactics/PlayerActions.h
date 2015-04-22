@@ -11,7 +11,7 @@ public:
 
 std::string Defend(int id, int character);
 
-std::string Attack(int id, int character, int x, int y);
+std::string Attack(int id, int character, int TargetID, int target);
 
 std::string Move(int player, int character, int x, int y);
 
