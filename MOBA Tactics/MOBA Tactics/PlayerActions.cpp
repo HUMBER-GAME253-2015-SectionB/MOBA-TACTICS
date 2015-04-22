@@ -4,6 +4,7 @@
 
 PlayerActions::PlayerActions(void)
 {
+	
 }
 
 
@@ -43,22 +44,22 @@ std::string PlayerActions::Attack(int id, int character, int x, int y)
 	return "targets/new/hp/";
 }
 
-bool occupied(int x, int y)
+bool PlayerActions::occupied(int x, int y)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		if (x == players[0]._Characters[i].posX && y == players[0]._Characters[i].posY)
+		if (x == monitor.players[0].activeTeam._Characters[i].posX && y == monitor.players[0].activeTeam._Characters[i].posY)
 		{
 			return true;
 		}
-		if (x == players[1]._Characters[i].posX && y == players[1]._Characters[i].posY)
+		if (x == monitor.players[1].activeTeam._Characters[i].posX && y == monitor.players[1].activeTeam._Characters[i].posY)
 		{
 			return true;
 		}
 	}
-	for (int j = 0; j < npcs.size(); j++)
+	for (int j = 0; j < monitor.npc.size(); j++)
 	{
-		if (x == npcs[j].posX && y == npcs[j].posY)
+		if (x == monitor.npc[j].posX && y == monitor.npc[j].posY)
 		{
 			return true;
 		}
@@ -66,7 +67,7 @@ bool occupied(int x, int y)
 	return false;
 }
 
-std::string Move(int player, int character, int x, int y)
+std::string PlayerActions::Move(int player, int character, int x, int y)
 {
 	if (occupied(x, y))
 		return "g/m/false/";

@@ -16,7 +16,8 @@ public:
 	int curHP;
 	int maxHP;
 
-
+	int posX;
+	int posY;
 
 	 
 	int atk;

@@ -16,8 +16,10 @@ GameMonitor::~GameMonitor(void)
 
 GameMonitor::GameMonitor(Player player1, Player player2)
 {
-	Team team1 = player1.activeTeam;
-	Team team2 = player2.activeTeam;
+	players[0].activeTeam = player1.activeTeam;
+	players[1].activeTeam = player2.activeTeam;
+
+
 
 	if(CheckWinner(player1,player2))
 	{
@@ -26,11 +28,11 @@ GameMonitor::GameMonitor(Player player1, Player player2)
 	}
 
 	//check for any change to team status
-	HealthCheck(team1);
-	HealthCheck(team2);
+	HealthCheck(players[0].activeTeam);
+	HealthCheck(players[1].activeTeam);
 
-	ActionCheck(team1);
-	ActionCheck(team2);
+	ActionCheck(players[0].activeTeam);
+	ActionCheck(players[1].activeTeam);
 	
 	if(EndTurn(player1)) // should only fire as soon as they run out of AP...
 	{

@@ -1,6 +1,7 @@
 #pragma once
 #include "Team.h"
 #include "Players.h"
+#include "NPC.h"
 /*
 //James Finnie
 Last Updated 04/21
@@ -8,11 +9,16 @@ Last Updated 04/21
 class GameMonitor
 {
 public:
+
+	Player players[2];
+	std::vector <NPC> npc;
+
+
 	GameMonitor(void);
 	~GameMonitor(void);
 
 	GameMonitor(Player player1, Player player2);
-
+	
 	bool CheckWinner(Player player1, Player player2);
 	bool EndTurn(Player player);
 	void StartTurn(Player player);

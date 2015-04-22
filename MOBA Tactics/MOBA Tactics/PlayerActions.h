@@ -2,7 +2,7 @@
 #include <string>
 #include "Team.h"
 #include "Players.h"
-
+#include "GameMonitor.h"
 class PlayerActions
 {
 public:
@@ -16,6 +16,9 @@ std::string Attack(int id, int character, int x, int y);
 std::string Move(int player, int character, int x, int y);
 
 bool occupied(int x, int y);
+
+GameMonitor monitor;
+
 
 };
 
