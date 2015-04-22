@@ -86,6 +86,12 @@
     <ClInclude Include="PlayerActions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Decoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Content\Images\humber_logo.jpg">

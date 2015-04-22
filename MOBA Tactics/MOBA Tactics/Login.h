@@ -13,15 +13,12 @@ class Login
 public:
 	Login();
 	~Login();
-	string TryLogin(int id, string name, string pass);
-	string CreateNewUser(string name, string pass);
+	static string TryLogin(int id, string name, string pass);
+	static string CreateNewUser(string name, string pass);
 	bool CheckConnection(); // temp storage?
 
 private:
-	bool ConfirmUser(string name, string pass);
-	string Encrypt(string pass);
-
-	
-
+	static bool ConfirmUser(string name, string pass);
+	static string Encrypt(string pass);
 };
 

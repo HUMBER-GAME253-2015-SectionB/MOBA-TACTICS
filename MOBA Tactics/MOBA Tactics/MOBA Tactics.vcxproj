@@ -84,7 +84,9 @@
   <ItemGroup>
     <ClInclude Include="CDList.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Decoder.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="PlayerActions.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameMonitor.h" />

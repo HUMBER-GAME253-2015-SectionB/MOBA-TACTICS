@@ -25,13 +25,27 @@ string Login::TryLogin(int id, string name, string pass)
 	{
 		//everything checks out!
 		
-		Players::FindPlayerByID(id).userName = name;
-		
-		return "login/OK/Message/";
+		//register username for future use
+		Player newPlayer = Players::FindPlayerByID(id);
+		newPlayer.userName = name;
+
+		//confirm and send teams from DB (why is this combined?)
+		//oh well...
+
+		//populates users stored teams array
+		Players::GetTeams(name);
+
+		//not the sexiest way of doing this, but functional
+		string team1 = "1," + std::to_string(newPlayer.storedTeams[0]._Characters[0].type) + "," + std::to_string(newPlayer.storedTeams[0]._Characters[1].type) + "," + std::to_string(newPlayer.storedTeams[0]._Characters[2].type) + "/";
+		string team2 = "2," + std::to_string(newPlayer.storedTeams[1]._Characters[0].type) + "," + std::to_string(newPlayer.storedTeams[1]._Characters[1].type) + "," + std::to_string(newPlayer.storedTeams[1]._Characters[2].type) + "/";
+		string team3 = "3," + std::to_string(newPlayer.storedTeams[2]._Characters[0].type) + "," + std::to_string(newPlayer.storedTeams[2]._Characters[1].type) + "," + std::to_string(newPlayer.storedTeams[2]._Characters[2].type) + "/";
+
+
+		return "l/l/true/" + team1 + team2 + team3;
 	}
 	else
 	{
-		return "login/Fail/Message/";
+		return "l/l/false/";
 	}
 }
 bool Login::ConfirmUser(std::string name, std::string pass)
@@ -83,7 +97,7 @@ string Login::CreateNewUser(string name, string pass)
 				if (line.find(name) == 0)
 				{
 					nameGood = false;
-					return "create/failed/Name/already/exists/";
+					return "l/r/false/nameTaken";
 				}
 			}
 
@@ -109,7 +123,7 @@ string Login::CreateNewUser(string name, string pass)
 
 			loginInfo.close();
 			
-			return "create/OK/everything worked";
+			return "l/r/true/";
 		}
 	}
 

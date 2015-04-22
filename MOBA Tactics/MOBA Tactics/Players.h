@@ -3,6 +3,11 @@
 #include <string>
 #include <vector>
 
+/*
+//James Finnie
+Last Updated 04/21
+*/
+
 struct Player
 {
 	int ID; // assigned as soon as a new connection is encountered. same # as activeClient number
@@ -28,7 +33,7 @@ public:
 	static void CreateNewPlayer(int id);
 	static void RemovePlayer(int id);
 	static Player FindPlayerByID(int id);//returns player from list with that id#
-	static void GetTeams(int id); // gets teams from database and adds them to storedTeams array;
+	static void GetTeams(std::string name); // gets teams from database and adds them to storedTeams array;
 	static void SaveStats(int id); //saves stats to DB
 
 	//stores active players on creation, removes on logout

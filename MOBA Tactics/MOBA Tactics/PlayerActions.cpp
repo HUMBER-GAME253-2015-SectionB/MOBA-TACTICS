@@ -81,7 +81,7 @@ std::string Move(int player, int character, int x, int y)
 
 	p.activeTeam._Characters[character].curAP -= Xap + Yap;
 
-	std::string newAP = "" + x + "," + y + "/" + p.activeTeam._Characters[character].curAP;
+	std::string newAP = "" + std::to_string(x) + "," + std::to_string(y) + "/" + std::to_string(p.activeTeam._Characters[character].curAP);
 
 	return "g/m/" + newAP + "/";
 }

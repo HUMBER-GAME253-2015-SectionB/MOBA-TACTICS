@@ -1,6 +1,6 @@
 /*
 //James Finnie
-Last Updated 04/16
+Last Updated 04/21
 */
 #include "GameMonitor.h"
 
@@ -41,6 +41,9 @@ GameMonitor::GameMonitor(Player player1, Player player2)
 	{
 		//mob update
 		//endRound update - update points for holding location if appplicable
+		EndRound(player1, player2);
+
+		//here we go again!
 		StartTurn(player1); // this will have to go if we get mobs in, move if not
 	}
 	
@@ -51,12 +54,16 @@ bool GameMonitor::CheckWinner(Player player1, Player player2)
 	if (player1.score >= 1000)
 	{
 		//declare team1 the winner
+		//SendString(player1.id, "g/w/win/");
+		//SendString(player2.id, "g/w/lose/");
 
 		return true;
 	}
 	else if (player2.score >= 1000)
 	{
 		//declare team2 the winner
+		//SendString(player2.id, "g/w/win/");
+		//SendString(player1.id, "g/w/lose/");
 
 		return true;
 	}
@@ -75,6 +82,7 @@ bool GameMonitor::EndTurn(Player player)
 		//end turn
 		player.wait = true;
 		//notfiy player
+		//SendString(player.id, "g/t/false/");
 		return true;
 	}
 	else
@@ -118,6 +126,7 @@ void GameMonitor::StartTurn(Player player)
 				team._Characters[i].posY = team._Characters[i].startY;
 
 				//update players
+				//SendString(player.id, player.opponent, "g/c/" + std::to_string(i) + "/reset/");
 			}
 
 		}
@@ -125,6 +134,7 @@ void GameMonitor::StartTurn(Player player)
 	//Go!
 	player.wait = false;
 	//notify player
+	//SendString(player.id, "g/t/true");
 }
 
 //checking/setting alive state // move to be part of atk?
@@ -139,6 +149,7 @@ void GameMonitor::HealthCheck(Team team) // this should be firing often enough t
 			team._Characters[i].respawnTimer = 3;
 
 			//notify next of kin (or the players)
+			//SendString(player.id, player.opponent, "g/c/" + std::to_string(i) + "/dead/");
 
 		}
 		
@@ -165,15 +176,30 @@ void GameMonitor::ActionCheck(Team team)
 		player1.activeTeam = player1.storedTeams[team1];
 		player2.activeTeam = player2.storedTeams[team2];
 
-		//set chars stats(?)
+		player1.opponent = player2.ID;
+		player2.opponent = player1.ID;
+
+		//set chars stats from DB(?)
 
 		// add mobs to game
+		//set start positions P1
+		Team P1 = player1.activeTeam;
 
-		//set start positions
+		P1._Characters[0].startX = 3; P1._Characters[0].startY = 3;
+		P1._Characters[0].startX = 3; P1._Characters[0].startY = 2;
+		P1._Characters[0].startX = 2; P1._Characters[0].startY = 3;
+
+		//set start positions P2
+		Team P2 = player2.activeTeam;
+
+		P2._Characters[0].startX = 17; P2._Characters[0].startY = 17;
+		P2._Characters[0].startX = 18; P2._Characters[0].startY = 17;
+		P2._Characters[0].startX = 17; P2._Characters[0].startY = 18;
 
 		//add new GameMonitor to list
-
-		
+		GameMonitor newGame = GameMonitor(player1, player2);
+		newGame.ref = player1.ID;
+		activeGames.push_back(newGame);
 	}
 
 	void GameMonitor::EndGame(Player player1, Player player2) //ends game and returns players to lobby (or boots inactive players)
@@ -183,10 +209,46 @@ void GameMonitor::ActionCheck(Team team)
 		Players::SaveStats(player2.ID);
 
 		//kick players back to lobby
+		//done via string message?
+		//SendString(player1.id, player2.id, "g/gameOver/");
 
 		//delete mobs
-
 		//remove GameMonitor from list
+		for(int i = 0; i < activeGames.size() - 1; i++)
+		{
+			if(activeGames[i].ref == (player1.ID || player2.ID))
+			{
+				activeGames.erase(activeGames.begin() + i);
+				break;
+			}
+		}
 
+	}
+
+	void GameMonitor::EndRound(Player player1, Player player2)
+	{
+		for(int i = 0; i < 3; i++)
+		{
+			
+			//check player 1 positions and update score as needed
+			if(player1.activeTeam._Characters[i].alive && //has to be alive to count
+				(player1.activeTeam._Characters[i].posX == (9 || 10 || 11) && 
+				player1.activeTeam._Characters[i].posY == (9 || 10 || 11))) //i may have gone a little crazy here, be careful with this!
+			{
+				player1.score += 100;
+			}
+
+			//same for player 2
+			if(player2.activeTeam._Characters[i].alive && //has to be alive to count
+				(player2.activeTeam._Characters[i].posX == (9 || 10 || 11) && 
+				player2.activeTeam._Characters[i].posY == (9 || 10 || 11))) //i may (still) have gone a little crazy here, be careful with this!
+			{
+				player2.score += 100;
+			}
+		}
+
+		//send players updated scores 
+		//SendString(player1.id, "g/score/ + std::to_string(player1.score) + "/enemyScore/ + std::to_string(player2.score) + "/");
+		//SendString(player2.id, "g/score/ + std::to_string(player2.score) + "/enemyScore/ + std::to_string(player1.score) + "/");
 	}
 

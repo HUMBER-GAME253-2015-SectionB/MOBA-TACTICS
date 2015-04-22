@@ -1,12 +1,10 @@
-/*
-//James Finnie
-Last Updated 04/11
-*/
-
 #pragma once
 #include "Team.h"
 #include "Players.h"
-
+/*
+//James Finnie
+Last Updated 04/21
+*/
 class GameMonitor
 {
 public:
@@ -18,6 +16,7 @@ public:
 	bool CheckWinner(Player player1, Player player2);
 	bool EndTurn(Player player);
 	void StartTurn(Player player);
+	void EndRound(Player player1, Player player2);
 
 	void HealthCheck(Team team);
 	void ActionCheck(Team team);
@@ -26,6 +25,7 @@ public:
 	void EndGame(Player player1, Player player2); //ends game and returns players to lobby (or boots inactive players)
 
 private:
-	
+	static std::vector<GameMonitor> activeGames;
+	static int ref;
 };
 
