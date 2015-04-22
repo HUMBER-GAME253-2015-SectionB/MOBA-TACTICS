@@ -2,6 +2,7 @@
 #include "Team.h"
 #include "Players.h"
 #include "NPC.h"
+
 /*
 //James Finnie
 Last Updated 04/21
@@ -31,7 +32,9 @@ public:
 	void EndGame(Player player1, Player player2); //ends game and returns players to lobby (or boots inactive players)
 
 private:
-	static std::vector<GameMonitor> activeGames;
 	static int ref;
+    static std::vector<GameMonitor> activeGames;
+
 };
+
 

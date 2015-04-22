@@ -3,7 +3,8 @@
 Last Updated 04/21
 */
 #include "GameMonitor.h"
-
+int GameMonitor::ref;
+std::vector<GameMonitor> GameMonitor::activeGames;
 
 GameMonitor::GameMonitor(void)
 {
@@ -200,8 +201,9 @@ void GameMonitor::ActionCheck(Team team)
 
 		//add new GameMonitor to list
 		GameMonitor newGame = GameMonitor(player1, player2);
-		newGame.ref = player1.ID;
-		activeGames.push_back(newGame);
+
+		newGame.GameMonitor::ref = player1.ID;
+		GameMonitor::activeGames.push_back(newGame);
 	}
 
 	void GameMonitor::EndGame(Player player1, Player player2) //ends game and returns players to lobby (or boots inactive players)
@@ -216,11 +218,11 @@ void GameMonitor::ActionCheck(Team team)
 
 		//delete mobs
 		//remove GameMonitor from list
-		for(int i = 0; i < activeGames.size() - 1; i++)
+		for(int i = 0; i < GameMonitor::activeGames.size() - 1; i++)
 		{
-			if(activeGames[i].ref == (player1.ID || player2.ID))
+			if (GameMonitor::activeGames[i].GameMonitor::ref == (player1.ID || player2.ID))
 			{
-				activeGames.erase(activeGames.begin() + i);
+				GameMonitor::activeGames.erase(GameMonitor::activeGames.begin() + i);
 				break;
 			}
 		}

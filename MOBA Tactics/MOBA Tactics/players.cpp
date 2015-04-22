@@ -1,4 +1,4 @@
-
+#pragma once
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
@@ -9,6 +9,9 @@ Last Updated 04/21
 */
 
 using namespace std;
+
+std::vector<Player> Players::activePlayers;
+
 
 void InLobby();
 void TeamSelect();

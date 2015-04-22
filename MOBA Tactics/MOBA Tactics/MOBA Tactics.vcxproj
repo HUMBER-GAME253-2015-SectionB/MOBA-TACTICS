@@ -78,6 +78,7 @@
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="players.cpp" />
+    <ClCompile Include="Team.cpp" />
     <ClCompile Include="TeamManager.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>

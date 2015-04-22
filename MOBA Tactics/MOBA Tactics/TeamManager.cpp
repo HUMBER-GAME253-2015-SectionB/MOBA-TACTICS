@@ -4,7 +4,6 @@
 //Michael Kochen, Trey Hesketh
 Last Updated 03/11
 */
-
 TeamManager::TeamManager()
 {
 }

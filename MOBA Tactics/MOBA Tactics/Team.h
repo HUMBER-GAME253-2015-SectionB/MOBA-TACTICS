@@ -15,4 +15,5 @@ int _TeamNumber;
 	std::vector<Character> _Characters;
 	std::string _Rank;
 };
+
 #endif
