@@ -1,5 +1,5 @@
-//Author:	Nicholas Higa
-//Date:		4/9/2015(NH), 4/12/2015(NH)
+//Author:	Nicholas Higa, Michael DiFranco
+//Date:		4/9/2015(NH), 4/12/2015(NH), 4/22/2015(MD)
 
 #pragma once
 
@@ -13,5 +13,7 @@ enum class CharacterState
 	ATTACKING,
 	ATTACK_CONFIRMATION,
 	DEFEND_SELECTED,
-	DEFENDING
+	DEFENDING,
+	SPEC_ATK_SELECTED,
+	SPEC_ATK_CONFIRMATION
 };

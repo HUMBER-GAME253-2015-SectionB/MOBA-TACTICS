@@ -1,7 +1,7 @@
-//Author:	Nicholas Higa, MAthieu Violette
+//Author:	Nicholas Higa, MAthieu Violette, Michael DiFranco
 //Date:		3/10/2015(NH), 3/11/2015(NH), 3/15/2015(NH), 3/18/2015(MV),
 //			3/30/2015(NH), 4/6/2015(NH),  4/8/2015(NH),  4/9/2015(NH), 
-//			4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH), 4/15/2015(MV)
+//			4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH), 4/22/2015(MD)
 
 #include "SceneHandler.h"
 #include "TileMap.h"
@@ -84,12 +84,23 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 						attackTarget = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
 						chars[i]->SetCharacterState(CharacterState::ATTACK_CONFIRMATION);
 					}
+					else if (chars[i]->GetCharacterState() == CharacterState::SPEC_ATK_SELECTED)
+					{
+						attackTarget = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
+						chars[i]->SetCharacterState(CharacterState::SPEC_ATK_CONFIRMATION);
+					}
 					else if (chars[i]->GetCharacterState() == CharacterState::ATTACK_CONFIRMATION
 						&& attackTarget != TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter())
 						attackTarget = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
 					else if (chars[i]->GetCharacterState() == CharacterState::ATTACK_CONFIRMATION
 						&& attackTarget == TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter())
 						chars[i]->Attack(attackTarget);
+					else if (chars[i]->GetCharacterState() == CharacterState::SPEC_ATK_CONFIRMATION
+						&& attackTarget != TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter())
+						attackTarget = TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter();
+					else if (chars[i]->GetCharacterState() == CharacterState::SPEC_ATK_CONFIRMATION
+						&& attackTarget == TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter())
+						chars[i]->SpecialAbility(attackTarget);
 				}
 			}
 		}
@@ -106,8 +117,7 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 					(TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) &&
 					TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == CHARACTERS[i]))
 				{
-					//currentPlayer->GetCurrentActiveChar()->PrintMenu(); //No reason to try to access the active character... or print it's options.
-					system("cls");
+					currentPlayer->GetCurrentActiveChar()->PrintMenu();
 					printf("\n\nSelected Character's Stats\n\n");
 					CHARACTERS[i]->PrintStats();
 				}
@@ -123,6 +133,10 @@ void SceneHandler::HandleEventMouseUp(int x, int y)
 
 void SceneHandler::HandleEventMouseHover(int x, int y)
 {
+	Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
+	Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
+	CharacterState currentState = currentCharacter->GetCharacterState();
+
 	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale()))
 	{
 		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), CAMERA->GetScale());
@@ -144,23 +158,23 @@ void SceneHandler::HandleEventMouseHover(int x, int y)
 void SceneHandler::HandleEventKeyDown(unsigned key)
 {
 	if (key == SDLK_UP)
-		CAMERA->MoveCamera(vec2(0, -22));
-
-	if (key == SDLK_DOWN)
 		CAMERA->MoveCamera(vec2(0, 22));
 
+	if (key == SDLK_DOWN)
+		CAMERA->MoveCamera(vec2(0, -22));
+
 	if (key == SDLK_LEFT)
-		CAMERA->MoveCamera(vec2(-22, 0));
+		CAMERA->MoveCamera(vec2(22, 0));
 
 	if (key == SDLK_RIGHT)
-		CAMERA->MoveCamera(vec2(22, 0));
+		CAMERA->MoveCamera(vec2(-22, 0));
 
 
 	if (!ClientAPI::isComputersTurn)
 	{
 		Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
-		Character* currentCharacter;
-		CharacterState currentState;
+		Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
+		CharacterState currentState = currentCharacter->GetCharacterState();
 
 		if (key == SDLK_4 || key == SDLK_e)
 		{
@@ -177,24 +191,17 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 			}
 		}
 
-		currentCharacter = currentPlayer->GetCurrentActiveChar();
-		
-		if (currentCharacter == nullptr)
-			return;
-		
-		currentState = currentCharacter->GetCharacterState();
-
 		if (key == SDLK_1 || key == SDLK_m)
 		{
 			if (currentState == CharacterState::SELECTED || currentState == CharacterState::ATTACK_SELECTED
-				|| currentState == CharacterState::DEFEND_SELECTED)
+				|| currentState == CharacterState::DEFEND_SELECTED || currentState == CharacterState::SPEC_ATK_SELECTED)
 				currentCharacter->SetCharacterState(CharacterState::MOVEMENT_SELECTED);
 		}
 
 		if (key == SDLK_2 || key == SDLK_d)
 		{
 			if (currentState == CharacterState::SELECTED || currentState == CharacterState::ATTACK_SELECTED
-				|| currentState == CharacterState::MOVEMENT_SELECTED)
+				|| currentState == CharacterState::MOVEMENT_SELECTED || currentState == CharacterState::SPEC_ATK_SELECTED)
 				currentCharacter->SetCharacterState(CharacterState::DEFEND_SELECTED);
 			else if (currentState == CharacterState::DEFEND_SELECTED)
 			{
@@ -206,7 +213,7 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 		if (key == SDLK_3 || key == SDLK_a)
 		{
 			if (currentState == CharacterState::SELECTED || currentState == CharacterState::MOVEMENT_SELECTED
-				|| currentState == CharacterState::DEFEND_SELECTED)
+				|| currentState == CharacterState::DEFEND_SELECTED || currentState == CharacterState::SPEC_ATK_SELECTED)
 				currentCharacter->SetCharacterState(CharacterState::ATTACK_SELECTED);
 
 			if (currentState == CharacterState::ATTACK_CONFIRMATION)
@@ -217,8 +224,17 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 		{
 			if (currentState == CharacterState::ATTACK_SELECTED
 				|| currentState == CharacterState::MOVEMENT_SELECTED
-				|| currentState == CharacterState::DEFEND_SELECTED)
+				|| currentState == CharacterState::DEFEND_SELECTED || currentState == CharacterState::SPEC_ATK_SELECTED)
 				currentCharacter->SetCharacterState(CharacterState::SELECTED);
+		}
+
+		if (key == SDLK_6 || key == SDLK_s)
+		{
+			if (currentState == CharacterState::SELECTED || currentState == CharacterState::MOVEMENT_SELECTED
+				|| currentState == CharacterState::DEFEND_SELECTED)
+				currentCharacter->SetCharacterState(CharacterState::SPEC_ATK_SELECTED);
+			if (currentState == CharacterState::SPEC_ATK_CONFIRMATION)
+				currentCharacter->SpecialAbility(attackTarget);
 		}
 	}
 }

@@ -1,11 +1,11 @@
-//Author:	Nicholas Higa, Mathieu Violette
+//Author:	Nicholas Higa, Mathieu Violette, Michael DiFranco
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/11/2015(NH), 3/17/2015(MV),
-//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH),
-//			4/15/2015(NH)
+//			4/8/2015(NH), 4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH), 4/14/2015(NH), 4/22/2015(MD)
 
 #include "Character.h"
 #include <cstdlib>
 #include "TileMap.h"
+
 
 Character::Character()
 {
@@ -160,7 +160,7 @@ void Character::Attack(Character* target)
 	SetCurrentActionPoints(GetCurrentActionPoints() - 2);
 	int targetDefense = target->GetDefense();
 	int atk = GetAtackPower();
-	int damage = atk - defense;
+	int damage = atk - targetDefense;
 
 	if (damage < 1)
 		damage = 1;
@@ -174,6 +174,42 @@ void Character::Attack(Character* target)
 		target->SetDiedOnTurnNumber(ClientAPI::turnNumber);
 	}
 	
+	float experienceGained;
+	int targetLevel = target->GetLevel();
+	int charLevel = GetLevel();
+
+	//IF the target slain has a higher level gain more experience than slaying a lower level
+	if (targetLevel >= charLevel)
+		experienceGained = (targetLevel - charLevel) * 1000.0f + 500.0f;
+	else
+		experienceGained = 1.0f / (charLevel - targetLevel) * 1000.0f + 500.0f;
+
+	SetExperience(GetExperience() + (int)experienceGained);
+	SetCharacterState(CharacterState::SELECTED);
+}
+
+void Character::SpecialAbility(Character* target)
+{
+	SetCharacterState(CharacterState::ATTACKING);
+	Ability* abl = new Ability(this, POWER_ATTACK);
+
+	SetCurrentActionPoints(GetCurrentActionPoints() - abl->getAPCost());
+	int targetDefense = target->GetDefense();
+	int atk = abl->getAttackPower();
+	int damage = atk - targetDefense;
+
+	if (damage < 1)
+		damage = 1;
+
+	target->SetCurrentHealth(target->GetCurrentHealth() - damage);
+	//Check for if target dead.
+	if (target->GetCurrentHealth() <= 0)
+	{
+		target->SetIsAlive(false);
+		target->GetOnTile()->SetCharacter(NULL);
+		target->SetDiedOnTurnNumber(ClientAPI::turnNumber);
+	}
+
 	float experienceGained;
 	int targetLevel = target->GetLevel();
 	int charLevel = GetLevel();
@@ -218,24 +254,14 @@ void Character::LevelUp()
 
 void Character::Respawn()
 {
-	if (TILEMAP->GetTileAt(GetSpawnLocation().x, GetSpawnLocation().y)->GetCharacter() == NULL)
-	{
-		SetOnTile(GetSpawnLocation().x, GetSpawnLocation().y);
-		SetIsAlive(true);
-	}
-	else
-		SetDiedOnTurnNumber(GetDiedOnTurnNumber() + 1);
+	SetOnTile(GetSpawnLocation().x, GetSpawnLocation().y);
+	SetIsAlive(true);
 }
 
 void Character::RespawnAt(vec2 val)
 {
-	if (TILEMAP->GetTileAt(val.x, val.y)->GetCharacter() == NULL)
-	{
-		SetOnTile(val.x, val.y);
-		SetIsAlive(true);
-	}
-	else
-		SetDiedOnTurnNumber(GetDiedOnTurnNumber() + 1);
+	SetOnTile(val.x, val.y);
+	SetIsAlive(true);
 }
 
 void Character::Draw(vec2 pos, SDL_Renderer *ren)
@@ -516,6 +542,20 @@ void Character::SetCharacterState(CharacterState charState)
 	{
 		if (GetCurrentActionPoints() >= 2)
 		{
+			UpdateAttackTiles();
+			vector<vec2> atkRange = GetAttackTiles();
+			for (int i = 0; i < atkRange.size(); i++)
+				TILEMAP->GetTileAt(atkRange[i].x, atkRange[i].y)->SetIsHighlighted(true);
+
+			SetPrevCharacterState(GetCharacterState());
+			characterState = charState;
+		}
+	}
+	else if (charState == CharacterState::SPEC_ATK_SELECTED || charState == CharacterState::SPEC_ATK_CONFIRMATION)
+	{
+		if (GetCurrentActionPoints() >= 5)
+		{
+			UpdateAttackTiles();
 			vector<vec2> atkRange = GetAttackTiles();
 			for (int i = 0; i < atkRange.size(); i++)
 				TILEMAP->GetTileAt(atkRange[i].x, atkRange[i].y)->SetIsHighlighted(true);
@@ -528,6 +568,7 @@ void Character::SetCharacterState(CharacterState charState)
 	{
 		if (GetCurrentActionPoints() >= 1)
 		{
+			UpdateMovementTiles();
 			vector<vec2> moveRange = GetMovementTiles();
 			for (int i = 0; i < moveRange.size(); i++)
 				TILEMAP->GetTileAt(moveRange[i].x, moveRange[i].y)->SetIsHighlighted(true);
@@ -544,7 +585,9 @@ void Character::SetCharacterState(CharacterState charState)
 
 	if (GetPrevCharacterState() == CharacterState::MOVEMENT_SELECTED
 		|| GetPrevCharacterState() == CharacterState::ATTACK_CONFIRMATION
-		|| (GetPrevCharacterState() == CharacterState::ATTACK_SELECTED && charState == CharacterState::IDLE))
+		|| GetPrevCharacterState() == CharacterState::SPEC_ATK_CONFIRMATION
+		|| (GetPrevCharacterState() == CharacterState::ATTACK_SELECTED && charState == CharacterState::IDLE)
+		|| (GetPrevCharacterState() == CharacterState::SPEC_ATK_SELECTED && charState == CharacterState::IDLE))
 		TILEMAP->ResetHighlights();
 
 	PrintMenu();
@@ -598,6 +641,7 @@ void Character::PrintMenu()
 		AddItemToMenu(menu, "attack2");
 		AddItemToMenu(menu, "move1");
 		AddItemToMenu(menu, "defense1");
+		AddItemToMenu(menu, "spec1");
 		AddItemToMenu(menu, "end");
 		AddItemToMenu(menu, "back");
 	}
@@ -613,6 +657,41 @@ void Character::PrintMenu()
 		//printf("5/B to go Back to main menu.\n\n");
 
 		AddItemToMenu(menu, "attack3");
+		AddItemToMenu(menu, "move1");
+		AddItemToMenu(menu, "defense1");
+		AddItemToMenu(menu, "spec1");
+		AddItemToMenu(menu, "end");
+		AddItemToMenu(menu, "back");
+	}
+	else if (tmp == CharacterState::SPEC_ATK_SELECTED)
+	{
+		PrintStats();
+
+		//printf("Click on enemy to Attack    Cost: 2 AP\n\n");
+		//printf("1/M to Move                 Cost: 1 AP per tile\n");
+		//printf("2/D to Defend               Cost: Consumes all AP\n");
+		//printf("4/E to End turn\n");
+		//printf("5/B to go Back to main menu.\n\n");
+		AddItemToMenu(menu, "spec2");
+		AddItemToMenu(menu, "attack1");
+		AddItemToMenu(menu, "move1");
+		AddItemToMenu(menu, "defense1");
+		AddItemToMenu(menu, "end");
+		AddItemToMenu(menu, "back");
+	}
+	else if (tmp == CharacterState::SPEC_ATK_CONFIRMATION)
+	{
+		PrintStats();
+
+		//printf("Are you sure?\n");
+		//printf("3/A again to confirm        Cost: 2 AP\n\n");
+		//printf("1/M to Move                 Cost: 1 AP per tile\n");
+		//printf("2/D to Defend               Cost: Consumes all AP\n");
+		//printf("4/E to End turn\n");
+		//printf("5/B to go Back to main menu.\n\n");
+
+		AddItemToMenu(menu, "spec3");
+		AddItemToMenu(menu, "attack1");
 		AddItemToMenu(menu, "move1");
 		AddItemToMenu(menu, "defense1");
 		AddItemToMenu(menu, "end");
@@ -631,6 +710,7 @@ void Character::PrintMenu()
 		AddItemToMenu(menu, "defense2");
 		AddItemToMenu(menu, "move1");
 		AddItemToMenu(menu, "attack1");
+		AddItemToMenu(menu, "spec1");
 		AddItemToMenu(menu, "end");
 		AddItemToMenu(menu, "back");
 	}
@@ -653,6 +733,7 @@ void Character::PrintMenu()
 		AddItemToMenu(menu, "move2");
 		AddItemToMenu(menu, "defense1");
 		AddItemToMenu(menu, "attack1");
+		AddItemToMenu(menu, "spec1");
 		AddItemToMenu(menu, "end");
 		AddItemToMenu(menu, "back");
 	}
@@ -671,6 +752,7 @@ void Character::PrintMenu()
 		AddItemToMenu(menu, "move1");
 		AddItemToMenu(menu, "defense1");
 		AddItemToMenu(menu, "attack1");
+		AddItemToMenu(menu, "spec1");
 		AddItemToMenu(menu, "end");
 
 		if (menu[0] == "4/E to End turn\n")
@@ -706,6 +788,9 @@ void Character::AddItemToMenu(vector<char*> &menu, char* string)
 	char* atk3 = "3/A again to confirm        Cost: 2 AP\n";
 	char* def1 = "2/D to Defend               Cost: Consumes all AP\n";
 	char* def3 = "2/D again to confirm        Cost: Consumes all AP\n\n";
+	char* spec1 = "6/S to use Special         Cost: 5 AP\n";
+	char* spec2 = "Click on enemy to Attack    Cost: 5 AP\n\n";
+	char* spec3 = "6/S again to confirm        Cost: 5 AP \n";
 	char* end = "4/E to End turn\n";
 	char* back = "5/B to go Back to main menu.\n\n";
 	char* confirm = "Are you sure?\n";
@@ -751,6 +836,24 @@ void Character::AddItemToMenu(vector<char*> &menu, char* string)
 		{
 			menu.push_back(confirm);
 			menu.push_back(def3);
+		}
+	}
+	else if (string == "spec1")
+	{
+		if (currActionPoints >= 5)
+			menu.push_back(spec1);
+	}
+	else if (string == "spec2")
+	{
+		if (currActionPoints >= 5)
+			menu.push_back(spec2);
+	}
+	else if (string == "spec3")
+	{
+		if (currActionPoints >= 5)
+		{
+			menu.push_back(confirm);
+			menu.push_back(spec3);
 		}
 	}
 	else if (string == "end")
@@ -862,13 +965,11 @@ void Character::UpdateAttackTiles()
 
 vector<vec2> Character::GetMovementTiles()
 {
-	UpdateMovementTiles();
 	return movementTiles;
 }
 
 vector<vec2> Character::GetAttackTiles()
 {
-	UpdateAttackTiles();
 	return attackTiles;
 }
 

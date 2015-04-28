@@ -1,6 +1,6 @@
- //Author:	Nicholas Higa
+//Author:	Nicholas Higa, Michael DiFranco
 //Date:		3/4/2015(NH), 3/8/2015(NH), 3/10/2015(NH), 3/15/2015 (NH), 4/8/2015(NH)
-//			4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH)
+//			4/9/2015(NH), 4/11/2015(NH), 4/12/2015(NH), 4/22/2015(MD)
 
 #pragma once
 
@@ -13,6 +13,7 @@
 #include <queue>
 #include <vector>
 #include "CharacterState.h"
+#include "Ability.h"
 
 class TileMap;
 
@@ -37,7 +38,7 @@ public:
 	void Move(int row, int col);
 	void Attack(Character* target);
 	void Defend();
-	//void SpecialAbility(Ability* abilityname); Somethhing like this when special abilities are implemented, 
+	virtual void SpecialAbility(Character* target);  //Somethhing like this when special abilities are implemented, 
 												//assuming new class should be created for skills.
 	void ResetDefense(); //Set defense back to regular value.
 	void ResetActionPoints();
@@ -105,10 +106,6 @@ public:
 	bool IsTileInMovementRange(vec2);
 	bool IsTileInAttackRange(vec2);
 
-	//Methods and fields related to showing movement/attack range
-	vector<vec2> GetMovementTiles();
-	vector<vec2> GetAttackTiles();
-
 	//Methods related to printing menu
 	void PrintMenu();
 	void PrintStats();
@@ -148,6 +145,10 @@ private:
 	vec2 velocity;
 	ITile* targetTile;
 	queue<ITile *> movementPath;
+
+	//Methods and fields related to showing movement/attack range
+	vector<vec2> GetMovementTiles();
+	vector<vec2> GetAttackTiles();
 
 	void SetMovementTiles(vector<vec2>);
 	void SetAttackTiles(vector<vec2>);
