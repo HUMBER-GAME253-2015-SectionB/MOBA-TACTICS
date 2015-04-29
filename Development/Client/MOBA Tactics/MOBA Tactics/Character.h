@@ -110,6 +110,10 @@ public:
 	void PrintMenu();
 	void PrintStats();
 
+	//Methods and fields related to showing movement/attack range
+	vector<vec2> GetMovementTiles();
+	vector<vec2> GetAttackTiles();
+
 private:
 	ITile* onTile;
 
@@ -145,10 +149,6 @@ private:
 	vec2 velocity;
 	ITile* targetTile;
 	queue<ITile *> movementPath;
-
-	//Methods and fields related to showing movement/attack range
-	vector<vec2> GetMovementTiles();
-	vector<vec2> GetAttackTiles();
 
 	void SetMovementTiles(vector<vec2>);
 	void SetAttackTiles(vector<vec2>);

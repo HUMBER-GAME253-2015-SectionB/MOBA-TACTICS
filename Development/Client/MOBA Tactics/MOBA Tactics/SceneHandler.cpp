@@ -117,7 +117,8 @@ void SceneHandler::HandleEventMouseDown(int x, int y)
 					(TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, scale) &&
 					TILEMAP->GetTileAt((int)temp.y, (int)temp.x)->GetCharacter() == CHARACTERS[i]))
 				{
-					currentPlayer->GetCurrentActiveChar()->PrintMenu();
+					//currentPlayer->GetCurrentActiveChar()->PrintMenu(); //No reason to try to access the active character... or print it's options.
+					system("cls");
 					printf("\n\nSelected Character's Stats\n\n");
 					CHARACTERS[i]->PrintStats();
 				}
@@ -133,10 +134,6 @@ void SceneHandler::HandleEventMouseUp(int x, int y)
 
 void SceneHandler::HandleEventMouseHover(int x, int y)
 {
-	Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
-	Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
-	CharacterState currentState = currentCharacter->GetCharacterState();
-
 	if (TILEMAP->IsPointOnMap(CAMERA->GetDrawablePosOnScreen(TILEMAP), x, y, CAMERA->GetScale()))
 	{
 		vec2 temp = TILEMAP->ConvertScreenToTileCoordinates(CAMERA->GetDrawablePosOnScreen(TILEMAP), vec2(x, y), CAMERA->GetScale());
@@ -158,23 +155,23 @@ void SceneHandler::HandleEventMouseHover(int x, int y)
 void SceneHandler::HandleEventKeyDown(unsigned key)
 {
 	if (key == SDLK_UP)
-		CAMERA->MoveCamera(vec2(0, 22));
-
-	if (key == SDLK_DOWN)
 		CAMERA->MoveCamera(vec2(0, -22));
 
+	if (key == SDLK_DOWN)
+		CAMERA->MoveCamera(vec2(0, 22));
+
 	if (key == SDLK_LEFT)
-		CAMERA->MoveCamera(vec2(22, 0));
+		CAMERA->MoveCamera(vec2(-22, 0));
 
 	if (key == SDLK_RIGHT)
-		CAMERA->MoveCamera(vec2(-22, 0));
+		CAMERA->MoveCamera(vec2(22, 0));
 
 
 	if (!ClientAPI::isComputersTurn)
 	{
 		Player* currentPlayer = PLAYERS[ClientAPI::GetCurrentPlayer()];
-		Character* currentCharacter = currentPlayer->GetCurrentActiveChar();
-		CharacterState currentState = currentCharacter->GetCharacterState();
+		Character* currentCharacter;
+		CharacterState currentState;
 
 		if (key == SDLK_4 || key == SDLK_e)
 		{
@@ -190,6 +187,13 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 				ClientAPI::computer->StartTurn();
 			}
 		}
+
+		currentCharacter = currentPlayer->GetCurrentActiveChar();
+
+		if (currentCharacter == nullptr)
+			return;
+
+		currentState = currentCharacter->GetCharacterState();
 
 		if (key == SDLK_1 || key == SDLK_m)
 		{
@@ -224,7 +228,8 @@ void SceneHandler::HandleEventKeyDown(unsigned key)
 		{
 			if (currentState == CharacterState::ATTACK_SELECTED
 				|| currentState == CharacterState::MOVEMENT_SELECTED
-				|| currentState == CharacterState::DEFEND_SELECTED || currentState == CharacterState::SPEC_ATK_SELECTED)
+				|| currentState == CharacterState::DEFEND_SELECTED || currentState == CharacterState::SPEC_ATK_SELECTED
+				|| currentState == CharacterState::SPEC_ATK_CONFIRMATION)
 				currentCharacter->SetCharacterState(CharacterState::SELECTED);
 		}
 

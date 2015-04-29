@@ -115,6 +115,15 @@
     <ClCompile Include="PlayerAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ability.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Warrior.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -279,6 +288,9 @@
     <ClInclude Include="EnemyState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Ability.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -306,6 +318,9 @@
     </Filter>
     <Filter Include="Header Files\Characters">
       <UniqueIdentifier>{7465006a-88eb-4ba6-a7a4-7161f2948aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Characters">
+      <UniqueIdentifier>{0cb88354-715a-4117-a8dc-f999aefc78e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

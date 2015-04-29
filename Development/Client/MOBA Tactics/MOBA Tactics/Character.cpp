@@ -62,6 +62,7 @@ void Character::Initialize(char *spritePath, ITile *onTile, int _maxHealth, int 
 	SetOnTile(onTile);
 
 	SetTargetTile(NULL);
+	characterState = CharacterState::IDLE;
 	SetCharacterState(CharacterState::IDLE);
 	SetPrevCharacterState(CharacterState::IDLE);
 	SetIsAlive(true);
@@ -254,14 +255,24 @@ void Character::LevelUp()
 
 void Character::Respawn()
 {
-	SetOnTile(GetSpawnLocation().x, GetSpawnLocation().y);
-	SetIsAlive(true);
+	if (TILEMAP->GetTileAt(GetSpawnLocation().x, GetSpawnLocation().y)->GetCharacter() == NULL)
+	{
+		SetOnTile(GetSpawnLocation().x, GetSpawnLocation().y);
+		SetIsAlive(true);
+	}
+	else
+		SetDiedOnTurnNumber(GetDiedOnTurnNumber() + 1);
 }
 
 void Character::RespawnAt(vec2 val)
 {
-	SetOnTile(val.x, val.y);
-	SetIsAlive(true);
+	if (TILEMAP->GetTileAt(val.x, val.y)->GetCharacter() == NULL)
+	{
+		SetOnTile(val.x, val.y);
+		SetIsAlive(true);
+	}
+	else
+		SetDiedOnTurnNumber(GetDiedOnTurnNumber() + 1);
 }
 
 void Character::Draw(vec2 pos, SDL_Renderer *ren)
@@ -586,8 +597,8 @@ void Character::SetCharacterState(CharacterState charState)
 	if (GetPrevCharacterState() == CharacterState::MOVEMENT_SELECTED
 		|| GetPrevCharacterState() == CharacterState::ATTACK_CONFIRMATION
 		|| GetPrevCharacterState() == CharacterState::SPEC_ATK_CONFIRMATION
-		|| (GetPrevCharacterState() == CharacterState::ATTACK_SELECTED && charState == CharacterState::IDLE)
-		|| (GetPrevCharacterState() == CharacterState::SPEC_ATK_SELECTED && charState == CharacterState::IDLE))
+		|| (GetPrevCharacterState() == CharacterState::ATTACK_SELECTED)
+		|| (GetPrevCharacterState() == CharacterState::SPEC_ATK_SELECTED))
 		TILEMAP->ResetHighlights();
 
 	PrintMenu();
